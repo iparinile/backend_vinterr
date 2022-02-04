@@ -5,7 +5,7 @@ from context import Context
 from db.database import DataBase
 
 
-def init_db_sqlite(config: ApplicationConfig, context: Context):
+def init_db_postgres(config: ApplicationConfig, context: Context):
     engine = create_engine(
         config.database.url,
         pool_pre_ping=True,

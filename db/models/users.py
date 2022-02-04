@@ -1,4 +1,4 @@
-from sqlalchemy import Column, VARCHAR, Integer, VARBINARY, BOOLEAN
+from sqlalchemy import Column, VARCHAR, Integer, BOOLEAN, LargeBinary
 
 from db.models import BaseModel
 
@@ -10,6 +10,6 @@ class DBUsers(BaseModel):
     first_name = Column(VARCHAR(255), nullable=False)
     last_name = Column(VARCHAR(255), nullable=False)
     login = Column(VARCHAR(255), unique=True, nullable=False)
-    password = Column(VARBINARY(), nullable=False)
+    password = Column(LargeBinary, nullable=False)
     group_id = Column(Integer)
     is_delete = Column(BOOLEAN())

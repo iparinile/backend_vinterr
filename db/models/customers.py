@@ -1,4 +1,4 @@
-from sqlalchemy import Column, VARCHAR, Integer, VARBINARY, BOOLEAN, Date
+from sqlalchemy import Column, VARCHAR, Integer, BOOLEAN, Date, LargeBinary
 
 from db.models import BaseModel
 
@@ -10,7 +10,7 @@ class DBCustomers(BaseModel):
     first_name = Column(VARCHAR(255), nullable=False)
     last_name = Column(VARCHAR(255), nullable=False)
     login = Column(VARCHAR(255), unique=True)
-    password = Column(VARBINARY())
+    password = Column(LargeBinary)
     email = Column(VARCHAR(255), unique=True)
     birthday = Column(Date)
     phone_number = Column(VARCHAR(10), unique=True)

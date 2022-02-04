@@ -2,13 +2,13 @@ from sanic import Sanic
 
 from configs.config import ApplicationConfig
 from context import Context
-from hooks import init_db_sqlite
+from hooks import init_db_postgres
 from transport.sanic.routes import get_routes
 
 
 def configure_app(config: ApplicationConfig, context: Context):
 
-    init_db_sqlite(config, context)
+    init_db_postgres(config, context)
 
     app = Sanic(__name__)
 
