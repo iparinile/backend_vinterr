@@ -10,4 +10,3 @@ class RequestAuthUserDtoSchema(Schema):
 
 class RequestAuthUserDto(RequestDto, RequestAuthUserDtoSchema):
     __schema__ = RequestAuthUserDtoSchema
-
