@@ -14,9 +14,13 @@ class SanicEndpoint:
 
     async def __call__(self, request: Request, *args, **kwargs):
         if self.auth_required:
+            if self.is_administrator_access:
+                role = 'admin'
+            else:
+                role = ''
             try:
                 token = {
-                    'token': self.import_body_auth(request)
+                    'token': self.import_body_auth(request, role)
                 }
             except SanicAuthException as e:
                 return await self.make_response_json(status=e.status_code)
@@ -31,6 +35,7 @@ class SanicEndpoint:
             uri: str,
             methods: Iterable,
             auth_required: bool = False,
+            is_administrator_access: bool = False,
             *args, **kwargs
     ):
         self.config = config
@@ -38,6 +43,7 @@ class SanicEndpoint:
         self.methods = methods
         self.context = context
         self.auth_required = auth_required
+        self.is_administrator_access = is_administrator_access
         self.__name__ = self.__class__.__name__
 
     @staticmethod
@@ -67,10 +73,10 @@ class SanicEndpoint:
         }
 
     @staticmethod
-    def import_body_auth(request: Request) -> dict:
+    def import_body_auth(request: Request, role: str) -> dict:
         token = request.headers.get('Authorization')
         try:
-            return read_token(token)
+            return read_token(token, role)
         except ReadTokenException as e:
             raise SanicAuthException(str(e))
 

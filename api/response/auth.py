@@ -2,7 +2,7 @@ from api.base import ResponseDto
 from api.exceptions import ValidationError
 
 
-class ResponseAuthUserDtoSchema:
+class ResponseAuthDtoSchema:
 
     def __init__(self, *args, **kwargs):
         self.fields = {'Authorization': ''}
@@ -22,8 +22,8 @@ class ResponseAuthUserDtoSchema:
         return valid_data
 
 
-class ResponseAuthUserDto(ResponseDto):
-    __schema__ = ResponseAuthUserDtoSchema
+class ResponseAuthDto(ResponseDto):
+    __schema__ = ResponseAuthDtoSchema
 
 
 class AuthResponseObject:

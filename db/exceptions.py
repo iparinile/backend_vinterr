@@ -10,5 +10,21 @@ class DBUserExistsException(Exception):
     pass
 
 
+class DBCustomerLoginExistsException(Exception):
+    pass
+
+
+class DBCustomerEmailExistsException(Exception):
+    pass
+
+
+class DBCustomerPhoneNumberExistsException(Exception):
+    pass
+
+
+class DBCustomerNotExistsException(Exception):
+    pass
+
+
 class DBUserNotExistsException(Exception):
     pass

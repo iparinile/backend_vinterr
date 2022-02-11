@@ -9,6 +9,14 @@ class SanicUserConflictException(SanicException):
     status_code = 409
 
 
+class SanicCustomerConflictException(SanicException):
+    status_code = 409
+
+
+class SanicCustomerNotFound(SanicException):
+    status_code = 404
+
+
 class SanicResponseValidationException(SanicException):
     status_code = 500
 

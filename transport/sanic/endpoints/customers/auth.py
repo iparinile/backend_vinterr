@@ -1,39 +1,35 @@
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
-
-from api.request.auth_user import RequestAuthUserDto
+from api.request.auth_customer import RequestAuthCustomerDto
 from api.response.auth import AuthResponseObject, ResponseAuthDto
-
-from db.exceptions import DBUserNotExistsException
-from db.queries import users as users_queries
-
+from db.exceptions import DBCustomerNotExistsException
+from db.queries import customers as customers_queries
 from helpers.auth import create_token
 from helpers.password import check_hash, CheckPasswordHashException
-
 from transport.sanic.endpoints import BaseEndpoint
-from transport.sanic.exceptions import SanicUserNotFound, SanicPasswordHashException
+from transport.sanic.exceptions import SanicCustomerNotFound, SanicPasswordHashException
 
 
-class AuthUserEndpoint(BaseEndpoint):
+class AuthCustomerEndpoint(BaseEndpoint):
 
     async def method_post(self, request: Request, body: dict, session, *args, **kwargs) -> BaseHTTPResponse:
 
-        request_model = RequestAuthUserDto(body)
+        request_model = RequestAuthCustomerDto(body)
 
         try:
-            db_user = users_queries.get_user(session, login=request_model.login)
-        except DBUserNotExistsException:
-            raise SanicUserNotFound('User not found')
+            db_customer = customers_queries.get_customer(session, login=request_model.login)
+        except DBCustomerNotExistsException:
+            raise SanicCustomerNotFound('Customer not found')
 
         try:
-            check_hash(request_model.password, db_user.password)
+            check_hash(request_model.password, db_customer.password)
         except CheckPasswordHashException:
             raise SanicPasswordHashException('Wrong password', status_code=401)
 
         payload = {
-            'user_id': db_user.id,
-            'role': 'admin'
+            'customer_id': db_customer.id,
+            'role': 'customer'
         }
 
         token = create_token(payload)

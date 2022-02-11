@@ -13,5 +13,5 @@ class DBCustomers(BaseModel):
     password = Column(LargeBinary)
     email = Column(VARCHAR(255), unique=True)
     birthday = Column(Date)
-    phone_number = Column(VARCHAR(10), unique=True)
+    phone_number = Column(VARCHAR(11), unique=True)
     is_registered = Column(BOOLEAN, default=False)
