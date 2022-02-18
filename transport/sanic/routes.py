@@ -11,6 +11,8 @@ def get_routes(config: ApplicationConfig, context: Context) -> Tuple:
         endpoints.CreateUserEndpoint(config=config, context=context, uri='/users', methods=['POST'],
                                      auth_required=True, is_administrator_access=True),
         endpoints.AuthUserEndpoint(config=config, context=context, uri='/users/auth', methods=['POST']),
-        endpoints.CreateCustomerEndpoint(config=config, context=context, uri='/customer', methods=['POST']),
-        endpoints.AuthCustomerEndpoint(config=config, context=context, uri='/customer/auth', methods=['POST'])
+        endpoints.UserEndpoint(config=config, context=context, uri='/users/<user_id:int>', methods=['GET'],
+                               auth_required=True, is_administrator_access=True),
+        endpoints.CreateCustomerEndpoint(config=config, context=context, uri='/customers', methods=['POST']),
+        endpoints.AuthCustomerEndpoint(config=config, context=context, uri='/customers/auth', methods=['POST'])
     )

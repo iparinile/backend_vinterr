@@ -20,11 +20,13 @@ def create_user(session: DBSession, user: RequestCreateUserDto, hashed_password:
     return new_user
 
 
-def get_user(session: DBSession, login: str = None) -> DBUsers:
+def get_user(session: DBSession, *, login: str = None, user_id: int = None) -> DBUsers:
     db_user = None
 
     if login is not None:
         db_user = session.get_user_by_login(login)
+    elif user_id is not None:
+        db_user = session.get_user_by_id(user_id)
 
     if db_user is None:
         raise DBUserNotExistsException

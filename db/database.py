@@ -24,6 +24,9 @@ class DBSession:
     def get_user_by_login(self, login: str) -> DBUsers:
         return self.query(DBUsers).filter(DBUsers.login == login).first()
 
+    def get_user_by_id(self, user_id: int) -> DBUsers:
+        return self.query(DBUsers).filter(DBUsers.id == user_id).first()
+
     def get_customer_by_login(self, login: str) -> DBCustomers:
         return self.query(DBCustomers).filter(DBCustomers.login == login).first()
 
