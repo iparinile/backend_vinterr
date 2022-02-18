@@ -8,4 +8,4 @@ class DBMaterialLists(BaseModel):
 
     id = Column(Integer, autoincrement=True, unique=True, nullable=False, primary_key=True)
     good_id = Column(Integer, ForeignKey('Goods.id', ondelete='CASCADE'), nullable=False)
-    material_id = Column(Integer, ForeignKey('Categories.id', ondelete='CASCADE'), nullable=False)
+    material_id = Column(Integer, ForeignKey('Materials.id', ondelete='CASCADE'), nullable=False)
