@@ -3,7 +3,7 @@ from sqlalchemy.exc import IntegrityError, DataError
 from sqlalchemy.orm import sessionmaker, Session, Query
 
 from db.exceptions import DBIntegrityException, DBDataException
-from db.models import BaseModel, DBUsers, DBCustomers
+from db.models import BaseModel, DBUsers, DBCustomers, DBMaterials
 
 
 class DBSession:
@@ -35,6 +35,9 @@ class DBSession:
 
     def get_customer_by_phone_number(self, phone_number: str) -> DBCustomers:
         return self.query(DBCustomers).filter(DBCustomers.phone_number == phone_number).first()
+
+    def get_material_by_name(self, material_name: str) -> DBMaterials:
+        return self.query(DBMaterials).filter(DBMaterials.name == material_name).first()
 
     def add_model(self, model: BaseModel):
         try:

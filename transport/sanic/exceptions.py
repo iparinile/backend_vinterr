@@ -39,3 +39,7 @@ class SanicAuthException(SanicException):
 
 class SanicLogsException(SanicException):
     status_code = 500
+
+
+class SanicMaterialConflictException(SanicException):
+    status_code = 409

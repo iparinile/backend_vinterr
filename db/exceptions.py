@@ -10,6 +10,10 @@ class DBUserExistsException(Exception):
     pass
 
 
+class DBUserNotExistsException(Exception):
+    pass
+
+
 class DBCustomerLoginExistsException(Exception):
     pass
 
@@ -26,5 +30,5 @@ class DBCustomerNotExistsException(Exception):
     pass
 
 
-class DBUserNotExistsException(Exception):
+class DBMaterialExistsException(Exception):
     pass

@@ -7,3 +7,5 @@ from .users.user import UserEndpoint
 
 from .customers.create import CreateCustomerEndpoint
 from .customers.auth import AuthCustomerEndpoint
+
+from .materials.create import CreateMaterialEndpoint
