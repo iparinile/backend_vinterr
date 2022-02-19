@@ -16,5 +16,8 @@ def get_routes(config: ApplicationConfig, context: Context) -> Tuple:
         endpoints.CreateCustomerEndpoint(config=config, context=context, uri='/customers', methods=['POST']),
         endpoints.AuthCustomerEndpoint(config=config, context=context, uri='/customers/auth', methods=['POST']),
         endpoints.CreateMaterialEndpoint(config=config, context=context, uri='/materials', methods=['POST'],
-                                         auth_required=True, is_administrator_access=True)
+                                         auth_required=True, is_administrator_access=True),
+        endpoints.MaterialEndpoint(config=config, context=context, uri='/materials/<material_id:int>',
+                                   methods=['GET', 'PATCH', 'DELETE'],
+                                   auth_required=True, is_administrator_access=True),
     )
