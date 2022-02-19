@@ -39,6 +39,12 @@ class DBSession:
     def get_material_by_name(self, material_name: str) -> DBMaterials:
         return self.query(DBMaterials).filter(DBMaterials.name == material_name).first()
 
+    def get_material_by_id(self, material_id: int) -> DBMaterials:
+        return self.query(DBMaterials).filter(DBMaterials.id == material_id).first()
+
+    def delete_material(self, material_id: int):
+        self.query(DBMaterials).filter(DBMaterials.id == material_id).delete()
+
     def add_model(self, model: BaseModel):
         try:
             self._session.add(model)

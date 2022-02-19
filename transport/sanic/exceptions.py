@@ -43,3 +43,7 @@ class SanicLogsException(SanicException):
 
 class SanicMaterialConflictException(SanicException):
     status_code = 409
+
+
+class SanicMaterialNotFound(SanicException):
+    status_code = 404

@@ -32,3 +32,7 @@ class DBCustomerNotExistsException(Exception):
 
 class DBMaterialExistsException(Exception):
     pass
+
+
+class DBMaterialNotExistsException(Exception):
+    pass

@@ -2,7 +2,7 @@ from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
 from api.request.create_directory_item import RequestCreateMaterialDto
-from api.response.directory_item import ResponseCreateMaterialDto
+from api.response.directory_item import ResponseMaterialDto
 from db.exceptions import DBMaterialExistsException, DBDataException, DBIntegrityException
 from db.queries import materials as materials_queries
 from transport.sanic.endpoints import BaseEndpoint
@@ -25,6 +25,6 @@ class CreateMaterialEndpoint(BaseEndpoint):
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
-        response_model = ResponseCreateMaterialDto(db_material)
+        response_model = ResponseMaterialDto(db_material)
 
         return await self.make_response_json(body=response_model.dump(), status=201)
