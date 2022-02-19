@@ -1,3 +1,5 @@
+from typing import List
+
 from api.request.create_directory_item import RequestCreateMaterialDto
 from db.database import DBSession
 from db.exceptions import DBMaterialExistsException, DBMaterialNotExistsException
@@ -22,6 +24,11 @@ def get_material(session: DBSession, material_id: int) -> DBMaterials:
     if material is None:
         raise DBMaterialNotExistsException
     return material
+
+
+def get_all_materials(session: DBSession) -> List['DBMaterials']:
+    materials = session.get_all_materials()
+    return materials
 
 
 def patch_material(material: DBMaterials, new_name: str) -> DBMaterials:

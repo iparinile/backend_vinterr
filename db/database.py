@@ -1,3 +1,5 @@
+from typing import List
+
 from sqlalchemy.engine import Engine
 from sqlalchemy.exc import IntegrityError, DataError
 from sqlalchemy.orm import sessionmaker, Session, Query
@@ -41,6 +43,9 @@ class DBSession:
 
     def get_material_by_id(self, material_id: int) -> DBMaterials:
         return self.query(DBMaterials).filter(DBMaterials.id == material_id).first()
+
+    def get_all_materials(self) -> List['DBMaterials']:
+        return self.query(DBMaterials).all()
 
     def delete_material(self, material_id: int):
         self.query(DBMaterials).filter(DBMaterials.id == material_id).delete()

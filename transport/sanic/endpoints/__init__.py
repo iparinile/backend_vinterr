@@ -10,3 +10,4 @@ from .customers.auth import AuthCustomerEndpoint
 
 from .materials.create import CreateMaterialEndpoint
 from .materials.material import MaterialEndpoint
+from .materials.get_all import GetAllMaterialsEndpoint
