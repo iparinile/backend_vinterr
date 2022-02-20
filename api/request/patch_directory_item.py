@@ -9,3 +9,12 @@ class RequestPatchDirectoryItemDtoSchema(Schema):
 
 class RequestPatchMaterialDto(RequestDto, RequestPatchDirectoryItemDtoSchema):
     __schema__ = RequestPatchDirectoryItemDtoSchema
+
+
+class RequestPatchCategoryDto(RequestDto, RequestPatchDirectoryItemDtoSchema):
+    __schema__ = RequestPatchDirectoryItemDtoSchema
+
+
+class RequestPatchStructureDto(RequestDto, RequestPatchDirectoryItemDtoSchema):
+    __schema__ = RequestPatchDirectoryItemDtoSchema
+

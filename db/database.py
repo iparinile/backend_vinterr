@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError, DataError
 from sqlalchemy.orm import sessionmaker, Session, Query
 
 from db.exceptions import DBIntegrityException, DBDataException
-from db.models import BaseModel, DBUsers, DBCustomers, DBMaterials
+from db.models import BaseModel, DBUsers, DBCustomers, DBMaterials, DBCategories, DBStructures
 
 
 class DBSession:
@@ -49,6 +49,30 @@ class DBSession:
 
     def delete_material(self, material_id: int):
         self.query(DBMaterials).filter(DBMaterials.id == material_id).delete()
+
+    def get_category_by_name(self, category_name: str) -> DBCategories:
+        return self.query(DBCategories).filter(DBCategories.name == category_name).first()
+
+    def get_all_categories(self) -> List['DBCategories']:
+        return self.query(DBCategories).all()
+
+    def get_category_by_id(self, category_id: int) -> DBCategories:
+        return self.query(DBCategories).filter(DBCategories.id == category_id).first()
+
+    def delete_category(self, category_id: int):
+        self.query(DBCategories).filter(DBCategories.id == category_id).delete()
+
+    def get_structure_by_name(self, structure_name: str) -> DBStructures:
+        return self.query(DBStructures).filter(DBStructures.name == structure_name).first()
+
+    def get_all_structures(self) -> List['DBStructures']:
+        return self.query(DBStructures).all()
+
+    def get_structure_by_id(self, structure_id: int) -> DBStructures:
+        return self.query(DBStructures).filter(DBStructures.id == structure_id).first()
+
+    def delete_structure(self, structure_id: int):
+        self.query(DBStructures).filter(DBStructures.id == structure_id).delete()
 
     def add_model(self, model: BaseModel):
         try:

@@ -3,8 +3,8 @@ from sqlalchemy import Column, Integer, VARCHAR
 from db.models import BaseModel
 
 
-class DBStructure(BaseModel):
-    __tablename__ = 'Structure'
+class DBStructures(BaseModel):
+    __tablename__ = 'Structures'
 
     id = Column(Integer, autoincrement=True, unique=True, nullable=False, primary_key=True)
-    value = Column(VARCHAR(255), unique=True, nullable=False)
+    name = Column(VARCHAR(255), unique=True, nullable=False)

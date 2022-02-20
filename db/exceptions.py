@@ -36,3 +36,19 @@ class DBMaterialExistsException(Exception):
 
 class DBMaterialNotExistsException(Exception):
     pass
+
+
+class DBCategoryExistsException(Exception):
+    pass
+
+
+class DBCategoryNotExistsException(Exception):
+    pass
+
+
+class DBStructureExistsException(Exception):
+    pass
+
+
+class DBStructureNotExistsException(Exception):
+    pass

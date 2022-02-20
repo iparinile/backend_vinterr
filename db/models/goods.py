@@ -12,4 +12,4 @@ class DBGoods(BaseModel):
     good_1c_id = Column(Integer, unique=True)
     category_id = Column(Integer, ForeignKey('Categories.id', ondelete='CASCADE'), nullable=False)
     barcode = Column(Integer, unique=True, nullable=False)
-    structure_id = Column(Integer, ForeignKey('Structure.id', ondelete='CASCADE'), nullable=False)
+    structure_id = Column(Integer, ForeignKey('Structures.id', ondelete='CASCADE'), nullable=False)

@@ -47,3 +47,19 @@ class SanicMaterialConflictException(SanicException):
 
 class SanicMaterialNotFound(SanicException):
     status_code = 404
+
+
+class SanicCategoryConflictException(SanicException):
+    status_code = 409
+
+
+class SanicCategoryNotFound(SanicException):
+    status_code = 404
+
+
+class SanicStructureConflictException(SanicException):
+    status_code = 409
+
+
+class SanicStructureNotFound(SanicException):
+    status_code = 404

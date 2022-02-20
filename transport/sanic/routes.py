@@ -21,4 +21,16 @@ def get_routes(config: ApplicationConfig, context: Context) -> Tuple:
         endpoints.MaterialEndpoint(config=config, context=context, uri='/materials/<material_id:int>',
                                    methods=['GET', 'PATCH', 'DELETE'],
                                    auth_required=True, is_administrator_access=True),
+        endpoints.GetAllCategoriesEndpoint(config=config, context=context, uri='/categories/all', methods=['GET']),
+        endpoints.CreateCategoryEndpoint(config=config, context=context, uri='/categories', methods=['POST'],
+                                         auth_required=True, is_administrator_access=True),
+        endpoints.CategoryEndpoint(config=config, context=context, uri='/categories/<category_id:int>',
+                                   methods=['GET', 'PATCH', 'DELETE'],
+                                   auth_required=True, is_administrator_access=True),
+        endpoints.GetAllStructuresEndpoint(config=config, context=context, uri='/structures/all', methods=['GET']),
+        endpoints.CreateStructureEndpoint(config=config, context=context, uri='/structures', methods=['POST'],
+                                          auth_required=True, is_administrator_access=True),
+        endpoints.StructureEndpoint(config=config, context=context, uri='/structures/<structure_id:int>',
+                                    methods=['GET', 'PATCH', 'DELETE'],
+                                    auth_required=True, is_administrator_access=True)
     )

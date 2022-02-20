@@ -14,7 +14,7 @@ from .regions import DBRegions
 from .sizes import DBSizes
 from .statuses import DBStatuses
 from .streets import DBStreets
-from .structure import DBStructure
+from .structures import DBStructures
 from .users import DBUsers
 from .variation_in_order import DBVariationInOrder
 from .variations import DBVariations
