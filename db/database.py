@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError, DataError
 from sqlalchemy.orm import sessionmaker, Session, Query
 
 from db.exceptions import DBIntegrityException, DBDataException
-from db.models import BaseModel, DBUsers, DBCustomers, DBMaterials, DBCategories, DBStructures, DBSizes
+from db.models import BaseModel, DBUsers, DBCustomers, DBMaterials, DBCategories, DBStructures, DBSizes, DBColors
 
 
 class DBSession:
@@ -109,6 +109,25 @@ class DBSession:
 
     def delete_size(self, size_id: int):
         self.query(DBSizes).filter(DBSizes.id == size_id).delete()
+
+    '''
+    requests to DBColors
+    '''
+
+    def get_color_by_name(self, color_name: str) -> DBColors:
+        return self.query(DBColors).filter(DBColors.name == color_name).first()
+
+    def get_color_by_code(self, color_code: str) -> DBColors:
+        return self.query(DBColors).filter(DBColors.code == color_code).first()
+
+    def get_all_colors(self) -> List['DBColors']:
+        return self.query(DBColors).all()
+
+    def get_color_by_id(self, color_id: int) -> DBColors:
+        return self.query(DBColors).filter(DBColors.id == color_id).first()
+
+    def delete_color(self, color_id: int):
+        self.query(DBColors).filter(DBColors.id == color_id).delete()
 
     def add_model(self, model: BaseModel):
         try:
