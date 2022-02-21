@@ -52,3 +52,11 @@ class DBStructureExistsException(Exception):
 
 class DBStructureNotExistsException(Exception):
     pass
+
+
+class DBSizeExistsException(Exception):
+    pass
+
+
+class DBSizeNotExistsException(Exception):
+    pass

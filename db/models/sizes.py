@@ -7,4 +7,4 @@ class DBSizes(BaseModel):
     __tablename__ = 'Sizes'
 
     id = Column(Integer, autoincrement=True, unique=True, nullable=False, primary_key=True)
-    value = Column(VARCHAR(255), unique=True, nullable=False)
+    name = Column(VARCHAR(255), unique=True, nullable=False)

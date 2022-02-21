@@ -17,3 +17,7 @@ class RequestCreateCategoryDto(RequestDto, RequestCreateDirectoryItemDtoSchema):
 
 class RequestCreateStructureDto(RequestDto, RequestCreateDirectoryItemDtoSchema):
     __schema__ = RequestCreateDirectoryItemDtoSchema
+
+
+class RequestCreateSizeDto(RequestDto, RequestCreateDirectoryItemDtoSchema):
+    __schema__ = RequestCreateDirectoryItemDtoSchema

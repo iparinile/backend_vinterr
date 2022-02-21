@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError, DataError
 from sqlalchemy.orm import sessionmaker, Session, Query
 
 from db.exceptions import DBIntegrityException, DBDataException
-from db.models import BaseModel, DBUsers, DBCustomers, DBMaterials, DBCategories, DBStructures
+from db.models import BaseModel, DBUsers, DBCustomers, DBMaterials, DBCategories, DBStructures, DBSizes
 
 
 class DBSession:
@@ -23,11 +23,19 @@ class DBSession:
     def close_session(self):
         self._session.close()
 
+    '''
+    requests to DBUsers
+    '''
+
     def get_user_by_login(self, login: str) -> DBUsers:
         return self.query(DBUsers).filter(DBUsers.login == login).first()
 
     def get_user_by_id(self, user_id: int) -> DBUsers:
         return self.query(DBUsers).filter(DBUsers.id == user_id).first()
+
+    '''
+    requests to DBCustomers
+    '''
 
     def get_customer_by_login(self, login: str) -> DBCustomers:
         return self.query(DBCustomers).filter(DBCustomers.login == login).first()
@@ -37,6 +45,10 @@ class DBSession:
 
     def get_customer_by_phone_number(self, phone_number: str) -> DBCustomers:
         return self.query(DBCustomers).filter(DBCustomers.phone_number == phone_number).first()
+
+    '''
+    requests to DBMaterials
+    '''
 
     def get_material_by_name(self, material_name: str) -> DBMaterials:
         return self.query(DBMaterials).filter(DBMaterials.name == material_name).first()
@@ -50,6 +62,10 @@ class DBSession:
     def delete_material(self, material_id: int):
         self.query(DBMaterials).filter(DBMaterials.id == material_id).delete()
 
+    '''
+    requests to DBCategories
+    '''
+
     def get_category_by_name(self, category_name: str) -> DBCategories:
         return self.query(DBCategories).filter(DBCategories.name == category_name).first()
 
@@ -62,6 +78,10 @@ class DBSession:
     def delete_category(self, category_id: int):
         self.query(DBCategories).filter(DBCategories.id == category_id).delete()
 
+    '''
+    requests to DBStructures
+    '''
+
     def get_structure_by_name(self, structure_name: str) -> DBStructures:
         return self.query(DBStructures).filter(DBStructures.name == structure_name).first()
 
@@ -73,6 +93,22 @@ class DBSession:
 
     def delete_structure(self, structure_id: int):
         self.query(DBStructures).filter(DBStructures.id == structure_id).delete()
+
+    '''
+    requests to DBSizes
+    '''
+
+    def get_size_by_name(self, size_name: str) -> DBSizes:
+        return self.query(DBSizes).filter(DBSizes.name == size_name).first()
+
+    def get_all_sizes(self) -> List['DBSizes']:
+        return self.query(DBSizes).all()
+
+    def get_size_by_id(self, size_id: int) -> DBSizes:
+        return self.query(DBSizes).filter(DBSizes.id == size_id).first()
+
+    def delete_size(self, size_id: int):
+        self.query(DBSizes).filter(DBSizes.id == size_id).delete()
 
     def add_model(self, model: BaseModel):
         try:

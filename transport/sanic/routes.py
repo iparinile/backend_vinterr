@@ -32,5 +32,11 @@ def get_routes(config: ApplicationConfig, context: Context) -> Tuple:
                                           auth_required=True, is_administrator_access=True),
         endpoints.StructureEndpoint(config=config, context=context, uri='/structures/<structure_id:int>',
                                     methods=['GET', 'PATCH', 'DELETE'],
-                                    auth_required=True, is_administrator_access=True)
+                                    auth_required=True, is_administrator_access=True),
+        endpoints.GetAllSizesEndpoint(config=config, context=context, uri='/sizes/all', methods=['GET']),
+        endpoints.CreateSizeEndpoint(config=config, context=context, uri='/sizes', methods=['POST'],
+                                     auth_required=True, is_administrator_access=True),
+        endpoints.SizeEndpoint(config=config, context=context, uri='/sizes/<size_id:int>',
+                               methods=['GET', 'PATCH', 'DELETE'],
+                               auth_required=True, is_administrator_access=True)
     )

@@ -18,3 +18,7 @@ class ResponseCategoryDto(ResponseDto, ResponseDirectoryItemDtoSchema):
 
 class ResponseStructureDto(ResponseDto, ResponseDirectoryItemDtoSchema):
     __schema__ = ResponseDirectoryItemDtoSchema
+
+
+class ResponseSizeDto(ResponseDto, ResponseDirectoryItemDtoSchema):
+    __schema__ = ResponseDirectoryItemDtoSchema

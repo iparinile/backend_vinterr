@@ -63,3 +63,11 @@ class SanicStructureConflictException(SanicException):
 
 class SanicStructureNotFound(SanicException):
     status_code = 404
+
+
+class SanicSizeConflictException(SanicException):
+    status_code = 409
+
+
+class SanicSizeNotFound(SanicException):
+    status_code = 404

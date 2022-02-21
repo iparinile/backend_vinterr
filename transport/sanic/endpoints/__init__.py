@@ -16,7 +16,10 @@ from .categories.category import CategoryEndpoint
 from .categories.create import CreateCategoryEndpoint
 from .categories.get_all import GetAllCategoriesEndpoint
 
-
 from .structures.structure import StructureEndpoint
 from .structures.create import CreateStructureEndpoint
 from .structures.get_all import GetAllStructuresEndpoint
+
+from .sizes.size import SizeEndpoint
+from .sizes.create import CreateSizeEndpoint
+from .sizes.get_all import GetAllSizesEndpoint
