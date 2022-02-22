@@ -5,16 +5,8 @@ class SanicRequestValidationException(SanicException):
     status_code = 400
 
 
-class SanicUserConflictException(SanicException):
-    status_code = 409
-
-
-class SanicCustomerConflictException(SanicException):
-    status_code = 409
-
-
-class SanicCustomerNotFound(SanicException):
-    status_code = 404
+class SanicAuthException(SanicException):
+    status_code = 401
 
 
 class SanicResponseValidationException(SanicException):
@@ -29,16 +21,39 @@ class SanicDBException(SanicException):
     status_code = 500
 
 
+class SanicLogsException(SanicException):
+    status_code = 500
+
+
+'''
+Users Exceptions
+'''
+
+
+class SanicUserConflictException(SanicException):
+    status_code = 409
+
+
 class SanicUserNotFound(SanicException):
     status_code = 404
 
 
-class SanicAuthException(SanicException):
-    status_code = 401
+'''
+Customers Exceptions
+'''
 
 
-class SanicLogsException(SanicException):
-    status_code = 500
+class SanicCustomerConflictException(SanicException):
+    status_code = 409
+
+
+class SanicCustomerNotFound(SanicException):
+    status_code = 404
+
+
+'''
+Materials Exceptions
+'''
 
 
 class SanicMaterialConflictException(SanicException):
@@ -49,12 +64,22 @@ class SanicMaterialNotFound(SanicException):
     status_code = 404
 
 
+'''
+Categories Exceptions
+'''
+
+
 class SanicCategoryConflictException(SanicException):
     status_code = 409
 
 
 class SanicCategoryNotFound(SanicException):
     status_code = 404
+
+
+'''
+Structures Exceptions
+'''
 
 
 class SanicStructureConflictException(SanicException):
@@ -65,9 +90,27 @@ class SanicStructureNotFound(SanicException):
     status_code = 404
 
 
+'''
+Sizes Exceptions
+'''
+
+
 class SanicSizeConflictException(SanicException):
     status_code = 409
 
 
 class SanicSizeNotFound(SanicException):
+    status_code = 404
+
+
+'''
+Colors Exceptions
+'''
+
+
+class SanicColorConflictException(SanicException):
+    status_code = 409
+
+
+class SanicColorNotFound(SanicException):
     status_code = 404

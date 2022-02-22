@@ -38,5 +38,11 @@ def get_routes(config: ApplicationConfig, context: Context) -> Tuple:
                                      auth_required=True, is_administrator_access=True),
         endpoints.SizeEndpoint(config=config, context=context, uri='/sizes/<size_id:int>',
                                methods=['GET', 'PATCH', 'DELETE'],
-                               auth_required=True, is_administrator_access=True)
+                               auth_required=True, is_administrator_access=True),
+        endpoints.GetAllColorsEndpoint(config=config, context=context, uri='/colors/all', methods=['GET']),
+        endpoints.CreateColorEndpoint(config=config, context=context, uri='/colors', methods=['POST'],
+                                      auth_required=True, is_administrator_access=True),
+        endpoints.ColorEndpoint(config=config, context=context, uri='/colors/<color_id:int>',
+                                methods=['GET', 'PATCH', 'DELETE'],
+                                auth_required=True, is_administrator_access=True)
     )
