@@ -10,7 +10,7 @@ class DBVariations(BaseModel):
     good_id = Column(Integer, ForeignKey('Goods.id', ondelete='CASCADE'), nullable=False)
     name = Column(VARCHAR(255), nullable=False)
     color_id = Column(Integer, ForeignKey('Colors.id', ondelete='CASCADE'), nullable=False)
-    size = Column(Integer, ForeignKey('Sizes.id', ondelete='CASCADE'), nullable=False)
+    size_id = Column(Integer, ForeignKey('Sizes.id', ondelete='CASCADE'), nullable=False)
     price = Column(Integer, nullable=False)
     variation_1c_id = Column(Integer, unique=True)
     amount = Column(Integer)
