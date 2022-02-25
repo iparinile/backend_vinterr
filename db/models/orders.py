@@ -1,6 +1,6 @@
 import datetime
 
-from sqlalchemy import Column, Integer, VARCHAR, ForeignKey, BOOLEAN, TIMESTAMP
+from sqlalchemy import Column, Integer, ForeignKey, BOOLEAN, TIMESTAMP
 
 from db.models import BaseModel
 

@@ -25,6 +25,10 @@ class SanicLogsException(SanicException):
     status_code = 500
 
 
+class SanicDBUniqueFieldException(SanicException):
+    status_code = 409
+
+
 '''
 Users Exceptions
 '''

@@ -27,3 +27,5 @@ from .sizes.get_all import GetAllSizesEndpoint
 from .colors.color import ColorEndpoint
 from .colors.create import CreateColorEndpoint
 from .colors.get_all import GetAllColorsEndpoint
+
+from .goods.create import CreateGoodEndpoint

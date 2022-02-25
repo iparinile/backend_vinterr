@@ -44,5 +44,7 @@ def get_routes(config: ApplicationConfig, context: Context) -> Tuple:
                                       auth_required=True, is_administrator_access=True),
         endpoints.ColorEndpoint(config=config, context=context, uri='/colors/<color_id:int>',
                                 methods=['GET', 'PATCH', 'DELETE'],
-                                auth_required=True, is_administrator_access=True)
+                                auth_required=True, is_administrator_access=True),
+        endpoints.CreateGoodEndpoint(config=config, context=context, uri='/goods', methods=['POST'],
+                                     auth_required=True, is_administrator_access=True)
     )
