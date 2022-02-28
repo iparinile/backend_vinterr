@@ -5,7 +5,8 @@ from sqlalchemy.exc import IntegrityError, DataError
 from sqlalchemy.orm import sessionmaker, Session, Query
 
 from db.exceptions import DBIntegrityException, DBDataException
-from db.models import BaseModel, DBUsers, DBCustomers, DBMaterials, DBCategories, DBStructures, DBSizes, DBColors
+from db.models import BaseModel, DBUsers, DBCustomers, DBMaterials, DBCategories, DBStructures, DBSizes, DBColors, \
+    DBGoods, DBVariations
 
 
 class DBSession:
@@ -128,6 +129,23 @@ class DBSession:
 
     def delete_color(self, color_id: int):
         self.query(DBColors).filter(DBColors.id == color_id).delete()
+
+    '''
+    requests to DBGoods
+    '''
+
+    def get_all_goods(self) -> List['DBGoods']:
+        return self.query(DBGoods).all()
+
+    def get_good_by_id(self, good_id: int) -> DBGoods:
+        return self.query(DBGoods).filter(DBGoods.id == good_id).first()
+
+    '''
+    requests to DBVariations
+    '''
+
+    def get_all_variations(self) -> List['DBVariations']:
+        return self.query(DBVariations).all()
 
     def add_model(self, model: BaseModel):
         try:

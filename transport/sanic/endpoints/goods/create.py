@@ -23,8 +23,11 @@ class CreateGoodEndpoint(BaseEndpoint):
         except DBDataException as e:
             raise SanicDBException(str(e))
         except DBIntegrityException as e:
-            exception_info = get_details_psycopg2_exception(e)
-            raise SanicDBUniqueFieldException(exception_info)
+            exception_code, exception_info = get_details_psycopg2_exception(e)
+            if exception_code == '23505':
+                raise SanicDBUniqueFieldException(exception_info)
+            else:
+                raise SanicDBException(str(e))
 
         response_model = ResponseCreateGoodDto(db_good)
 

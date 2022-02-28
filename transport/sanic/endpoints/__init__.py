@@ -29,3 +29,7 @@ from .colors.create import CreateColorEndpoint
 from .colors.get_all import GetAllColorsEndpoint
 
 from .goods.create import CreateGoodEndpoint
+from .goods.get_all import GetAllGoodsEndpoint
+
+from .variations.create import CreateVariationEndpoint
+from .variations.get_all import GetAllVariationsEndpoint

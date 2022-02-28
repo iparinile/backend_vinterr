@@ -13,4 +13,4 @@ class DBGoods(BaseModel):
     category_id = Column(Integer, ForeignKey('Categories.id', ondelete='CASCADE'), nullable=False)
     barcode = Column(Integer, unique=True, nullable=False)
     structure_id = Column(Integer, ForeignKey('Structures.id', ondelete='CASCADE'), nullable=False)
-    default_variation = Column(Integer, ForeignKey('Variations.id', ondelete='CASCADE'))
+    default_variation = Column(Integer, ForeignKey('Variations.id', ondelete='SET NULL'))

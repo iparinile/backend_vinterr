@@ -118,3 +118,12 @@ class SanicColorConflictException(SanicException):
 
 class SanicColorNotFound(SanicException):
     status_code = 404
+
+
+'''
+Colors Exceptions
+'''
+
+
+class SanicGoodNotFound(SanicException):
+    status_code = 404

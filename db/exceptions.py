@@ -107,3 +107,12 @@ class DBColorCodeExistsException(Exception):
 
 class DBColorNotExistsException(Exception):
     pass
+
+
+'''
+Goods Exceptions
+'''
+
+
+class DBGoodNotExistsException(Exception):
+    pass

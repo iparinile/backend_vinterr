@@ -46,5 +46,9 @@ def get_routes(config: ApplicationConfig, context: Context) -> Tuple:
                                 methods=['GET', 'PATCH', 'DELETE'],
                                 auth_required=True, is_administrator_access=True),
         endpoints.CreateGoodEndpoint(config=config, context=context, uri='/goods', methods=['POST'],
-                                     auth_required=True, is_administrator_access=True)
+                                     auth_required=True, is_administrator_access=True),
+        endpoints.GetAllGoodsEndpoint(config=config, context=context, uri='/goods/all', methods=['GET']),
+        endpoints.CreateVariationEndpoint(config=config, context=context, uri='/variations', methods=['POST'],
+                                          auth_required=True, is_administrator_access=True),
+        endpoints.GetAllVariationsEndpoint(config=config, context=context, uri='/variations/all', methods=['GET'])
     )
