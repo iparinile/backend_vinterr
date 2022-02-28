@@ -1,8 +1,8 @@
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
-from api.request.create_directory_item import RequestCreateCategoryDto
-from api.response.directory_item import ResponseCategoryDto
+from api.request.create_category import RequestCreateCategoryDto
+from api.response.category import ResponseCategoryDto
 from db.exceptions import DBCategoryExistsException, DBDataException, DBIntegrityException
 from db.queries import categories as categories_queries
 from transport.sanic.endpoints import BaseEndpoint

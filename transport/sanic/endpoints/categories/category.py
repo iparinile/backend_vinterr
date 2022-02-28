@@ -1,8 +1,8 @@
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
-from api.request.patch_directory_item import RequestPatchCategoryDto
-from api.response.directory_item import ResponseCategoryDto
+from api.request.patch_category import RequestPatchCategoryDto
+from api.response.category import ResponseCategoryDto
 from db.database import DBSession
 from db.exceptions import DBDataException, DBIntegrityException, DBCategoryNotExistsException
 from db.queries import categories as categories_queries

@@ -11,10 +11,6 @@ class RequestCreateMaterialDto(RequestDto, RequestCreateDirectoryItemDtoSchema):
     __schema__ = RequestCreateDirectoryItemDtoSchema
 
 
-class RequestCreateCategoryDto(RequestDto, RequestCreateDirectoryItemDtoSchema):
-    __schema__ = RequestCreateDirectoryItemDtoSchema
-
-
 class RequestCreateStructureDto(RequestDto, RequestCreateDirectoryItemDtoSchema):
     __schema__ = RequestCreateDirectoryItemDtoSchema
 

@@ -12,10 +12,6 @@ class ResponseMaterialDto(ResponseDto, ResponseDirectoryItemDtoSchema):
     __schema__ = ResponseDirectoryItemDtoSchema
 
 
-class ResponseCategoryDto(ResponseDto, ResponseDirectoryItemDtoSchema):
-    __schema__ = ResponseDirectoryItemDtoSchema
-
-
 class ResponseStructureDto(ResponseDto, ResponseDirectoryItemDtoSchema):
     __schema__ = ResponseDirectoryItemDtoSchema
 
