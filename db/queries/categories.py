@@ -1,6 +1,6 @@
 from typing import List
 
-from api.request.create_directory_item import RequestCreateCategoryDto
+from api.request.create_category import RequestCreateCategoryDto
 from db.database import DBSession
 from db.exceptions import DBCategoryExistsException, DBCategoryNotExistsException
 from db.models import DBCategories
@@ -8,7 +8,8 @@ from db.models import DBCategories
 
 def create_category(session: DBSession, category: RequestCreateCategoryDto) -> DBCategories:
     new_category = DBCategories(
-        name=category.name
+        name=category.name,
+        parent_id=category.parent_id
     )
 
     if session.get_category_by_name(new_category.name) is not None:

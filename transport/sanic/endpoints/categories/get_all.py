@@ -1,7 +1,7 @@
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
-from api.response.directory_item import ResponseCategoryDto
+from api.response.category import ResponseCategoryDto
 from db.database import DBSession
 from db.queries import categories as categories_queries
 from transport.sanic.endpoints import BaseEndpoint
