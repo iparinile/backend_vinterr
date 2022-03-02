@@ -9,6 +9,7 @@ class ResponseCustomerDtoSchema(Schema):
     id = fields.Int(required=True)
     login = fields.Str(required=True)
     first_name = fields.Str(required=True)
+    second_name = fields.Str(required=True)
     last_name = fields.Str(required=True)
     email = fields.Str(required=True)
     birthday = fields.Date(required=True)

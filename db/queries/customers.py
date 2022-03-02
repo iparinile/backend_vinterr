@@ -14,6 +14,7 @@ def create_customer(
         login=customer.login,
         password=hashed_password,
         first_name=customer.first_name,
+        second_name=customer.second_name,
         last_name=customer.last_name,
         email=customer.email,
         birthday=customer.birthday,

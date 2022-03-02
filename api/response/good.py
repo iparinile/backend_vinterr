@@ -24,6 +24,7 @@ class ResponseCreateGoodDtoSchema(Schema):
     category_id = fields.Int(required=True)
     barcode = fields.Int(required=True)
     structure_id = fields.Int(required=True)
+    description = fields.Str(missing=None)
     # variations = fields.List(fields.Nested(VariationDtoSchema), required=True)
 
 

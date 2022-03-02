@@ -13,7 +13,8 @@ def create_good(session: DBSession, good: RequestCreateGoodDto) -> DBGoods:
         good_1c_id=good.good_1c_id,
         category_id=good.category_id,
         barcode=good.barcode,
-        structure_id=good.structure_id
+        structure_id=good.structure_id,
+        description=good.description
     )
 
     session.add_model(new_good)

@@ -10,6 +10,7 @@ class RequestCreateGoodDtoSchema(Schema):
     category_id = fields.Int(required=True, allow_none=False)
     barcode = fields.Int(required=True, allow_none=False)
     structure_id = fields.Int(required=True, allow_none=False)
+    description = fields.Str(missing=None)
     # variations = fields.List(fields.Nested(VariationDtoSchema), required=True)
 
 
