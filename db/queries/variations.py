@@ -2,6 +2,7 @@ from typing import List
 
 from api.request.create_variation import RequestCreateVariationDto
 from db.database import DBSession
+from db.exceptions import DBVariationsForGoodNotExistsException
 from db.models import DBVariations
 
 
@@ -26,4 +27,11 @@ def create_variation(session: DBSession, variation: RequestCreateVariationDto) -
 
 def get_all_variations(session: DBSession) -> List['DBVariations']:
     variations = session.get_all_variations()
+    return variations
+
+
+def get_variations_for_good(session: DBSession, good_id: int) -> DBVariations:
+    variations = session.get_variations_by_good_id(good_id)
+    if variations is None:
+        raise DBVariationsForGoodNotExistsException
     return variations

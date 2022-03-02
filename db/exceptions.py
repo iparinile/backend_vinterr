@@ -116,3 +116,7 @@ Goods Exceptions
 
 class DBGoodNotExistsException(Exception):
     pass
+
+
+class DBVariationsForGoodNotExistsException(Exception):
+    pass

@@ -147,6 +147,9 @@ class DBSession:
     def get_all_variations(self) -> List['DBVariations']:
         return self.query(DBVariations).all()
 
+    def get_variations_by_good_id(self, good_id: int) -> DBVariations:
+        return self.query(DBVariations).filter(DBVariations.good_id == good_id).all()
+
     def add_model(self, model: BaseModel):
         try:
             self._session.add(model)

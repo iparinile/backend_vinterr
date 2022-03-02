@@ -127,3 +127,12 @@ Colors Exceptions
 
 class SanicGoodNotFound(SanicException):
     status_code = 404
+
+
+'''
+Goods Exceptions
+'''
+
+
+class SanicVariationsForGoodNotFound(SanicException):
+    status_code = 404
