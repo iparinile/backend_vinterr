@@ -22,7 +22,7 @@ class ResponseCreateGoodDtoSchema(Schema):
     article = fields.Str(required=True)
     good_1c_id = fields.Str(missing=None)
     category_id = fields.Int(required=True)
-    barcode = fields.Str(required=True)
+    barcode = fields.Str(missing=None)
     structure_id = fields.Int(required=True)
     description = fields.Str(missing=None)
     # variations = fields.List(fields.Nested(VariationDtoSchema), required=True)
