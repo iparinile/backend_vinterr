@@ -2,7 +2,7 @@ from http import HTTPStatus
 from typing import Iterable
 
 from sanic.request import Request
-from sanic.response import BaseHTTPResponse, json
+from sanic.response import BaseHTTPResponse, json, file
 
 from configs.config import ApplicationConfig
 from context import Context
@@ -57,6 +57,10 @@ class SanicEndpoint:
                 'error_code': error_code or status
             }
         return json(body=body, status=status)
+
+    @staticmethod
+    async def make_response_file(file_url: str) -> BaseHTTPResponse:
+        return await file(location=file_url)
 
     @staticmethod
     def import_body_json(request: Request) -> dict:

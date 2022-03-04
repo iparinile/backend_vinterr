@@ -34,3 +34,5 @@ from .goods.get_variations import GetVariationsForGoodEndpoint
 
 from .variations.create import CreateVariationEndpoint
 from .variations.get_all import GetAllVariationsEndpoint
+
+from .images.image import ImageEndpoint
