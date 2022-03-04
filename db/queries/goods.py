@@ -14,7 +14,8 @@ def create_good(session: DBSession, good: RequestCreateGoodDto) -> DBGoods:
         category_id=good.category_id,
         barcode=good.barcode,
         structure_id=good.structure_id,
-        description=good.description
+        description=good.description,
+        is_visible=good.is_visible
     )
 
     session.add_model(new_good)

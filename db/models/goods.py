@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, VARCHAR, ForeignKey
+from sqlalchemy import Column, Integer, VARCHAR, ForeignKey, BOOLEAN
 
 from db.models import BaseModel
 
@@ -15,3 +15,4 @@ class DBGoods(BaseModel):
     structure_id = Column(Integer, ForeignKey('Structures.id', ondelete='CASCADE'), nullable=False)
     description = Column(VARCHAR(), nullable=False)
     default_variation = Column(Integer, ForeignKey('Variations.id', ondelete='SET NULL'))
+    is_visible = Column(BOOLEAN(), default=True)

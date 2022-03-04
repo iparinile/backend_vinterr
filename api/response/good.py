@@ -25,6 +25,7 @@ class ResponseCreateGoodDtoSchema(Schema):
     barcode = fields.Str(missing=None)
     structure_id = fields.Int(required=True)
     description = fields.Str(missing=None)
+    is_visible = fields.Bool(required=True)
     # variations = fields.List(fields.Nested(VariationDtoSchema), required=True)
 
 
