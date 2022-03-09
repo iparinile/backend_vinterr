@@ -16,5 +16,5 @@ from .statuses import DBStatuses
 from .streets import DBStreets
 from .structures import DBStructures
 from .users import DBUsers
-from .variation_in_order import DBVariationInOrder
+from .variation_in_orders import DBVariationInOrders
 from .variations import DBVariations

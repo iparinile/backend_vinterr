@@ -1,9 +1,11 @@
 from marshmallow import Schema, fields
 
 from api.base import ResponseDto
+from api.response.image import ResponseImageDtoSchema
 
 
-class ResponseCreateVariationDtoSchema(Schema):
+class ResponseVariationDtoSchema(Schema):
+    id = fields.Int(required=True)
     good_id = fields.Int(required=True)
     name = fields.Str(required=True)
     color_id = fields.Int(required=True)
@@ -14,7 +16,8 @@ class ResponseCreateVariationDtoSchema(Schema):
     barcode = fields.Str(required=True, allow_none=True)
     is_sale = fields.Bool(required=True)
     is_new = fields.Bool(required=True)
+    # images = fields.List(fields.Nested(ResponseImageDtoSchema), missing=None)
 
 
-class ResponseCreateVariationDto(ResponseDto, ResponseCreateVariationDtoSchema):
-    __schema__ = ResponseCreateVariationDtoSchema
+class ResponseVariationDto(ResponseDto, ResponseVariationDtoSchema):
+    __schema__ = ResponseVariationDtoSchema

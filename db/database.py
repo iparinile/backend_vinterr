@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker, Session, Query
 
 from db.exceptions import DBIntegrityException, DBDataException
 from db.models import BaseModel, DBUsers, DBCustomers, DBMaterials, DBCategories, DBStructures, DBSizes, DBColors, \
-    DBGoods, DBVariations
+    DBGoods, DBVariations, DBImages, DBRegions, DBCities, DBStreets
 
 
 class DBSession:
@@ -46,6 +46,9 @@ class DBSession:
 
     def get_customer_by_phone_number(self, phone_number: str) -> DBCustomers:
         return self.query(DBCustomers).filter(DBCustomers.phone_number == phone_number).first()
+
+    def get_customer_by_id(self, customer_id: int) -> DBCustomers:
+        return self.query(DBCustomers).filter(DBCustomers.id == customer_id).first()
 
     '''
     requests to DBMaterials
@@ -149,6 +152,34 @@ class DBSession:
 
     def get_variations_by_good_id(self, good_id: int) -> DBVariations:
         return self.query(DBVariations).filter(DBVariations.good_id == good_id).all()
+
+    '''
+    requests to DBVariations
+    '''
+
+    def get_images_by_variation_id(self, variation_id: int) -> List['DBImages']:
+        return self.query(DBImages).filter(DBImages.variation_id == variation_id).all()
+
+    '''
+    requests to DBRegions
+    '''
+
+    def get_region_by_name(self, region_name: str) -> DBRegions:
+        return self.query(DBRegions).filter(DBRegions.name == region_name).first()
+
+    '''
+    requests to DBRegions
+    '''
+
+    def get_city_by_name(self, city_name: str) -> DBCities:
+        return self.query(DBCities).filter(DBCities.name == city_name).first()
+
+    '''
+    requests to DBStreets
+    '''
+
+    def get_street_by_name(self, street_name: str) -> DBStreets:
+        return self.query(DBStreets).filter(DBStreets.name == street_name).first()
 
     def add_model(self, model: BaseModel):
         try:

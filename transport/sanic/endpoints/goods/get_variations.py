@@ -1,7 +1,7 @@
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
-from api.response.variation import ResponseCreateVariationDto
+from api.response.variation import ResponseVariationDto
 from db.database import DBSession
 from db.exceptions import DBVariationsForGoodNotExistsException
 from db.queries import variations as variations_queries
@@ -23,6 +23,6 @@ class GetVariationsForGoodEndpoint(BaseEndpoint):
         except DBVariationsForGoodNotExistsException:
             raise SanicVariationsForGoodNotFound("Variations for good not found")
 
-        response_model = ResponseCreateVariationDto(variations, many=True)
+        response_model = ResponseVariationDto(variations, many=True)
 
         return await self.make_response_json(status=200, body=response_model.dump())

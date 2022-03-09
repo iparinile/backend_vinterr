@@ -16,7 +16,7 @@ class VariationDtoSchema(Schema):
     is_default = fields.Bool(missing=None)
 
 
-class ResponseCreateGoodDtoSchema(Schema):
+class ResponseGoodDtoSchema(Schema):
     id = fields.Int(required=True)
     name = fields.Str(required=True)
     article = fields.Str(required=True)
@@ -29,5 +29,5 @@ class ResponseCreateGoodDtoSchema(Schema):
     # variations = fields.List(fields.Nested(VariationDtoSchema), required=True)
 
 
-class ResponseCreateGoodDto(ResponseDto, ResponseCreateGoodDtoSchema):
-    __schema__ = ResponseCreateGoodDtoSchema
+class ResponseGoodDto(ResponseDto, ResponseGoodDtoSchema):
+    __schema__ = ResponseGoodDtoSchema

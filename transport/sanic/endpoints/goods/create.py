@@ -2,7 +2,7 @@ from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
 from api.request.create_good import RequestCreateGoodDto
-from api.response.good import ResponseCreateGoodDto
+from api.response.good import ResponseGoodDto
 from db.exceptions import DBDataException, DBIntegrityException
 from db.queries import goods as goods_queries
 from helpers.psycopg2_exceptions.get_details import get_details_psycopg2_exception
@@ -29,6 +29,6 @@ class CreateGoodEndpoint(BaseEndpoint):
             else:
                 raise SanicDBException(str(e))
 
-        response_model = ResponseCreateGoodDto(db_good)
+        response_model = ResponseGoodDto(db_good)
 
         return await self.make_response_json(body=response_model.dump(), status=201)

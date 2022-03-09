@@ -11,8 +11,8 @@ class ResponseCustomerDtoSchema(Schema):
     first_name = fields.Str(required=True)
     second_name = fields.Str(required=True)
     last_name = fields.Str(required=True)
-    email = fields.Str(required=True)
-    birthday = fields.Date(required=True)
+    email = fields.Str(missing=None)
+    birthday = fields.Date(missing=None)
     phone_number = fields.Str(required=True)
 
     @pre_load

@@ -2,7 +2,7 @@ from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
 from api.request.create_variation import RequestCreateVariationDto
-from api.response.variation import ResponseCreateVariationDto
+from api.response.variation import ResponseVariationDto
 from db.exceptions import DBDataException, DBIntegrityException, DBGoodNotExistsException
 from db.queries import goods as goods_queries
 from db.queries import variations as variations_queries
@@ -41,6 +41,6 @@ class CreateVariationEndpoint(BaseEndpoint):
             except (DBDataException, DBIntegrityException) as e:
                 raise SanicDBException(str(e))
 
-        response_model = ResponseCreateVariationDto(db_variation)
+        response_model = ResponseVariationDto(db_variation)
 
         return await self.make_response_json(body=response_model.dump(), status=201)
