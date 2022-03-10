@@ -103,4 +103,6 @@ class CreateOrderEndpoint(BaseEndpoint):
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
+
+
         return await self.make_response_json(body=request_model.dump(), status=201)
