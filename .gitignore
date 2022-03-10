@@ -144,4 +144,4 @@ cython_debug/
 
 db/migrations/versions/
 
-src/
+/src/
