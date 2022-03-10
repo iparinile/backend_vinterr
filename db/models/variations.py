@@ -12,6 +12,7 @@ class DBVariations(BaseModel):
     color_id = Column(Integer, ForeignKey('Colors.id', ondelete='CASCADE'), nullable=False)
     size_id = Column(Integer, ForeignKey('Sizes.id', ondelete='CASCADE'), nullable=False)
     price = Column(Integer, nullable=False)
+    discounted_price = Column(Integer)
     variation_1c_id = Column(VARCHAR(255), unique=True)
     amount = Column(Integer)
     barcode = Column(VARCHAR(255))

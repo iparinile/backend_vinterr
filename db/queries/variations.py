@@ -13,6 +13,7 @@ def create_variation(session: DBSession, variation: RequestCreateVariationDto) -
         color_id=variation.color_id,
         size_id=variation.size_id,
         price=variation.price,
+        discounted_price=variation.discounted_price,
         variation_1c_id=variation.variation_1c_id,
         amount=variation.amount,
         barcode=variation.barcode,

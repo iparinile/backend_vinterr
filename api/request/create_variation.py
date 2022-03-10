@@ -9,6 +9,7 @@ class RequestCreateVariationDtoSchema(Schema):
     color_id = fields.Int(required=True, allow_none=False)
     size_id = fields.Int(required=True, allow_none=False)
     price = fields.Int(required=True, allow_none=False)
+    discounted_price = fields.Int(missing=None)
     variation_1c_id = fields.Str(missing=None)
     amount = fields.Int(required=True, allow_none=False)
     barcode = fields.Str(required=True, allow_none=False)

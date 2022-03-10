@@ -11,6 +11,7 @@ class ResponseVariationDtoSchema(Schema):
     color_id = fields.Int(required=True)
     size_id = fields.Int(required=True)
     price = fields.Int(required=True)
+    discounted_price = fields.Int(missing=None)
     variation_1c_id = fields.Str(required=True, allow_none=True)
     amount = fields.Int(required=True)
     barcode = fields.Str(required=True, allow_none=True)
