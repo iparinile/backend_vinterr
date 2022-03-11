@@ -25,10 +25,12 @@ class RequestDto:
 class ResponseDto:
     __schema__: Schema
 
-    def __init__(self, obj, many: bool = False):
+    def __init__(self, obj, many: bool = False, is_input_dict: bool = False):
 
         if many:
             properties = [self.parse_obj(o) for o in obj]
+        elif is_input_dict:
+            properties = obj
         else:
             properties = self.parse_obj(obj)
 

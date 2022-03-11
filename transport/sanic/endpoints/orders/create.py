@@ -2,6 +2,7 @@ from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
 from api.request.create_order import RequestCreateOrderDto
+from api.response.order import ResponseOrderDto, VariationInOrderDto
 from db.queries import cities as cities_queries
 from db.queries import customers as customers_queries
 from db.queries import customer_addresses as customer_addresses_queries
@@ -103,6 +104,24 @@ class CreateOrderEndpoint(BaseEndpoint):
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
+        variations_list = VariationInOrderDto(variations_list, many=True)
 
+        response_body = {
+            "id": db_order.id,
+            "customer_id": db_customer.id,
+            "is_payed": db_order.is_payed,
+            "status_id": db_order.status_id,
+            "delivery_type_id": db_order.delivery_type_id,
+            "region": db_region.name,
+            "city": db_city.name,
+            "street": db_street.name,
+            "house_number": db_customer_address.house_number,
+            "apartment": db_customer_address.apartment,
+            "other_info": db_customer_address.other_info
+        }
 
-        return await self.make_response_json(body=request_model.dump(), status=201)
+        response_model = ResponseOrderDto(response_body, is_input_dict=True)
+        response_model = response_model.dump()
+        response_model['variations'] = variations_list.dump()
+
+        return await self.make_response_json(body=response_model, status=201)
