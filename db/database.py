@@ -6,7 +6,8 @@ from sqlalchemy.orm import sessionmaker, Session, Query
 
 from db.exceptions import DBIntegrityException, DBDataException
 from db.models import BaseModel, DBUsers, DBCustomers, DBMaterials, DBCategories, DBStructures, DBSizes, DBColors, \
-    DBGoods, DBVariations, DBImages, DBRegions, DBCities, DBStreets
+    DBGoods, DBVariations, DBImages, DBRegions, DBCities, DBStreets, DBOrders, DBStatuses, DBDeliveryTypes, \
+    DBVariationInOrders
 
 
 class DBSession:
@@ -168,7 +169,7 @@ class DBSession:
         return self.query(DBRegions).filter(DBRegions.name == region_name).first()
 
     '''
-    requests to DBRegions
+    requests to DBCities
     '''
 
     def get_city_by_name(self, city_name: str) -> DBCities:
@@ -188,6 +189,13 @@ class DBSession:
             raise DBIntegrityException(e)
         except DataError as e:
             raise DBDataException(e)
+
+    '''
+    requests to DBColors
+    '''
+
+    def get_all_orders(self) -> List['DBOrders']:
+        return self.query(DBOrders, DBCustomers, DBStatuses, DBDeliveryTypes, DBVariationInOrders).all()
 
     def commit_session(self, need_close: bool = False):
         try:
