@@ -195,7 +195,9 @@ class DBSession:
     '''
 
     def get_all_orders(self) -> List['DBOrders']:
-        return self.query(DBOrders, DBCustomers, DBStatuses, DBDeliveryTypes, DBVariationInOrders).all()
+        query = self.query(DBOrders, DBCustomers, DBStatuses, DBDeliveryTypes, DBVariationInOrders)
+        query = query.outerjoin(DBVariationInOrders, DBVariationInOrders.order_id == DBOrders.id)
+        return query.all()
 
     def commit_session(self, need_close: bool = False):
         try:
