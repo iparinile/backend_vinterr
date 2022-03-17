@@ -195,8 +195,14 @@ class DBSession:
     '''
 
     def get_all_orders(self) -> List['DBOrders']:
-        query = self.query(DBOrders, DBCustomers, DBStatuses, DBDeliveryTypes, DBVariationInOrders)
+        query = self.query(DBOrders, DBCustomers, DBStatuses, DBDeliveryTypes, DBVariationInOrders, DBVariations,
+                           DBColors, DBSizes, DBGoods, DBCategories)
         query = query.outerjoin(DBVariationInOrders, DBVariationInOrders.order_id == DBOrders.id)
+        query = query.outerjoin(DBVariations, DBVariations.id == DBVariationInOrders.variation_id)
+        query = query.outerjoin(DBColors, DBColors.id == DBVariations.color_id)
+        query = query.outerjoin(DBSizes, DBSizes.id == DBVariations.size_id)
+        query = query.outerjoin(DBGoods, DBGoods.id == DBVariations.good_id)
+        query = query.outerjoin(DBCategories, DBCategories.id == DBGoods.category_id)
         return query.all()
 
     def commit_session(self, need_close: bool = False):

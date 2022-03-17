@@ -1,30 +1,29 @@
-from marshmallow import fields, Schema
+import datetime
+
+from marshmallow import fields, Schema, pre_load, post_load
 
 from api.base import ResponseDto
 
 
-class VariationsInOrderDtoSchema(Schema):
+class ResponseOrderDBDtoSchema(Schema):
     id = fields.Int(required=True)
-    variation_id = fields.Int(required=True)
-    amount = fields.Int(required=True)
-    current_price = fields.Int(required=True)
-
-
-class ResponseOrderDtoSchema(Schema):
-    id = fields.Int(required=True)
-    # Order info
-    customer_id = fields.Int(required=True)
     is_payed = fields.Bool(required=True)
-    status_id = fields.Int(required=True)
-    delivery_type_id = fields.Int(required=True)
-    # Address info
-    region = fields.Str(required=True)
-    city = fields.Str(required=True)
-    street = fields.Str(required=True)
-    house_number = fields.Int(required=True)
-    apartment = fields.Int(required=True)
-    other_info = fields.Str(missing=None)
+    created_at = fields.DateTime(required=True)
+
+    @pre_load
+    @post_load
+    def deserialize_datetime(self, data: dict, **kwargs) -> dict:
+        if 'created_at' in data:
+            data['created_at'] = self.datetime_to_iso(data['created_at'])
+
+        return data
+
+    @staticmethod
+    def datetime_to_iso(dt):
+        if isinstance(dt, datetime.datetime):
+            return dt.isoformat()
+        return dt
 
 
-class ResponseOrderDto(ResponseDto, ResponseOrderDtoSchema):
-    __schema__ = ResponseOrderDtoSchema
+class ResponseOrderDBDto(ResponseDto, ResponseOrderDBDtoSchema):
+    __schema__ = ResponseOrderDBDtoSchema

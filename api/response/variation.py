@@ -1,7 +1,6 @@
 from marshmallow import Schema, fields
 
 from api.base import ResponseDto
-from api.response.image import ResponseImageDtoSchema
 
 
 class ResponseVariationDtoSchema(Schema):
