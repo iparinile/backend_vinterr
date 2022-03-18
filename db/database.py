@@ -139,7 +139,11 @@ class DBSession:
     '''
 
     def get_all_goods(self) -> List['DBGoods']:
-        return self.query(DBGoods).all()
+        query = self.query(DBGoods, DBVariations, DBColors, DBSizes)
+        query = query.outerjoin(DBVariations, DBVariations.good_id == DBGoods.id)
+        query = query.outerjoin(DBColors, DBColors.id == DBVariations.color_id)
+        query = query.outerjoin(DBSizes, DBSizes.id == DBVariations.size_id)
+        return query.all()
 
     def get_good_by_id(self, good_id: int) -> DBGoods:
         return self.query(DBGoods).filter(DBGoods.id == good_id).first()
