@@ -32,6 +32,6 @@ class GetAllGoodsEndpoint(BaseEndpoint):
                     response_body[db_goods.id]['colors'][valid_color['id']] = valid_color
 
                 if valid_size['id'] not in response_body[db_goods.id]['colors'][valid_color['id']]['sizes']:
-                    response_body[db_goods.id]['colors'][valid_color['id']]['sizes'][valid_color['id']] = valid_size
+                    response_body[db_goods.id]['colors'][valid_color['id']]['sizes'][valid_size['id']] = valid_size
 
         return await self.make_response_json(status=200, body=response_body)
