@@ -39,7 +39,7 @@ class GetAllGoodsEndpoint(BaseEndpoint):
 
                 if db_images is not None:
                     valid_image = ResponseImageDto(db_images)
-                    response_body[db_goods.id]['variations'][db_variations.id].append(valid_image)
+                    response_body[db_goods.id]['variations'][db_variations.id]['images'].append(valid_image)
 
         response_body = [good for good in response_body.values()]
         for good in response_body:
