@@ -23,7 +23,7 @@ class GetAllGoodsEndpoint(BaseEndpoint):
                 valid_goods['colors'] = dict()
                 response_body[valid_goods['id']] = valid_goods
             if db_variations is not None:
-                if db_variations not in response_body[db_goods.id]['variations'].keys():
+                if db_variations.id not in response_body[db_goods.id]['variations'].keys():
                     valid_variation = ResponseVariationDto(db_variations).dump()
                     valid_color = ResponseColorDto(db_colors).dump()
                     valid_size = ResponseSizeDto(db_sizes).dump()
@@ -38,7 +38,7 @@ class GetAllGoodsEndpoint(BaseEndpoint):
                         response_body[db_goods.id]['colors'][valid_color['id']]['sizes'][valid_size['id']] = valid_size
 
                 if db_images is not None:
-                    valid_image = ResponseImageDto(db_images)
+                    valid_image = ResponseImageDto(db_images).dump()
                     response_body[db_goods.id]['variations'][db_variations.id]['images'].append(valid_image)
 
         response_body = [good for good in response_body.values()]
