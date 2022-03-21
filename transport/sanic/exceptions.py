@@ -131,3 +131,12 @@ class SanicGoodNotFound(SanicException):
 
 class SanicVariationsForGoodNotFound(SanicException):
     status_code = 404
+
+
+'''
+Goods Exceptions
+'''
+
+
+class SanicVariationNotFound(SanicException):
+    status_code = 404

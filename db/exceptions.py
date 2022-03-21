@@ -120,3 +120,21 @@ class DBGoodNotExistsException(Exception):
 
 class DBVariationsForGoodNotExistsException(Exception):
     pass
+
+
+'''
+Variations Exceptions
+'''
+
+
+class DBVariationNotExistsException(Exception):
+    pass
+
+
+'''
+DeliveryTypes Exceptions
+'''
+
+
+class DBDeliveryTypeNotExistsException(Exception):
+    pass

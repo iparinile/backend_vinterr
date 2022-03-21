@@ -1,6 +1,8 @@
 import os
+from time import strftime
 
 from dotenv import load_dotenv
+from prettytable import PrettyTable
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
@@ -9,16 +11,20 @@ from api.response.order import ResponseOrderDto, VariationInOrderDto
 from db.queries import cities as cities_queries
 from db.queries import customers as customers_queries
 from db.queries import customer_addresses as customer_addresses_queries
+from db.queries import delivery_types as delivery_types_queries
 from db.queries import orders as orders_queries
 from db.queries import regions as regions_queries
 from db.queries import streets as streets_queries
+from db.queries import variations as variations_queries
 from db.queries import variation_in_orders as variation_in_orders_queries
-from db.exceptions import DBDataException, DBIntegrityException, DBCustomerNotExistsException
+from db.exceptions import DBDataException, DBIntegrityException, DBCustomerNotExistsException, \
+    DBVariationNotExistsException
 from helpers.auth import read_token, ReadTokenException
 from helpers.psycopg2_exceptions.get_details import get_details_psycopg2_exception
 from helpers.telegram_bot.send_message import send_message_to_chat
 from transport.sanic.endpoints import BaseEndpoint
-from transport.sanic.exceptions import SanicCustomerNotFound, SanicDBException, SanicDBUniqueFieldException
+from transport.sanic.exceptions import SanicCustomerNotFound, SanicDBException, SanicDBUniqueFieldException, \
+    SanicVariationNotFound
 
 load_dotenv()
 
@@ -110,7 +116,7 @@ class CreateOrderEndpoint(BaseEndpoint):
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
-        variations_list = VariationInOrderDto(variations_list, many=True)
+        variations_list = VariationInOrderDto(variations_list, many=True).dump()
 
         response_body = {
             "id": db_order.id,
@@ -128,8 +134,36 @@ class CreateOrderEndpoint(BaseEndpoint):
 
         response_model = ResponseOrderDto(response_body, is_input_dict=True)
         response_model = response_model.dump()
-        response_model['variations'] = variations_list.dump()
+        response_model['variations'] = variations_list
 
-        send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message="response_model")
+        order_date = db_order.created_at.date()
+        order_date = order_date.strftime("%d.%m.%Y")
+        table_variations_in_order = PrettyTable()
+        table_variations_in_order.field_names = ['Наименование', 'Количество', 'Цена']
+        order_sum = 0
+        for variation in variations_list:
+            try:
+                db_variation = variations_queries.get_variations_by_id(session, variation['variation_id'])
+                table_variations_in_order.add_row([db_variation.name, variation['amount'], variation['current_price']])
+                order_sum += variation['current_price'] * variation['amount']
+            except DBVariationNotExistsException:
+                raise SanicVariationNotFound(message=f"Variation id {variation['variation_id']} not found")
+
+        db_delivery_type = delivery_types_queries.get_delivery_type_name_by_id(session, db_order.delivery_type_id)
+
+        message = f"""
+Оформлен заказ №{response_model['id']} от {order_date}
+
+Клиент:
+ФИО: {db_customer.first_name} {db_customer.second_name} {db_customer.last_name}
+Телефон: {db_customer.phone_number}
+
+Товары:<pre>
+{table_variations_in_order}</pre>
+Итого: {order_sum} руб.
+
+Тип доставки: {db_delivery_type.name}
+"""
+        send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
 
         return await self.make_response_json(body=response_model, status=201)

@@ -55,9 +55,9 @@ def create_unregistered_customer(session: DBSession, body_request: RequestCreate
         last_name=body_request.last_name,
         phone_number=body_request.phone_number
     )
-
-    if session.get_customer_by_phone_number(new_customer.phone_number) is not None:
-        raise DBCustomerPhoneNumberExistsException
+    db_customer = session.get_customer_by_phone_number(new_customer.phone_number)
+    if db_customer is not None:
+        return db_customer
 
     session.add_model(new_customer)
 

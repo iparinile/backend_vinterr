@@ -165,6 +165,9 @@ class DBSession:
         query = query.filter(DBVariations.good_id == good_id)
         return query.all()
 
+    def get_variation_by_id(self, variation_id: int) -> DBVariations:
+        return self.query(DBVariations).filter(DBVariations.id == variation_id).first()
+
     '''
     requests to DBImages
     '''
@@ -215,6 +218,13 @@ class DBSession:
         query = query.outerjoin(DBGoods, DBGoods.id == DBVariations.good_id)
         query = query.outerjoin(DBCategories, DBCategories.id == DBGoods.category_id)
         return query.all()
+
+    '''
+    requests to DBDeliveryTypes
+    '''
+
+    def get_delivery_type_by_id(self, delivery_type_id: int) -> DBDeliveryTypes:
+        return self.query(DBDeliveryTypes).filter(DBDeliveryTypes.id == delivery_type_id).first()
 
     def commit_session(self, need_close: bool = False):
         try:
