@@ -31,8 +31,7 @@ def get_all_variations(session: DBSession) -> List['DBVariations']:
     return variations
 
 
-def get_variations_for_good(session: DBSession, good_id: int) -> DBVariations:
-    variations = session.get_variations_by_good_id(good_id)
-    if variations is None:
-        raise DBVariationsForGoodNotExistsException
-    return variations
+def get_variations_for_good(session: DBSession, good_id: int) -> List['DBVariations']:
+    records = session.get_variations_by_good_id(good_id)
+
+    return records

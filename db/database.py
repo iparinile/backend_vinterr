@@ -147,7 +147,9 @@ class DBSession:
         return query.all()
 
     def get_good_by_id(self, good_id: int) -> DBGoods:
-        return self.query(DBGoods).filter(DBGoods.id == good_id).first()
+        query = self.query(DBGoods, DBCategories, DBStructures)
+        query = query.filter(DBGoods.id == good_id)
+        return query.first()
 
     '''
     requests to DBVariations
@@ -156,11 +158,15 @@ class DBSession:
     def get_all_variations(self) -> List['DBVariations']:
         return self.query(DBVariations).all()
 
-    def get_variations_by_good_id(self, good_id: int) -> DBVariations:
-        return self.query(DBVariations).filter(DBVariations.good_id == good_id).all()
+    def get_variations_by_good_id(self, good_id: int) -> List['DBVariations']:
+        query = self.query(DBVariations, DBColors, DBSizes)
+        query = query.outerjoin(DBColors, DBColors.id == DBVariations.color_id)
+        query = query.outerjoin(DBSizes, DBSizes.id == DBVariations.size_id)
+        query = query.filter(DBVariations.good_id == good_id)
+        return query.all()
 
     '''
-    requests to DBVariations
+    requests to DBImages
     '''
 
     def get_images_by_variation_id(self, variation_id: int) -> List['DBImages']:

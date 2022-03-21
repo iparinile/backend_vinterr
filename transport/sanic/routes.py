@@ -48,6 +48,7 @@ def get_routes(config: ApplicationConfig, context: Context) -> Tuple:
         endpoints.CreateGoodEndpoint(config=config, context=context, uri='/goods', methods=['POST'],
                                      auth_required=True, is_administrator_access=True),
         endpoints.GetAllGoodsEndpoint(config=config, context=context, uri='/goods/all', methods=['GET']),
+        endpoints.GoodEndpoint(config=config, context=context, uri='/goods/<good_id:int>', methods=['GET']),
         endpoints.GetVariationsForGoodEndpoint(config=config, context=context, uri='/goods/<good_id:int>/variations',
                                                methods=['GET']),
         endpoints.CreateVariationEndpoint(config=config, context=context, uri='/variations', methods=['POST'],

@@ -28,6 +28,15 @@ def get_all_goods(session: DBSession) -> List['DBGoods']:
     return goods
 
 
+def get_good(session: DBSession, good_id: int):
+    db_good = session.get_good_by_id(good_id)
+
+    if len(db_good) == 0:
+        raise DBGoodNotExistsException
+
+    return db_good
+
+
 def set_default_variation(session: DBSession, db_variation: DBVariations) -> DBGoods:
     db_good = session.get_good_by_id(db_variation.good_id)
 

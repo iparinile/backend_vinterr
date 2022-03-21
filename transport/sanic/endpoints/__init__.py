@@ -31,6 +31,7 @@ from .colors.get_all import GetAllColorsEndpoint
 from .goods.create import CreateGoodEndpoint
 from .goods.get_all import GetAllGoodsEndpoint
 from .goods.get_variations import GetVariationsForGoodEndpoint
+from .goods.good import GoodEndpoint
 
 from .variations.create import CreateVariationEndpoint
 from .variations.get_all import GetAllVariationsEndpoint
