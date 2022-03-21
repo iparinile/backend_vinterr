@@ -18,3 +18,4 @@ from .structures import DBStructures
 from .users import DBUsers
 from .variation_in_orders import DBVariationInOrders
 from .variations import DBVariations
+from .contact_forms import DBContactForms

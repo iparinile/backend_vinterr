@@ -1,3 +1,6 @@
+import os
+
+from dotenv import load_dotenv
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
@@ -13,8 +16,11 @@ from db.queries import variation_in_orders as variation_in_orders_queries
 from db.exceptions import DBDataException, DBIntegrityException, DBCustomerNotExistsException
 from helpers.auth import read_token, ReadTokenException
 from helpers.psycopg2_exceptions.get_details import get_details_psycopg2_exception
+from helpers.telegram_bot.send_message import send_message_to_chat
 from transport.sanic.endpoints import BaseEndpoint
 from transport.sanic.exceptions import SanicCustomerNotFound, SanicDBException, SanicDBUniqueFieldException
+
+load_dotenv()
 
 
 class CreateOrderEndpoint(BaseEndpoint):
@@ -123,5 +129,7 @@ class CreateOrderEndpoint(BaseEndpoint):
         response_model = ResponseOrderDto(response_body, is_input_dict=True)
         response_model = response_model.dump()
         response_model['variations'] = variations_list.dump()
+
+        send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message="response_model")
 
         return await self.make_response_json(body=response_model, status=201)

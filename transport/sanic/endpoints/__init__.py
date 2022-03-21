@@ -40,3 +40,5 @@ from .images.image import ImageEndpoint
 
 from .orders.create import CreateOrderEndpoint
 from .orders.get_all import GetAllOrdersEndpoint
+
+from .contact_forms.create import CreateContactFormEndpoint
