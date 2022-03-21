@@ -40,9 +40,9 @@ class CreateContactFormEndpoint(BaseEndpoint):
 Телефон: {db_contact_forms.phone_number}
 """
         if db_contact_forms.email is not None:
-            message += f"Email: {db_contact_forms.email}"
+            message += f"Email: {db_contact_forms.email}\n"
         if db_contact_forms.text is not None:
-            message += f"Текст обращения: {db_contact_forms.text}"
+            message += f"Текст обращения: {db_contact_forms.text}\n"
 
         send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
 
