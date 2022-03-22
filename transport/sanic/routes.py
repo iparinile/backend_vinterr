@@ -59,5 +59,5 @@ def get_routes(config: ApplicationConfig, context: Context) -> Tuple:
         endpoints.CreateOrderEndpoint(config=config, context=context, uri='/orders', methods=['POST']),
         endpoints.GetAllOrdersEndpoint(config=config, context=context, uri='/orders/all', methods=['GET'],
                                        auth_required=True, is_administrator_access=True),
-        endpoints.CreateContactFormEndpoint(config=config, context=context, uri='/contact_forms', methods=['POST'])
+        endpoints.CreateContactFormEndpoint(config=config, context=context, uri='/contact_forms', methods=['POST','OPTIONS'])
     )
