@@ -11,6 +11,4 @@ class ImageEndpoint(BaseEndpoint):
     async def method_get(self, request: Request, body: dict, session: DBSession, img_folder: str, img_name: str,
                          *args, **kwargs) -> BaseHTTPResponse:
         image_url = f"src/img/{img_folder}/{img_name}"
-        print(os.getcwdb())
-        print(image_url)
         return await self.make_response_file(file_url=image_url)
