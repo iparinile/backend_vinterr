@@ -64,8 +64,9 @@ def get_routes(config: ApplicationConfig, context: Context) -> Tuple:
                                        auth_required=True, is_administrator_access=True),
         endpoints.CreateContactFormEndpoint(config=config, context=context, uri='/contact_forms',
                                             methods=['POST', 'OPTIONS']),
-        endpoints.CreateDeliveryTypeEndpoint(config=config, context=context, uri='/delivery_types', methods=['POST'],
-                                             auth_required=True, is_administrator_access=True),
+        endpoints.CreateDeliveryTypeEndpoint(config=config, context=context, uri='/delivery_types',
+                                             methods=['POST', 'OPTIONS'], auth_required=True,
+                                             is_administrator_access=True),
         endpoints.GetAllDeliveryTypesEndpoint(config=config, context=context, uri='/delivery_types/all',
                                               methods=['GET'])
     )
