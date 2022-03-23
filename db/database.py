@@ -226,6 +226,26 @@ class DBSession:
     def get_delivery_type_by_id(self, delivery_type_id: int) -> DBDeliveryTypes:
         return self.query(DBDeliveryTypes).filter(DBDeliveryTypes.id == delivery_type_id).first()
 
+    def get_delivery_type_by_name(self, delivery_type_name: str) -> DBDeliveryTypes:
+        return self.query(DBDeliveryTypes).filter(DBDeliveryTypes.name == delivery_type_name).first()
+
+    def get_all_delivery_types(self) -> List['DBDeliveryTypes']:
+        return self.query(DBDeliveryTypes).all()
+
+    '''
+    requests to DBStatuses
+    '''
+
+    def get_status_by_name(self, status_name: str) -> DBStatuses:
+        return self.query(DBStatuses).filter(DBStatuses.name == status_name).first()
+
+    def get_all_statuses(self) -> List['DBStatuses']:
+        return self.query(DBStatuses).all()
+
+    '''
+----------------------------------------------------------------------------------
+    '''
+
     def commit_session(self, need_close: bool = False):
         try:
             self._session.commit()

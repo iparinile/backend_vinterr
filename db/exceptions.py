@@ -138,3 +138,7 @@ DeliveryTypes Exceptions
 
 class DBDeliveryTypeNotExistsException(Exception):
     pass
+
+
+class DBDeliveryTypeExistsException(Exception):
+    pass

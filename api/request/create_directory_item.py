@@ -17,3 +17,11 @@ class RequestCreateStructureDto(RequestDto, RequestCreateDirectoryItemDtoSchema)
 
 class RequestCreateSizeDto(RequestDto, RequestCreateDirectoryItemDtoSchema):
     __schema__ = RequestCreateDirectoryItemDtoSchema
+
+
+class RequestCreateStatusDto(RequestDto, RequestCreateDirectoryItemDtoSchema):
+    __schema__ = RequestCreateDirectoryItemDtoSchema
+
+
+class RequestCreateDeliveryTypeDto(RequestDto, RequestCreateDirectoryItemDtoSchema):
+    __schema__ = RequestCreateDirectoryItemDtoSchema

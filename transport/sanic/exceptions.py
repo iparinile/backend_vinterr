@@ -134,9 +134,18 @@ class SanicVariationsForGoodNotFound(SanicException):
 
 
 '''
-Goods Exceptions
+Variations Exceptions
 '''
 
 
 class SanicVariationNotFound(SanicException):
     status_code = 404
+
+
+'''
+Delivery_types Exceptions
+'''
+
+
+class SanicDeliveryTypeConflictException(SanicException):
+    status_code = 409

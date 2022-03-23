@@ -42,3 +42,6 @@ from .orders.create import CreateOrderEndpoint
 from .orders.get_all import GetAllOrdersEndpoint
 
 from .contact_forms.create import CreateContactFormEndpoint
+
+from .delivery_types.create import CreateDeliveryTypeEndpoint
+from .delivery_types.get_all import GetAllDeliveryTypesEndpoint
