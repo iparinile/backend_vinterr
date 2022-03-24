@@ -158,8 +158,8 @@ class CreateOrderEndpoint(BaseEndpoint):
 ФИО: {db_customer.first_name} {db_customer.second_name} {db_customer.last_name}
 Телефон: {db_customer.phone_number}
 
-Товары:<pre>
-{table_variations_in_order}</pre>
+Товары:
+```{table_variations_in_order}```
 Итого: {order_sum} руб.
 
 Тип доставки: {db_delivery_type.name}

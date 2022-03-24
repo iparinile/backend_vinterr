@@ -25,15 +25,16 @@ class GoodEndpoint(BaseEndpoint):
         except DBGoodNotExistsException:
             raise SanicGoodNotFound('Good not found')
 
-        valid_goods = ResponseGoodDto(db_goods).dump()
+        valid_good = ResponseGoodDto(db_goods).dump()
         valid_category = ResponseCategoryDto(db_categories).dump()
         valid_structure = ResponseStructureDto(db_structures).dump()
 
-        valid_goods['category_name'] = valid_category['name']
-        valid_goods['structure_name'] = valid_structure['name']
-        valid_goods['variations'] = []
+        valid_good['category_name'] = valid_category['name']
+        valid_good['structure_name'] = valid_structure['name']
+        valid_good['variations'] = []
+        valid_good['variations_to_show'] = dict()
 
-        records = variations_queries.get_variations_for_good(session, valid_goods['id'])
+        records = variations_queries.get_variations_for_good(session, valid_good['id'])
 
         if len(records) != 0:
             for db_variations, db_colors, db_sizes in records:
@@ -50,6 +51,11 @@ class GoodEndpoint(BaseEndpoint):
                 else:
                     valid_variation['images'] = []
 
-                valid_goods['variations'].append(valid_variation)
+                valid_good['variations'].append(valid_variation)
 
-        return await self.make_response_json(body=valid_goods, status=200)
+                if db_variations.color_id not in valid_good['variations_to_show'].keys():
+                    valid_good['variations_to_show'][db_variations.color_id] = db_variations.id
+
+            valid_good['variations_to_show'] = [variation_id for variation_id in
+                                                valid_good['variations_to_show'].values()]
+        return await self.make_response_json(body=valid_good, status=200)
