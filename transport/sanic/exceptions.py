@@ -142,6 +142,10 @@ class SanicVariationNotFound(SanicException):
     status_code = 404
 
 
+class SanicInsufficientAmountVariation(SanicException):
+    status_code = 400
+
+
 '''
 Delivery_types Exceptions
 '''

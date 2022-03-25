@@ -18,14 +18,14 @@ from db.queries import streets as streets_queries
 from db.queries import variations as variations_queries
 from db.queries import variation_in_orders as variation_in_orders_queries
 from db.exceptions import DBDataException, DBIntegrityException, DBCustomerNotExistsException, \
-    DBVariationNotExistsException
+    DBVariationNotExistsException, DBVariationNegativeRest
 from helpers.auth import read_token, ReadTokenException
 from helpers.email.sending_email import send_email
 from helpers.psycopg2_exceptions.get_details import get_details_psycopg2_exception
 from helpers.telegram_bot.send_message import send_message_to_chat
 from transport.sanic.endpoints import BaseEndpoint
 from transport.sanic.exceptions import SanicCustomerNotFound, SanicDBException, SanicDBUniqueFieldException, \
-    SanicVariationNotFound
+    SanicVariationNotFound, SanicInsufficientAmountVariation
 
 load_dotenv()
 
@@ -113,6 +113,11 @@ class CreateOrderEndpoint(BaseEndpoint):
             )
             variations_list.append(db_variation_in_order)
 
+            db_variation = variations_queries.get_variations_by_id(session, db_variation_in_order.variation_id)
+            try:
+                variations_queries.buying_variations(db_variation, db_variation_in_order.amount)
+            except DBVariationNegativeRest:
+                raise SanicInsufficientAmountVariation(message="Insufficient number of variations in stock to order")
 
         try:
             session.commit_session()
