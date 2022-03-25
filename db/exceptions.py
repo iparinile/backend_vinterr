@@ -131,6 +131,10 @@ class DBVariationNotExistsException(Exception):
     pass
 
 
+class DBVariationNegativeRest(Exception):
+    pass
+
+
 '''
 DeliveryTypes Exceptions
 '''

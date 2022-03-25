@@ -20,6 +20,7 @@ from db.queries import variation_in_orders as variation_in_orders_queries
 from db.exceptions import DBDataException, DBIntegrityException, DBCustomerNotExistsException, \
     DBVariationNotExistsException
 from helpers.auth import read_token, ReadTokenException
+from helpers.email.sending_email import send_email
 from helpers.psycopg2_exceptions.get_details import get_details_psycopg2_exception
 from helpers.telegram_bot.send_message import send_message_to_chat
 from transport.sanic.endpoints import BaseEndpoint
@@ -105,12 +106,14 @@ class CreateOrderEndpoint(BaseEndpoint):
 
         variations_list = []
         for variation in request_model.variations:
-            db_variation = variation_in_orders_queries.create_variation_in_order(
+            db_variation_in_order = variation_in_orders_queries.create_variation_in_order(
                 session,
                 variation_in_order=variation,
                 order=db_order
             )
-            variations_list.append(db_variation)
+            variations_list.append(db_variation_in_order)
+
+
         try:
             session.commit_session()
         except (DBDataException, DBIntegrityException) as e:
@@ -143,8 +146,9 @@ class CreateOrderEndpoint(BaseEndpoint):
         order_sum = 0
         for variation in variations_list:
             try:
-                db_variation = variations_queries.get_variations_by_id(session, variation['variation_id'])
-                table_variations_in_order.add_row([db_variation.name, variation['amount'], variation['current_price']])
+                db_variation_in_order = variations_queries.get_variations_by_id(session, variation['variation_id'])
+                table_variations_in_order.add_row(
+                    [db_variation_in_order.name, variation['amount'], variation['current_price']])
                 order_sum += variation['current_price'] * variation['amount']
             except DBVariationNotExistsException:
                 raise SanicVariationNotFound(message=f"Variation id {variation['variation_id']} not found")
@@ -164,6 +168,7 @@ class CreateOrderEndpoint(BaseEndpoint):
 
 Тип доставки: {db_delivery_type.name}
 """
-        send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
+        await send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
+        await send_email(to_address=[os.getenv("email_to")], subject="Новый заказ на сайте", text=message)
 
         return await self.make_response_json(body=response_model, status=201)

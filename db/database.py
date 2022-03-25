@@ -168,6 +168,13 @@ class DBSession:
     def get_variation_by_id(self, variation_id: int) -> DBVariations:
         return self.query(DBVariations).filter(DBVariations.id == variation_id).first()
 
+    def get_variation_by_id_with_full_info(self, variation_id: int) -> DBVariations:
+        query = self.query(DBVariations, DBColors, DBSizes)
+        query = query.outerjoin(DBColors, DBColors.id == DBVariations.color_id)
+        query = query.outerjoin(DBSizes, DBSizes.id == DBVariations.size_id)
+        query = query.filter(DBVariations.id == variation_id)
+        return query.first()
+
     '''
     requests to DBImages
     '''

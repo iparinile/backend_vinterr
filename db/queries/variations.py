@@ -2,7 +2,7 @@ from typing import List
 
 from api.request.create_variation import RequestCreateVariationDto
 from db.database import DBSession
-from db.exceptions import DBVariationsForGoodNotExistsException, DBVariationNotExistsException
+from db.exceptions import DBVariationsForGoodNotExistsException, DBVariationNotExistsException, DBVariationNegativeRest
 from db.models import DBVariations
 
 
@@ -43,4 +43,23 @@ def get_variations_by_id(session: DBSession, variation_id: int) -> DBVariations:
     if db_variation is None:
         raise DBVariationNotExistsException
 
+    return db_variation
+
+
+def get_variations_by_id_with_full_info(session: DBSession, variation_id: int) -> DBVariations:
+    record = session.get_variation_by_id_with_full_info(variation_id)
+
+    if record is None:
+        raise DBVariationNotExistsException
+
+    return record
+
+
+def buying_variations(db_variation: DBVariations, amount: int) -> DBVariations:
+    variation_rest = db_variation.amount
+    variation_rest = variation_rest - amount
+    if variation_rest < 0:
+        raise DBVariationNegativeRest
+
+    db_variation.amount = variation_rest
     return db_variation

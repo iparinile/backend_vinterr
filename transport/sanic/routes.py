@@ -57,6 +57,8 @@ def get_routes(config: ApplicationConfig, context: Context) -> Tuple:
                                           methods=['POST', 'OPTIONS'], auth_required=True,
                                           is_administrator_access=True),
         endpoints.GetAllVariationsEndpoint(config=config, context=context, uri='/variations/all', methods=['GET']),
+        endpoints.VariationEndpoint(config=config, context=context, uri='/variations/<variation_id:int>',
+                                    methods=['GET']),
         endpoints.ImageEndpoint(config=config, context=context, uri='/images/<img_folder:string>/<img_name:string>',
                                 methods=['GET']),
         endpoints.CreateOrderEndpoint(config=config, context=context, uri='/orders', methods=['POST', 'OPTIONS']),

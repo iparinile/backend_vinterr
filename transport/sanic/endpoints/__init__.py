@@ -35,6 +35,7 @@ from .goods.good import GoodEndpoint
 
 from .variations.create import CreateVariationEndpoint
 from .variations.get_all import GetAllVariationsEndpoint
+from .variations.variation import VariationEndpoint
 
 from .images.image import ImageEndpoint
 
