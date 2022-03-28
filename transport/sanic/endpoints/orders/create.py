@@ -1,5 +1,4 @@
 import os
-from time import strftime
 
 from dotenv import load_dotenv
 from prettytable import PrettyTable
@@ -166,6 +165,21 @@ class CreateOrderEndpoint(BaseEndpoint):
 Клиент:
 ФИО: {db_customer.first_name} {db_customer.second_name} {db_customer.last_name}
 Телефон: {db_customer.phone_number}
+Email: {db_customer.email}
+
+Товары:
+```{table_variations_in_order}```
+Итого: {order_sum} руб.
+
+Тип доставки: {db_delivery_type.name}
+"""
+        message_to_customer = f"""
+Оформлен заказ №{response_model['id']} от {order_date}
+
+Клиент:
+ФИО: {db_customer.first_name} {db_customer.second_name} {db_customer.last_name}
+Телефон: {db_customer.phone_number}
+Email: {db_customer.email}
 
 Товары:
 ```{table_variations_in_order}```
@@ -175,5 +189,6 @@ class CreateOrderEndpoint(BaseEndpoint):
 """
         await send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
         await send_email(to_address=[os.getenv("email_to")], subject="Новый заказ на сайте", text=message)
+        await send_email(to_address=[db_customer.email], subject="Данные по заказу Vinterr", text=message_to_customer)
 
         return await self.make_response_json(body=response_model, status=201)

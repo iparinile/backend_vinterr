@@ -55,4 +55,6 @@ class GetAllGoodsEndpoint(BaseEndpoint):
             for color in good['colors']:
                 color['sizes'] = [size for size in color['sizes'].values()]
 
+        session.close_session()
+
         return await self.make_response_json(status=200, body=response_body)

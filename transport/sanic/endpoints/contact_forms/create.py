@@ -6,6 +6,7 @@ from sanic.response import BaseHTTPResponse
 
 from api.request.create_contact_form import RequestCreateContactFormDto
 from api.response.contact_form import ResponseCreateContactFormDto
+from db.database import DBSession
 from db.exceptions import DBDataException, DBIntegrityException
 from db.queries.contact_forms import create_contact_forms
 from helpers.email.sending_email import send_email
@@ -19,7 +20,7 @@ load_dotenv()
 
 class CreateContactFormEndpoint(BaseEndpoint):
 
-    async def method_post(self, request: Request, body: dict, session, *args, **kwargs) -> BaseHTTPResponse:
+    async def method_post(self, request: Request, body: dict, session: DBSession, *args, **kwargs) -> BaseHTTPResponse:
         request_model = RequestCreateContactFormDto(body)
 
         db_contact_forms = create_contact_forms(session, request_model)
@@ -101,9 +102,11 @@ center;border-radius:3px 3px 0 0;background-color:#FF9F00;margin:0;padding:20px;
 </html>
 """
 
-        await send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
-        await send_email(to_address=[os.getenv("email_to")], subject="Новое сообщение на сайте", text=message)
+        # await send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
+        # await send_email(to_address=[os.getenv("email_to")], subject="Новое сообщение на сайте", text=message)
 
         response_model = ResponseCreateContactFormDto(db_contact_forms).dump()
+
+        session.close_session()
 
         return await self.make_response_json(body=response_model, status=201)

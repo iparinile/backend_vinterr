@@ -15,6 +15,7 @@ class RequestCreateOrderDtoSchema(Schema):
     second_name = fields.Str(required=True)
     last_name = fields.Str(required=True)
     phone_number = fields.Str(required=True)
+    email = fields.Str(required=True)
     # Order info
     status_id = fields.Int(required=True)
     delivery_type_id = fields.Int(required=True)
