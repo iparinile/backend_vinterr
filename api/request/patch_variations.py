@@ -3,7 +3,7 @@ from marshmallow import Schema, fields
 from api.base import RequestDto
 
 
-class RequestPatchColorDtoSchema(Schema):
+class RequestPatchVariationDtoSchema(Schema):
     good_id = fields.Int()
     name = fields.Str()
     color_id = fields.Int()
@@ -17,14 +17,14 @@ class RequestPatchColorDtoSchema(Schema):
     is_new = fields.Bool()
 
 
-class RequestPatchColorDto(RequestDto, RequestPatchColorDtoSchema):
-    __schema__ = RequestPatchColorDtoSchema
+class RequestPatchVariationDto(RequestDto, RequestPatchVariationDtoSchema):
+    __schema__ = RequestPatchVariationDtoSchema
     fields: list
 
     def __init__(self, *args, **kwargs):
         self.fields = []
-        super(RequestPatchColorDto, self).__init__(*args, **kwargs)
+        super(RequestPatchVariationDto, self).__init__(*args, **kwargs)
 
     def set(self, key, value):
         self.fields.append(key)
-        super(RequestPatchColorDto, self).set(key, value)
+        super(RequestPatchVariationDto, self).set(key, value)

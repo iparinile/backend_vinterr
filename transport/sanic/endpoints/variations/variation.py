@@ -1,40 +1,41 @@
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
-from api.response.color import ResponseColorDto
-from api.response.directory_item import ResponseSizeDto
-from api.response.image import ResponseImageDto
+from api.request.patch_variations import RequestPatchVariationDto
 from api.response.variation import ResponseVariationDto
 from db.database import DBSession
-from db.exceptions import DBVariationNotExistsException
+from db.exceptions import DBVariationNotExistsException, DBDataException, DBIntegrityException
 from db.queries import variations as variations_queries
-from db.queries import images as images_queries
+from helpers.psycopg2_exceptions.get_details import get_details_psycopg2_exception
 from transport.sanic.endpoints import BaseEndpoint
-from transport.sanic.exceptions import SanicVariationNotFound
+from transport.sanic.exceptions import SanicVariationNotFound, SanicDBException, SanicDBUniqueFieldException
 
 
 class VariationEndpoint(BaseEndpoint):
-    async def method_get(self, request: Request, body: dict, session: DBSession, variation_id: int,
-                         *args, **kwargs) -> BaseHTTPResponse:
+    async def method_patch(self, request: Request, body: dict, session: DBSession, variation_id: int,
+                           *args, **kwargs) -> BaseHTTPResponse:
+
+        request_model = RequestPatchVariationDto(body)
 
         try:
-            record = variations_queries.get_variations_by_id_with_full_info(session, variation_id)
+            variation = variations_queries.get_variations_by_id(session, variation_id)
         except DBVariationNotExistsException:
             raise SanicVariationNotFound('Variation not found')
 
-        db_variation, db_color, db_size = record
-        valid_variation = ResponseVariationDto(db_variation).dump()
-        valid_color = ResponseColorDto(db_color).dump()
-        valid_size = ResponseSizeDto(db_size).dump()
+        variation = variations_queries.patch_variation(variation, request_model)
 
-        valid_variation['size_name'] = valid_size['name']
-        valid_variation['color'] = valid_color
+        try:
+            session.commit_session()
+        except DBDataException as e:
+            raise SanicDBException(str(e))
+        except DBIntegrityException as e:
+            exception_code, exception_info = get_details_psycopg2_exception(e)
+            if exception_code in ['23503', '23505']:
+                raise SanicDBUniqueFieldException(exception_info)
+            else:
+                raise SanicDBException(str(e))
 
-        images = images_queries.get_images_for_variation(session, valid_variation['id'])
-        if len(images) > 0:
-            response_image = ResponseImageDto(images, many=True)
-            valid_variation['images'] = response_image.dump()
-        else:
-            valid_variation['images'] = []
+        response_model = ResponseVariationDto(variation)
 
-        return await self.make_response_json(body=valid_variation, status=200)
+        session.close_session()
+        return await self.make_response_json(body=response_model.dump(), status=200)

@@ -1,6 +1,7 @@
 from typing import List
 
 from api.request.create_variation import RequestCreateVariationDto
+from api.request.patch_variations import RequestPatchVariationDto
 from db.database import DBSession
 from db.exceptions import DBVariationsForGoodNotExistsException, DBVariationNotExistsException, DBVariationNegativeRest
 from db.models import DBVariations
@@ -63,3 +64,11 @@ def buying_variations(db_variation: DBVariations, amount: int) -> DBVariations:
 
     db_variation.amount = variation_rest
     return db_variation
+
+
+def patch_variation(variation: DBVariations, patch_fields_variation: RequestPatchVariationDto) -> DBVariations:
+    for attr in patch_fields_variation.fields:
+        if hasattr(patch_fields_variation, attr):
+            value = getattr(patch_fields_variation, attr)
+            setattr(variation, attr, value)
+    return variation
