@@ -21,8 +21,8 @@ class ResponseOrderDtoSchema(Schema):
     region = fields.Str(required=True)
     city = fields.Str(required=True)
     street = fields.Str(required=True)
-    house_number = fields.Int(required=True)
-    apartment = fields.Int(required=True)
+    house_number = fields.Str(required=True)
+    apartment = fields.Int(missing=None)
     other_info = fields.Str(missing=None)
 
 

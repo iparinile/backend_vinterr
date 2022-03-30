@@ -13,7 +13,7 @@ class RequestCreateOrderDtoSchema(Schema):
     # Customer info
     first_name = fields.Str(required=True)
     second_name = fields.Str(required=True)
-    last_name = fields.Str(required=True)
+    last_name = fields.Str(missing=None)
     phone_number = fields.Str(required=True)
     email = fields.Str(required=True)
     # Order info
@@ -23,8 +23,8 @@ class RequestCreateOrderDtoSchema(Schema):
     region = fields.Str(required=True)
     city = fields.Str(required=True)
     street = fields.Str(required=True)
-    house_number = fields.Int(required=True)
-    apartment = fields.Int(required=True)
+    house_number = fields.Str(required=True)
+    apartment = fields.Int(missing=None)
     other_info = fields.Str(missing=None)
 
     variations = fields.List(fields.Nested(VariationsInOrderDtoSchema), required=True)
