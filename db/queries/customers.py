@@ -56,12 +56,12 @@ def create_unregistered_customer(session: DBSession, body_request: RequestCreate
         phone_number=body_request.phone_number,
         email=body_request.email
     )
-    db_customer = session.get_customer_by_phone_number(new_customer.phone_number)
-    if db_customer is not None:
-        return db_customer
-    db_customer = session.get_customer_by_email(new_customer.email)
-    if db_customer is not None:
-        return db_customer
+    # db_customer = session.get_customer_by_phone_number(new_customer.phone_number)
+    # if db_customer is not None:
+    #     return db_customer
+    # db_customer = session.get_customer_by_email(new_customer.email)
+    # if db_customer is not None:
+    #     return db_customer
 
     session.add_model(new_customer)
 
