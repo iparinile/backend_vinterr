@@ -7,6 +7,7 @@ from sanic.response import BaseHTTPResponse
 
 from api.request.create_order import RequestCreateOrderDto
 from api.response.order import ResponseOrderDto, VariationInOrderDto
+from db.database import DBSession
 from db.queries import cities as cities_queries
 from db.queries import customers as customers_queries
 from db.queries import customer_addresses as customer_addresses_queries
@@ -31,7 +32,7 @@ load_dotenv()
 
 class CreateOrderEndpoint(BaseEndpoint):
 
-    async def method_post(self, request: Request, body: dict, session, *args, **kwargs) -> BaseHTTPResponse:
+    async def method_post(self, request: Request, body: dict, session: DBSession, *args, **kwargs) -> BaseHTTPResponse:
         request_model = RequestCreateOrderDto(body)
 
         customer_is_registered = True
@@ -190,5 +191,7 @@ Email: {db_customer.email}
         await send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
         await send_email(to_address=[os.getenv("email_to")], subject="Новый заказ на сайте", text=message)
         await send_email(to_address=[db_customer.email], subject="Данные по заказу Vinterr", text=message_to_customer)
+
+        session.close_session()
 
         return await self.make_response_json(body=response_model, status=201)
