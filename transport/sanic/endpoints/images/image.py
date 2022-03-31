@@ -8,7 +8,7 @@ from transport.sanic.endpoints import BaseEndpoint
 
 
 class ImageEndpoint(BaseEndpoint):
-    async def method_get(self, request: Request, body: dict, session: DBSession, img_folder: str, img_name: str,
+    async def method_get(self, request: Request, body: dict, session: DBSession, img_path: str,
                          *args, **kwargs) -> BaseHTTPResponse:
-        image_url = f"{os.getcwd()}/src/img/{img_folder}/{img_name}"
+        image_url = f"{os.getcwd()}/src/img/{img_path}"
         return await self.make_response_file(file_url=image_url)
