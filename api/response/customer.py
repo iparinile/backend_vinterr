@@ -7,7 +7,7 @@ from api.base import ResponseDto
 
 class ResponseCustomerDtoSchema(Schema):
     id = fields.Int(required=True)
-    login = fields.Str(required=True)
+    login = fields.Str(missing=None)
     first_name = fields.Str(required=True)
     second_name = fields.Str(required=True)
     last_name = fields.Str(required=True)
