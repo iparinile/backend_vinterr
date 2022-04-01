@@ -39,6 +39,7 @@ from .variations.get_variation import GetVariationEndpoint
 from .variations.variation import VariationEndpoint
 
 from .images.image import ImageEndpoint
+from .images.create import CreateImageEndpoint
 
 from .orders.create import CreateOrderEndpoint
 from .orders.get_all import GetAllOrdersEndpoint
