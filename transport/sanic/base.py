@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Iterable
+from typing import Iterable, Union
 
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse, json, file
@@ -48,7 +48,7 @@ class SanicEndpoint:
 
     @staticmethod
     async def make_response_json(
-            body: dict = None, status: int = 200, message: str = None, error_code: int = None
+            body: Union[dict, list] = None, status: int = 200, message: str = None, error_code: int = None
     ) -> BaseHTTPResponse:
 
         if body is None:

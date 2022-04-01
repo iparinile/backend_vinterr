@@ -153,3 +153,12 @@ Delivery_types Exceptions
 
 class SanicDeliveryTypeConflictException(SanicException):
     status_code = 409
+
+
+'''
+Delivery_types Exceptions
+'''
+
+
+class SanicOrderNotFound(SanicException):
+    status_code = 404

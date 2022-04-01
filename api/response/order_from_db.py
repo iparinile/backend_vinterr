@@ -9,6 +9,9 @@ class ResponseOrderDBDtoSchema(Schema):
     id = fields.Int(required=True)
     is_payed = fields.Bool(required=True)
     created_at = fields.DateTime(required=True)
+    customer_id = fields.Int(required=True)
+    status_id = fields.Int(required=True)
+    delivery_type_id = fields.Int(required=True)
 
     @pre_load
     @post_load

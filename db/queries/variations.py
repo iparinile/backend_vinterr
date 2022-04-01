@@ -48,12 +48,12 @@ def get_variations_by_id(session: DBSession, variation_id: int) -> DBVariations:
 
 
 def get_variations_by_id_with_full_info(session: DBSession, variation_id: int) -> DBVariations:
-    record = session.get_variation_by_id_with_full_info(variation_id)
+    variation = session.get_variation_by_id_with_full_info(variation_id)
 
-    if record is None:
+    if variation is None:
         raise DBVariationNotExistsException
 
-    return record
+    return variation
 
 
 def buying_variations(db_variation: DBVariations, amount: int) -> DBVariations:

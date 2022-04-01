@@ -146,3 +146,12 @@ class DBDeliveryTypeNotExistsException(Exception):
 
 class DBDeliveryTypeExistsException(Exception):
     pass
+
+
+'''
+Orders Exceptions
+'''
+
+
+class DBOrderNotExistsException(Exception):
+    pass

@@ -212,10 +212,10 @@ class DBSession:
             raise DBDataException(e)
 
     '''
-    requests to DBColors
+    requests to DBOrders
     '''
 
-    def get_all_orders(self) -> List['DBOrders']:
+    def order_query(self) -> Query:
         query = self.query(DBOrders, DBCustomers, DBStatuses, DBDeliveryTypes, DBVariationInOrders, DBVariations,
                            DBColors, DBSizes, DBGoods, DBCategories)
         query = query.outerjoin(DBCustomers, DBCustomers.id == DBOrders.customer_id)
@@ -227,7 +227,19 @@ class DBSession:
         query = query.outerjoin(DBSizes, DBSizes.id == DBVariations.size_id)
         query = query.outerjoin(DBGoods, DBGoods.id == DBVariations.good_id)
         query = query.outerjoin(DBCategories, DBCategories.id == DBGoods.category_id)
+        return query
+
+    def get_all_orders(self) -> List['DBOrders']:
+        query = self.order_query()
         return query.all()
+
+    def get_order(self, order_id) -> DBOrders:
+        query = self.order_query()
+        query = query.filter(DBOrders.id == order_id)
+        return query.first()
+
+    def get_order_by_id(self, order_id: int) -> DBOrders:
+        return self.query(DBOrders).filter(DBOrders.id == order_id).all()
 
     '''
     requests to DBDeliveryTypes

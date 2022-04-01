@@ -65,6 +65,8 @@ def get_routes(config: ApplicationConfig, context: Context) -> Tuple:
         endpoints.CreateOrderEndpoint(config=config, context=context, uri='/orders', methods=['POST', 'OPTIONS']),
         endpoints.GetAllOrdersEndpoint(config=config, context=context, uri='/orders/all', methods=['GET'],
                                        auth_required=True, is_administrator_access=True),
+        endpoints.OrderEndpoint(config=config, context=context, uri='/orders/<order_id:int>', methods=['GET', 'POST'],
+                                auth_required=True, is_administrator_access=True),
         endpoints.CreateContactFormEndpoint(config=config, context=context, uri='/contact_forms',
                                             methods=['POST', 'OPTIONS']),
         endpoints.CreateDeliveryTypeEndpoint(config=config, context=context, uri='/delivery_types',
