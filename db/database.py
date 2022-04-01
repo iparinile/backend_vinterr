@@ -218,6 +218,9 @@ class DBSession:
     def get_all_orders(self) -> List['DBOrders']:
         query = self.query(DBOrders, DBCustomers, DBStatuses, DBDeliveryTypes, DBVariationInOrders, DBVariations,
                            DBColors, DBSizes, DBGoods, DBCategories)
+        query = query.outerjoin(DBCustomers, DBCustomers.id == DBOrders.customer_id)
+        query = query.outerjoin(DBStatuses, DBStatuses.id == DBOrders.status_id)
+        query = query.outerjoin(DBDeliveryTypes, DBDeliveryTypes.id == DBOrders.delivery_type_id)
         query = query.outerjoin(DBVariationInOrders, DBVariationInOrders.order_id == DBOrders.id)
         query = query.outerjoin(DBVariations, DBVariations.id == DBVariationInOrders.variation_id)
         query = query.outerjoin(DBColors, DBColors.id == DBVariations.color_id)
