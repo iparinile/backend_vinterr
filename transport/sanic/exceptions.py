@@ -156,9 +156,13 @@ class SanicDeliveryTypeConflictException(SanicException):
 
 
 '''
-Delivery_types Exceptions
+Orders Exceptions
 '''
 
 
 class SanicOrderNotFound(SanicException):
     status_code = 404
+
+
+class SanicSberbankIdConflictException(SanicException):
+    status_code = 409

@@ -3,7 +3,7 @@ from typing import List
 from api.request.create_order import RequestCreateOrderDto
 from api.request.patch_order import RequestPatchOrderDto
 from db.database import DBSession
-from db.exceptions import DBOrderNotExistsException
+from db.exceptions import DBOrderNotExistsException, DBOrderExistsException
 from db.models import DBOrders, DBCustomers
 
 
@@ -42,4 +42,14 @@ def patch_order(order: DBOrders, patch_fields_order: RequestPatchOrderDto) -> DB
         if hasattr(patch_fields_order, attr):
             value = getattr(patch_fields_order, attr)
             setattr(order, attr, value)
+    return order
+
+
+def patch_sberbank_id(session: DBSession, order: DBOrders, sberbank_id: int) -> DBOrders:
+    db_order = session.get_order_by_sberbank_id(sberbank_id)
+    if db_order is not None:
+        raise DBOrderExistsException
+
+    order.sberbank_id = sberbank_id
+
     return order

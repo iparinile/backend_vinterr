@@ -241,6 +241,9 @@ class DBSession:
     def get_order_by_id(self, order_id: int) -> DBOrders:
         return self.query(DBOrders).filter(DBOrders.id == order_id).all()
 
+    def get_order_by_sberbank_id(self, sberbank_id: int) -> DBOrders:
+        return self.query(DBOrders).filter(DBOrders.sberbank_id == sberbank_id).first()
+
     '''
     requests to DBDeliveryTypes
     '''

@@ -155,3 +155,7 @@ Orders Exceptions
 
 class DBOrderNotExistsException(Exception):
     pass
+
+
+class DBOrderExistsException(Exception):
+    pass

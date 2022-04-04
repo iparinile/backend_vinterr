@@ -12,6 +12,7 @@ class ResponseOrderDBDtoSchema(Schema):
     customer_id = fields.Int(required=True)
     status_id = fields.Int(required=True)
     delivery_type_id = fields.Int(required=True)
+    sberbank_id = fields.Str(missing=None)
 
     @pre_load
     @post_load
