@@ -1,4 +1,5 @@
 import os
+import uuid
 
 import requests
 from dotenv import load_dotenv
@@ -15,10 +16,10 @@ load_dotenv()
 
 
 class GetStatusPaymentsEndpoint(BaseEndpoint):
-    async def method_get(self, request: Request, body: dict, session: DBSession, order_id: int,
+    async def method_get(self, request: Request, body: dict, session: DBSession, sberbank_order_id: uuid,
                          *args, **kwargs) -> BaseHTTPResponse:
         try:
-            db_order = orders_queries.get_order(session, order_id)[0]
+            db_order = orders_queries.get_order_by_sberbank_id(session, str(sberbank_order_id))[0]
         except DBOrderNotExistsException:
             raise SanicOrderNotFound('Order not found')
 

@@ -25,6 +25,8 @@ class RegisterPaymentsEndpoint(BaseEndpoint):
         except DBOrderNotExistsException:
             raise SanicOrderNotFound('Order not found')
 
+        request_model.amount = request_model.amount * 100  # Без учета копеек
+
         sberbank_username = os.getenv("sber_username")
         sberbank_password = os.getenv("sber_password")
         register_payment_sberbank_url = "https://3dsec.sberbank.ru/payment/rest/register.do?"

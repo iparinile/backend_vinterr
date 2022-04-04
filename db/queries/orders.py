@@ -37,6 +37,15 @@ def get_order(session: DBSession, order_id: int) -> tuple:
     return order
 
 
+def get_order_by_sberbank_id(session: DBSession, sberbank_order_id: str) -> tuple:
+    order = session.get_order_by_sberbank_id(sberbank_order_id)
+
+    if order is None:
+        raise DBOrderNotExistsException
+
+    return order
+
+
 def patch_order(order: DBOrders, patch_fields_order: RequestPatchOrderDto) -> DBOrders:
     for attr in patch_fields_order.fields:
         if hasattr(patch_fields_order, attr):
