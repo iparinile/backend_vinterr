@@ -8,15 +8,15 @@ from sanic.response import BaseHTTPResponse
 from api.request.register_payment import RequestRegisterPaymentDto
 from api.response.register_payment import ResponseRegisterPaymentDto
 from db.database import DBSession
-from db.exceptions import DBOrderNotExistsException, DBOrderExistsException
+from db.exceptions import DBOrderNotExistsException, DBOrderExistsException, DBDataException, DBIntegrityException
 from db.queries import orders as orders_queries
 from transport.sanic.endpoints import BaseEndpoint
-from transport.sanic.exceptions import SanicOrderNotFound, SanicSberbankIdConflictException
+from transport.sanic.exceptions import SanicOrderNotFound, SanicSberbankIdConflictException, SanicDBException
 
 load_dotenv()
 
 
-class RegisterPaymentEndpoint(BaseEndpoint):
+class RegisterPaymentsEndpoint(BaseEndpoint):
     async def method_post(self, request: Request, body: dict, session: DBSession, *args, **kwargs) -> BaseHTTPResponse:
         request_model = RequestRegisterPaymentDto(body)
 
@@ -39,6 +39,11 @@ class RegisterPaymentEndpoint(BaseEndpoint):
             db_order = orders_queries.patch_sberbank_id(session, db_order, sberbank_response_body["orderId"])
         except DBOrderExistsException:
             raise SanicSberbankIdConflictException(message="Sberbank_id already exists")
+
+        try:
+            session.commit_session()
+        except (DBDataException, DBIntegrityException) as e:
+            raise SanicDBException(str(e))
 
         response_body = {
             "order_id": db_order.id,
