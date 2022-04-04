@@ -48,15 +48,16 @@ class SanicEndpoint:
 
     @staticmethod
     async def make_response_json(
-            body: Union[dict, list] = None, status: int = 200, message: str = None, error_code: int = None
+            headers: dict = None, body: Union[dict, list] = None, status: int = 200, message: str = None,
+            error_code: int = None
     ) -> BaseHTTPResponse:
 
-        if body is None:
-            body = {
-                'message': message or HTTPStatus(status).phrase,
-                'error_code': error_code or status
-            }
-        return json(body=body, status=status)
+        # if body is None:
+        #     body = {
+        #         'message': message or HTTPStatus(status).phrase,
+        #         'error_code': error_code or status
+        #     }
+        return json(headers=headers, body=body, status=status)
 
     @staticmethod
     async def make_response_file(file_url: str) -> BaseHTTPResponse:
@@ -121,3 +122,6 @@ class SanicEndpoint:
 
     async def method_delete(self, request: Request, body: dict, *args, **kwargs) -> BaseHTTPResponse:
         return await self.method_not_impl(method='DELETE')
+
+    async def method_options(self, request: Request, body: dict, *args, **kwargs) -> BaseHTTPResponse:
+        return await self.method_not_impl(method='OPTIONS')

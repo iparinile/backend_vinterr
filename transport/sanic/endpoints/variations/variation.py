@@ -39,3 +39,8 @@ class VariationEndpoint(BaseEndpoint):
 
         session.close_session()
         return await self.make_response_json(body=response_model.dump(), status=200)
+
+    async def method_options(self, request: Request, body: dict, *args, **kwargs) -> BaseHTTPResponse:
+
+        headers_response = {"Allow": "PATCH,OPTIONS"}
+        return await self.make_response_json(headers=headers_response, status=200)
