@@ -28,7 +28,7 @@ def get_all_orders(session: DBSession) -> List['DBOrders']:
     return records
 
 
-def get_order(session: DBSession, order_id: int) -> DBOrders:
+def get_order(session: DBSession, order_id: int) -> tuple:
     order = session.get_order(order_id)
 
     if order is None:

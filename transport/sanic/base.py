@@ -52,11 +52,11 @@ class SanicEndpoint:
             error_code: int = None
     ) -> BaseHTTPResponse:
 
-        # if body is None:
-        #     body = {
-        #         'message': message or HTTPStatus(status).phrase,
-        #         'error_code': error_code or status
-        #     }
+        if body is None:
+            body = {
+                'message': message or HTTPStatus(status).phrase,
+                'error_code': error_code or status
+            }
         return json(headers=headers, body=body, status=status)
 
     @staticmethod

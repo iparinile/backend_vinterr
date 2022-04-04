@@ -49,3 +49,5 @@ from .contact_forms.create import CreateContactFormEndpoint
 
 from .delivery_types.create import CreateDeliveryTypeEndpoint
 from .delivery_types.get_all import GetAllDeliveryTypesEndpoint
+
+from .payments.register import RegisterPaymentEndpoint
