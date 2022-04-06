@@ -54,3 +54,4 @@ from .payments.register import RegisterPaymentsEndpoint
 from .payments.get_status import GetStatusPaymentsEndpoint
 
 from .telegram_users.create import CreateTelegramUserEndpoint
+from .telegram_users.telegram_user import TelegramUserEndpoint

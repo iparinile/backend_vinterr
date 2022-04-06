@@ -173,9 +173,13 @@ class SanicSberbankIdConflictException(SanicException):
 
 
 '''
-Customers Exceptions
+TelegramUsers Exceptions
 '''
 
 
 class SanicTelegramUserConflictException(SanicException):
     status_code = 409
+
+
+class SanicTelegramUserNotFound(SanicException):
+    status_code = 404

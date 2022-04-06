@@ -84,5 +84,7 @@ def get_routes(config: ApplicationConfig, context: Context) -> Tuple:
         endpoints.GetAllDeliveryTypesEndpoint(config=config, context=context, uri='/delivery_types/all',
                                               methods=['GET']),
         endpoints.CreateTelegramUserEndpoint(config=config, context=context, uri='/telegram_users', methods=['POST'],
-                                             telegram_password_required=True)
+                                             telegram_password_required=True),
+        endpoints.TelegramUserEndpoint(config=config, context=context, uri='/telegram_users/<telegram_user_id:int>',
+                                       methods=['GET', 'PATCH'], telegram_password_required=True)
     )

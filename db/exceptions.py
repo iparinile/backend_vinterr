@@ -168,3 +168,7 @@ TelegramUsers Exceptions
 
 class DBTelegramUserExistsException(Exception):
     pass
+
+
+class DBTelegramUserNotExistsException(Exception):
+    pass
