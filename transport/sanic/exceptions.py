@@ -29,6 +29,10 @@ class SanicDBUniqueFieldException(SanicException):
     status_code = 409
 
 
+class SanicRegisterPaymentException(SanicException):
+    status_code = 409
+
+
 '''
 Users Exceptions
 '''
@@ -165,4 +169,13 @@ class SanicOrderNotFound(SanicException):
 
 
 class SanicSberbankIdConflictException(SanicException):
+    status_code = 409
+
+
+'''
+Customers Exceptions
+'''
+
+
+class SanicTelegramUserConflictException(SanicException):
     status_code = 409

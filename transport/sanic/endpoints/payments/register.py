@@ -11,7 +11,8 @@ from db.database import DBSession
 from db.exceptions import DBOrderNotExistsException, DBOrderExistsException, DBDataException, DBIntegrityException
 from db.queries import orders as orders_queries
 from transport.sanic.endpoints import BaseEndpoint
-from transport.sanic.exceptions import SanicOrderNotFound, SanicSberbankIdConflictException, SanicDBException
+from transport.sanic.exceptions import SanicOrderNotFound, SanicSberbankIdConflictException, SanicDBException, \
+    SanicRegisterPaymentException
 
 load_dotenv()
 
@@ -36,6 +37,9 @@ class RegisterPaymentsEndpoint(BaseEndpoint):
 
         sberbank_response = requests.get(register_payment_sberbank_url)
         sberbank_response_body = sberbank_response.json()
+
+        if "errorCode" in sberbank_response_body.keys():
+            raise SanicRegisterPaymentException(sberbank_response_body['errorMessage'])
 
         try:
             db_order = orders_queries.patch_sberbank_id(session, db_order, sberbank_response_body["orderId"])

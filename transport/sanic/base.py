@@ -1,3 +1,4 @@
+import os
 from http import HTTPStatus
 from typing import Iterable, Union
 
@@ -26,6 +27,9 @@ class SanicEndpoint:
                 return await self.make_response_json(status=e.status_code)
             else:
                 kwargs.update(token)
+        elif self.telegram_password_required:
+            if not self.is_telegram_password_correct(request):
+                return await self.make_response_json(status=401)
         return await self.handler(request, *args, **kwargs)
 
     def __init__(
@@ -35,6 +39,7 @@ class SanicEndpoint:
             uri: str,
             methods: Iterable,
             auth_required: bool = False,
+            telegram_password_required: bool = False,
             is_administrator_access: bool = False,
             *args, **kwargs
     ):
@@ -43,6 +48,7 @@ class SanicEndpoint:
         self.methods = methods
         self.context = context
         self.auth_required = auth_required
+        self.telegram_password_required = telegram_password_required
         self.is_administrator_access = is_administrator_access
         self.__name__ = self.__class__.__name__
 
@@ -84,6 +90,14 @@ class SanicEndpoint:
             return read_token(token, role)
         except ReadTokenException as e:
             raise SanicAuthException(str(e))
+
+    @staticmethod
+    def is_telegram_password_correct(request: Request) -> bool:
+        password = request.headers.get('Authorization')
+        if password == os.getenv("telegram_secret_password"):
+            return True
+        else:
+            return False
 
     async def handler(self, request: Request, *args, **kwargs) -> BaseHTTPResponse:
         body = {}

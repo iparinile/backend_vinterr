@@ -159,3 +159,12 @@ class DBOrderNotExistsException(Exception):
 
 class DBOrderExistsException(Exception):
     pass
+
+
+'''
+TelegramUsers Exceptions
+'''
+
+
+class DBTelegramUserExistsException(Exception):
+    pass

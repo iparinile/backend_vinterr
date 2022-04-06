@@ -52,3 +52,5 @@ from .delivery_types.get_all import GetAllDeliveryTypesEndpoint
 
 from .payments.register import RegisterPaymentsEndpoint
 from .payments.get_status import GetStatusPaymentsEndpoint
+
+from .telegram_users.create import CreateTelegramUserEndpoint
