@@ -20,8 +20,8 @@ def create_category(session: DBSession, category: RequestCreateCategoryDto) -> D
     return new_category
 
 
-def get_all_categories(session: DBSession) -> List['DBCategories']:
-    categories = session.get_all_categories()
+def get_all_categories(session: DBSession, params: dict = None) -> List['DBCategories']:
+    categories = session.get_all_categories(params)
     return categories
 
 

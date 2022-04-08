@@ -23,8 +23,8 @@ def create_good(session: DBSession, good: RequestCreateGoodDto) -> DBGoods:
     return new_good
 
 
-def get_all_goods(session: DBSession) -> List['DBGoods']:
-    goods = session.get_all_goods()
+def get_all_goods(session: DBSession, request_params: dict) -> List['DBGoods']:
+    goods = session.get_all_goods(request_params)
     return goods
 
 

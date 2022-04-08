@@ -33,6 +33,10 @@ class SanicRegisterPaymentException(SanicException):
     status_code = 409
 
 
+class SanicInvalidRequestParameterException(SanicException):
+    status_code = 400
+
+
 '''
 Users Exceptions
 '''

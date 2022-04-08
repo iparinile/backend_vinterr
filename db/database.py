@@ -74,8 +74,11 @@ class DBSession:
     def get_category_by_name(self, category_name: str) -> DBCategories:
         return self.query(DBCategories).filter(DBCategories.name == category_name).first()
 
-    def get_all_categories(self) -> List['DBCategories']:
-        return self.query(DBCategories).all()
+    def get_all_categories(self, params: dict) -> List['DBCategories']:
+        query = self.query(DBCategories)
+        for param_name in params.keys():
+            query = query.filter(getattr(DBCategories, param_name) == params[param_name][0])
+        return query.all()
 
     def get_category_by_id(self, category_id: int) -> DBCategories:
         return self.query(DBCategories).filter(DBCategories.id == category_id).first()
@@ -138,12 +141,14 @@ class DBSession:
     requests to DBGoods
     '''
 
-    def get_all_goods(self) -> List['DBGoods']:
+    def get_all_goods(self, request_params: dict) -> List['DBGoods']:
         query = self.query(DBGoods, DBVariations, DBColors, DBSizes, DBImages)
         query = query.outerjoin(DBVariations, DBVariations.good_id == DBGoods.id)
         query = query.outerjoin(DBColors, DBColors.id == DBVariations.color_id)
         query = query.outerjoin(DBSizes, DBSizes.id == DBVariations.size_id)
         query = query.outerjoin(DBImages, DBImages.variation_id == DBVariations.id)
+        if "category_id" in request_params.keys():
+            query = query.filter(DBGoods.category_id == request_params["category_id"][0])
         return query.all()
 
     def get_good_by_id(self, good_id: int) -> DBGoods:

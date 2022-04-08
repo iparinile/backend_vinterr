@@ -1,5 +1,6 @@
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse
+from transliterate import translit
 
 from api.response.color import ResponseColorDto
 from api.response.directory_item import ResponseSizeDto
@@ -9,11 +10,19 @@ from api.response.variation import ResponseVariationDto
 from db.database import DBSession
 from db.queries import goods as goods_queries
 from transport.sanic.endpoints import BaseEndpoint
+from transport.sanic.exceptions import SanicInvalidRequestParameterException
 
 
 class GetAllGoodsEndpoint(BaseEndpoint):
     async def method_get(self, request: Request, body: dict, session: DBSession, *args, **kwargs) -> BaseHTTPResponse:
-        records = goods_queries.get_all_goods(session)
+
+        valid_request_params = ["category_id"]
+        request_params = request.args
+        for param_name in request_params.keys():
+            if param_name not in valid_request_params:
+                raise SanicInvalidRequestParameterException
+
+        records = goods_queries.get_all_goods(session, request_params)
 
         response_body = dict()
         for db_goods, db_variations, db_colors, db_sizes, db_images in records:
