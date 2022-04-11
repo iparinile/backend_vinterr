@@ -10,6 +10,8 @@ class RequestPatchOrderDtoSchema(Schema):
     status_id = fields.Int()
     delivery_type_id = fields.Int()
     sberbank_id = fields.Str()
+    delivery_address = fields.Str()
+    delivery_cost = fields.Float()
 
 
 class RequestPatchOrderDto(RequestDto, RequestPatchOrderDtoSchema):

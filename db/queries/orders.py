@@ -15,7 +15,9 @@ def create_order(
     new_order = DBOrders(
         customer_id=customer.id,
         status_id=body_request.status_id,
-        delivery_type_id=body_request.delivery_type_id
+        delivery_type_id=body_request.delivery_type_id,
+        delivery_address=body_request.delivery_address,
+        delivery_cost=body_request.delivery_cost
     )
 
     session.add_model(new_order)

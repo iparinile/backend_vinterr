@@ -23,6 +23,8 @@ class ResponseOrderDtoSchema(Schema):
     house_number = fields.Str(required=True)
     apartment = fields.Int(missing=None)
     other_info = fields.Str(missing=None)
+    delivery_address = fields.Str(missing=None)
+    delivery_cost = fields.Float(missing=None)
 
 
 class ResponseOrderDto(ResponseDto, ResponseOrderDtoSchema):
