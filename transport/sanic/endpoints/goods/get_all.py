@@ -16,7 +16,7 @@ from transport.sanic.exceptions import SanicInvalidRequestParameterException
 class GetAllGoodsEndpoint(BaseEndpoint):
     async def method_get(self, request: Request, body: dict, session: DBSession, *args, **kwargs) -> BaseHTTPResponse:
 
-        valid_request_params = ["category_id"]
+        valid_request_params = ["category_id", "color_id", "size_id"]
         request_params = request.args
         for param_name in request_params.keys():
             if param_name not in valid_request_params:

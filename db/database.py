@@ -144,11 +144,16 @@ class DBSession:
     def get_all_goods(self, request_params: dict) -> List['DBGoods']:
         query = self.query(DBGoods, DBVariations, DBColors, DBSizes, DBImages)
         query = query.outerjoin(DBVariations, DBVariations.good_id == DBGoods.id)
+        if "category_id" in request_params.keys():
+            query = query.filter(DBGoods.category_id == request_params["category_id"][0])
+        if "color_id" in request_params.keys():
+            query = query.filter(DBVariations.color_id == request_params["color_id"][0])
+        if "size_id" in request_params.keys():
+            query = query.filter(DBVariations.size_id == request_params["size_id"][0])
         query = query.outerjoin(DBColors, DBColors.id == DBVariations.color_id)
         query = query.outerjoin(DBSizes, DBSizes.id == DBVariations.size_id)
         query = query.outerjoin(DBImages, DBImages.variation_id == DBVariations.id)
-        if "category_id" in request_params.keys():
-            query = query.filter(DBGoods.category_id == request_params["category_id"][0])
+
         return query.all()
 
     def get_good_by_id(self, good_id: int) -> DBGoods:
