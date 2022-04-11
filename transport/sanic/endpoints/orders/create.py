@@ -13,7 +13,6 @@ from db.queries import customers as customers_queries
 from db.queries import customer_addresses as customer_addresses_queries
 from db.queries import delivery_types as delivery_types_queries
 from db.queries import orders as orders_queries
-from db.queries import regions as regions_queries
 from db.queries import streets as streets_queries
 from db.queries import variations as variations_queries
 from db.queries import variation_in_orders as variation_in_orders_queries
@@ -63,7 +62,6 @@ class CreateOrderEndpoint(BaseEndpoint):
             else:
                 raise SanicDBException(str(e))
 
-        db_region = regions_queries.create_region(session, request_model.region)
         db_city = cities_queries.create_city(session, request_model.city)
         db_street = streets_queries.create_city(session, request_model.street)
 
@@ -82,7 +80,6 @@ class CreateOrderEndpoint(BaseEndpoint):
             session,
             body_request=request_model,
             customer=db_customer,
-            region=db_region,
             city=db_city,
             street=db_street
         )
@@ -132,7 +129,6 @@ class CreateOrderEndpoint(BaseEndpoint):
             "is_payed": db_order.is_payed,
             "status_id": db_order.status_id,
             "delivery_type_id": db_order.delivery_type_id,
-            "region": db_region.name,
             "city": db_city.name,
             "street": db_street.name,
             "house_number": db_customer_address.house_number,

@@ -10,7 +10,6 @@ from .images import DBImages
 from .material_lists import DBMaterialLists
 from .materials import DBMaterials
 from .orders import DBOrders
-from .regions import DBRegions
 from .sizes import DBSizes
 from .statuses import DBStatuses
 from .streets import DBStreets

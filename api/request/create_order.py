@@ -20,7 +20,6 @@ class RequestCreateOrderDtoSchema(Schema):
     status_id = fields.Int(required=True)
     delivery_type_id = fields.Int(required=True)
     # Address info
-    region = fields.Str(required=True)
     city = fields.Str(required=True)
     street = fields.Str(required=True)
     house_number = fields.Str(required=True)

@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker, Session, Query
 
 from db.exceptions import DBIntegrityException, DBDataException
 from db.models import BaseModel, DBUsers, DBCustomers, DBMaterials, DBCategories, DBStructures, DBSizes, DBColors, \
-    DBGoods, DBVariations, DBImages, DBRegions, DBCities, DBStreets, DBOrders, DBStatuses, DBDeliveryTypes, \
+    DBGoods, DBVariations, DBImages, DBCities, DBStreets, DBOrders, DBStatuses, DBDeliveryTypes, \
     DBVariationInOrders, DBTelegramUsers
 
 
@@ -191,13 +191,6 @@ class DBSession:
 
     def get_images_by_variation_id(self, variation_id: int) -> List['DBImages']:
         return self.query(DBImages).filter(DBImages.variation_id == variation_id).all()
-
-    '''
-    requests to DBRegions
-    '''
-
-    def get_region_by_name(self, region_name: str) -> DBRegions:
-        return self.query(DBRegions).filter(DBRegions.name == region_name).first()
 
     '''
     requests to DBCities
