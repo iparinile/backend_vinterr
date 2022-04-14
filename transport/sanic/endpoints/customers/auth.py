@@ -2,7 +2,7 @@ from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
 from api.request.auth_customer import RequestAuthCustomerDto
-from api.response.auth import AuthResponseObject, ResponseAuthDto
+from api.response.auth import ResponseAuthDto
 from db.exceptions import DBCustomerNotExistsException
 from db.queries import customers as customers_queries
 from helpers.auth import create_token
@@ -33,8 +33,11 @@ class AuthCustomerEndpoint(BaseEndpoint):
         }
 
         token = create_token(payload)
-        response = AuthResponseObject(token)
+        response_body = {
+            'customer_id': db_customer.id,
+            'Authorization': token
+        }
 
-        response_model = ResponseAuthDto(response)
+        response_model = ResponseAuthDto(response_body, is_input_dict=True)
 
         return await self.make_response_json(body=response_model.dump(), status=200)

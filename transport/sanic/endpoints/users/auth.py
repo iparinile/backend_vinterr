@@ -3,7 +3,7 @@ from sanic.response import BaseHTTPResponse
 
 
 from api.request.auth_user import RequestAuthUserDto
-from api.response.auth import AuthResponseObject, ResponseAuthDto
+from api.response.auth import ResponseAuthDto
 
 from db.exceptions import DBUserNotExistsException
 from db.queries import users as users_queries
@@ -37,8 +37,11 @@ class AuthUserEndpoint(BaseEndpoint):
         }
 
         token = create_token(payload)
-        response = AuthResponseObject(token)
+        response_body = {
+            'user_id': db_user.id,
+            'Authorization': token
+        }
 
-        response_model = ResponseAuthDto(response)
+        response_model = ResponseAuthDto(response_body, is_input_dict=True)
 
         return await self.make_response_json(body=response_model.dump(), status=200)
