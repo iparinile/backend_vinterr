@@ -1,5 +1,6 @@
 from api.request.create_customer import RequestCreateCustomerDtoSchema
 from api.request.create_order import RequestCreateOrderDto
+from api.request.patch_customer import RequestPatchCustomerDto
 from db.database import DBSession
 from db.exceptions import DBCustomerLoginExistsException, DBCustomerEmailExistsException, \
     DBCustomerPhoneNumberExistsException, DBCustomerNotExistsException
@@ -67,9 +68,10 @@ def create_unregistered_customer(session: DBSession, body_request: RequestCreate
 
     return new_customer
 
-# def patch_customer(customer: DBCustomers, patch_fields_customer: RequestPatchUserDto) -> DBCustomers:
-#     for attr in patch_fields_user.fields:
-#         if hasattr(patch_fields_user, attr):
-#             value = getattr(patch_fields_user, attr)
-#             setattr(customer, attr, value)
-#     return customer
+
+def patch_customer(customer: DBCustomers, patch_fields_customer: RequestPatchCustomerDto) -> DBCustomers:
+    for attr in patch_fields_customer.fields:
+        if hasattr(patch_fields_customer, attr):
+            value = getattr(patch_fields_customer, attr)
+            setattr(customer, attr, value)
+    return customer
