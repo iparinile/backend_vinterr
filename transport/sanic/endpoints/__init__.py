@@ -37,6 +37,7 @@ from .variations.create import CreateVariationEndpoint
 from .variations.get_all import GetAllVariationsEndpoint
 from .variations.get_variation import GetVariationEndpoint
 from .variations.variation import VariationEndpoint
+from .variations.update_remains import UpdateRemainsEndpoint
 
 from .images.image import ImageEndpoint
 from .images.create import CreateImageEndpoint

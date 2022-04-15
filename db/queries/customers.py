@@ -66,3 +66,10 @@ def create_unregistered_customer(session: DBSession, body_request: RequestCreate
     session.add_model(new_customer)
 
     return new_customer
+
+# def patch_customer(customer: DBCustomers, patch_fields_customer: RequestPatchUserDto) -> DBCustomers:
+#     for attr in patch_fields_user.fields:
+#         if hasattr(patch_fields_user, attr):
+#             value = getattr(patch_fields_user, attr)
+#             setattr(customer, attr, value)
+#     return customer

@@ -47,6 +47,15 @@ def get_variations_by_id(session: DBSession, variation_id: int) -> DBVariations:
     return db_variation
 
 
+def get_variations_by_one_c_id(session: DBSession, variation_one_cid: str) -> DBVariations:
+    db_variation = session.get_variation_by_1c_id(variation_one_cid)
+
+    if db_variation is None:
+        raise DBVariationNotExistsException
+
+    return db_variation
+
+
 def get_variations_by_id_with_full_info(session: DBSession, variation_id: int) -> DBVariations:
     variation = session.get_variation_by_id_with_full_info(variation_id)
 

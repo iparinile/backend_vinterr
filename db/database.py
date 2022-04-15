@@ -185,6 +185,9 @@ class DBSession:
         query = query.filter(DBVariations.id == variation_id)
         return query.first()
 
+    def get_variation_by_1c_id(self, one_c_id: str) -> DBVariations:
+        return self.query(DBVariations).filter(DBVariations.variation_1c_id == one_c_id)
+
     '''
     requests to DBImages
     '''
