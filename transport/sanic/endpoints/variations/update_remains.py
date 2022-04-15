@@ -44,4 +44,6 @@ class UpdateRemainsEndpoint(BaseEndpoint):
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
+        session.close_session()
+
         return await self.make_response_json(status=200)
