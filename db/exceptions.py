@@ -172,3 +172,16 @@ class DBTelegramUserExistsException(Exception):
 
 class DBTelegramUserNotExistsException(Exception):
     pass
+
+
+'''
+Statuses Exceptions
+'''
+
+
+class DBStatusExistsException(Exception):
+    pass
+
+
+class DBStatusNotExistsException(Exception):
+    pass

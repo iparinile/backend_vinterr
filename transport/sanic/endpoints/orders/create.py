@@ -133,7 +133,10 @@ class CreateOrderEndpoint(BaseEndpoint):
             "street": db_street.name,
             "house_number": db_customer_address.house_number,
             "apartment": db_customer_address.apartment,
-            "other_info": db_customer_address.other_info
+            "other_info": db_customer_address.other_info,
+            "is_cash_payment": db_order.is_cash_payment,
+            "delivery_address": db_order.delivery_address,
+            "delivery_cost": db_order.delivery_cost
         }
 
         response_model = ResponseOrderDto(response_body, is_input_dict=True)

@@ -275,6 +275,9 @@ class DBSession:
     def get_all_statuses(self) -> List['DBStatuses']:
         return self.query(DBStatuses).all()
 
+    def get_status_by_id(self, status_id: int) -> DBStatuses:
+        return self.query(DBStatuses).filter(DBStatuses.id == status_id).first()
+
     '''
     requests to DBTelegramUsers
     '''
