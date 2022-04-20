@@ -174,9 +174,9 @@ Email: {db_customer.email}
 Тип доставки: {db_delivery_type.name}
 Данные по доставке:
 {db_order.delivery_address}
-Стоимость: {db_order.delivery_cost}
+Стоимость: {db_order.delivery_cost} руб.
 
-Итого: {db_order.delivery_cost + order_sum}
+Итого: {db_order.delivery_cost + order_sum} руб.
 Тип оплаты: {"наличными при получении" if db_order.is_cash_payment else "онлайн на сайте"}
 """
         message_to_customer = f"""
