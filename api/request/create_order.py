@@ -27,6 +27,7 @@ class RequestCreateOrderDtoSchema(Schema):
     other_info = fields.Str(missing=None)
     delivery_address = fields.Str(missing=None)
     delivery_cost = fields.Float(missing=0)
+    is_cash_payment = fields.Bool(missing=False)
 
     variations = fields.List(fields.Nested(VariationsInOrderDtoSchema), required=True)
 

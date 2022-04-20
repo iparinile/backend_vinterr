@@ -25,6 +25,7 @@ class ResponseOrderDtoSchema(Schema):
     other_info = fields.Str(missing=None)
     delivery_address = fields.Str(missing=None)
     delivery_cost = fields.Float(missing=None)
+    is_cash_payment = fields.Bool(required=True)
 
 
 class ResponseOrderDto(ResponseDto, ResponseOrderDtoSchema):

@@ -17,3 +17,4 @@ class DBOrders(BaseModel):
     created_at = Column(TIMESTAMP, nullable=False, default=datetime.datetime.utcnow)
     delivery_address = Column(VARCHAR())
     delivery_cost = Column(FLOAT)
+    is_cash_payment = Column(BOOLEAN(), default=False, nullable=False)

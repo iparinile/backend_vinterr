@@ -17,7 +17,8 @@ def create_order(
         status_id=body_request.status_id,
         delivery_type_id=body_request.delivery_type_id,
         delivery_address=body_request.delivery_address,
-        delivery_cost=body_request.delivery_cost
+        delivery_cost=body_request.delivery_cost,
+        is_cash_payment=body_request.is_cash_payment
     )
 
     session.add_model(new_order)
