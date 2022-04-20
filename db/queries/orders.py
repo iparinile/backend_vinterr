@@ -56,7 +56,7 @@ def patch_order(order: DBOrders, patch_fields_order: RequestPatchOrderDto) -> DB
     return order
 
 
-def patch_sberbank_id(session: DBSession, order: DBOrders, sberbank_id: int) -> DBOrders:
+def patch_sberbank_id(session: DBSession, order: DBOrders, sberbank_id: str) -> DBOrders:
     db_order = session.get_order_by_sberbank_id(sberbank_id)
     if db_order is not None:
         raise DBOrderExistsException

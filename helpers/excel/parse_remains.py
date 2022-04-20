@@ -26,7 +26,3 @@ def parse_remains(excel_file_path: str) -> dict:
                 remains_dict[id_1c] = amount
 
     return remains_dict
-
-
-if __name__ == '__main__':
-    print(parse_remains("ОстаткиАктуальные.xlsx"))

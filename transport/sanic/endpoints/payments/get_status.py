@@ -25,7 +25,7 @@ class GetStatusPaymentsEndpoint(BaseEndpoint):
 
         sberbank_username = os.getenv("sber_username")
         sberbank_password = os.getenv("sber_password")
-        register_payment_sberbank_url = "https://3dsec.sberbank.ru/payment/rest/getOrderStatusExtended.do?"
+        register_payment_sberbank_url = "https://securepayments.sberbank.ru/payment/rest/getOrderStatusExtended.do?"
         register_payment_sberbank_url += f"userName={sberbank_username}&password={sberbank_password}&"
         register_payment_sberbank_url += f"orderId={db_order.sberbank_id}"
 

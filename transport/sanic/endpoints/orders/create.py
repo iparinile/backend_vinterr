@@ -169,6 +169,9 @@ Email: {db_customer.email}
 Итого: {order_sum} руб.
 
 Тип доставки: {db_delivery_type.name}
+Данные по доставке:
+{db_order.delivery_address}
+Стоимость: {db_order.delivery_cost}
 """
         message_to_customer = f"""
 Оформлен заказ №{response_model['id']} от {order_date}
