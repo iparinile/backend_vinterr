@@ -26,7 +26,7 @@ class RequestCreateOrderDtoSchema(Schema):
     apartment = fields.Int(missing=None)
     other_info = fields.Str(missing=None)
     delivery_address = fields.Str(missing=None)
-    delivery_cost = fields.Float(missing=None)
+    delivery_cost = fields.Float(missing=0)
 
     variations = fields.List(fields.Nested(VariationsInOrderDtoSchema), required=True)
 
