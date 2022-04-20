@@ -31,7 +31,7 @@ def get_all_orders(session: DBSession) -> List['DBOrders']:
     return records
 
 
-def get_order(session: DBSession, order_id: int) -> tuple:
+def get_order(session: DBSession, order_id: int) -> DBOrders:
     order = session.get_order(order_id)
 
     if order is None:
@@ -40,7 +40,7 @@ def get_order(session: DBSession, order_id: int) -> tuple:
     return order
 
 
-def get_order_by_sberbank_id(session: DBSession, sberbank_order_id: str) -> tuple:
+def get_order_by_sberbank_id(session: DBSession, sberbank_order_id: str) -> DBOrders:
     order = session.get_order_by_sberbank_id(sberbank_order_id)
 
     if order is None:
