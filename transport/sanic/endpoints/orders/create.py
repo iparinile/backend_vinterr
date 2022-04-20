@@ -160,7 +160,7 @@ class CreateOrderEndpoint(BaseEndpoint):
 Оформлен заказ №{response_model['id']} от {order_date}
 
 Клиент:
-ФИО: {db_customer.first_name} {db_customer.second_name} {db_customer.last_name}
+ФИО: {db_customer.second_name} {db_customer.first_name} {db_customer.last_name}
 Телефон: {db_customer.phone_number}
 Email: {db_customer.email}
 
