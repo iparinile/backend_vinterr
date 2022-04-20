@@ -177,6 +177,7 @@ Email: {db_customer.email}
 Стоимость: {db_order.delivery_cost}
 
 Итого: {db_order.delivery_cost + order_sum}
+Тип оплаты: {"наличными при получении" if db_order.is_cash_payment else "онлайн на сайте"}
 """
         message_to_customer = f"""
 Оформлен заказ №{response_model['id']} от {order_date}
