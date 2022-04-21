@@ -9,6 +9,7 @@ from sanic.response import BaseHTTPResponse
 from db.database import DBSession
 from db.exceptions import DBOrderNotExistsException, DBDataException, DBIntegrityException
 from db.queries import orders as orders_queries
+from helpers.telegram_bot.send_message import send_message_to_chat
 from transport.sanic.endpoints import BaseEndpoint
 from transport.sanic.exceptions import SanicOrderNotFound, SanicDBException
 
@@ -41,5 +42,14 @@ class GetStatusPaymentsEndpoint(BaseEndpoint):
                 session.commit_session(need_close=True)
             except (DBDataException, DBIntegrityException) as e:
                 raise SanicDBException(str(e))
+
+            pay_data = sberbank_response_body["depositedDate"]
+
+            message = f"""
+Оплачен заказ №{db_order.id} в {pay_data}
+
+"""
+
+            await send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
 
         return await self.make_response_json(body=sberbank_response_body, status=200)
