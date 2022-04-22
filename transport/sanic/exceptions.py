@@ -177,6 +177,19 @@ class SanicSberbankIdConflictException(SanicException):
 
 
 '''
+Statuses Exceptions
+'''
+
+
+class SanicStatusConflictException(SanicException):
+    status_code = 409
+
+
+class SanicStatusNotFound(SanicException):
+    status_code = 404
+
+
+'''
 TelegramUsers Exceptions
 '''
 

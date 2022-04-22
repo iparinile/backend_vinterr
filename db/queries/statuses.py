@@ -36,5 +36,5 @@ def patch_status(status: DBStatuses, new_name: str) -> DBStatuses:
     return status
 
 
-def delete_material(session: DBSession, material_id: int) -> None:
-    session.delete_material(material_id)
+def delete_status(session: DBSession, status_id: int) -> None:
+    session.delete_status(status_id)

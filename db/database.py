@@ -278,6 +278,9 @@ class DBSession:
     def get_status_by_id(self, status_id: int) -> DBStatuses:
         return self.query(DBStatuses).filter(DBStatuses.id == status_id).first()
 
+    def delete_status(self, status_id: int):
+        self.query(DBStatuses).filter(DBStatuses.id == status_id).delete()
+
     '''
     requests to DBTelegramUsers
     '''

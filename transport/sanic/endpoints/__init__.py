@@ -25,6 +25,10 @@ from .sizes.size import SizeEndpoint
 from .sizes.create import CreateSizeEndpoint
 from .sizes.get_all import GetAllSizesEndpoint
 
+from .statuses.status import StatusEndpoint
+from .statuses.create import CreateStatusEndpoint
+from .statuses.get_all import GetAllStatusesEndpoint
+
 from .colors.color import ColorEndpoint
 from .colors.create import CreateColorEndpoint
 from .colors.get_all import GetAllColorsEndpoint
