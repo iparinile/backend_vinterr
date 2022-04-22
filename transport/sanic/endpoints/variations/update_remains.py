@@ -3,8 +3,9 @@ from os import path, mkdir
 from sanic.request import Request, File
 from sanic.response import BaseHTTPResponse
 
+from api.request.update_remains import RequestUploadFileDto
 from db.database import DBSession
-from db.exceptions import DBDataException, DBIntegrityException, DBVariationNotExistsException
+from db.exceptions import DBDataException, DBIntegrityException
 from db.queries import variations as variations_queries
 from helpers.excel.parse_remains import parse_remains
 from transport.sanic.endpoints import BaseEndpoint
@@ -14,9 +15,10 @@ from transport.sanic.exceptions import SanicDBException
 class UpdateRemainsEndpoint(BaseEndpoint):
 
     async def method_post(self, request: Request, body: dict, session: DBSession, *args, **kwargs) -> BaseHTTPResponse:
-        files = request.files
 
-        excel_file: File = files.get('file')
+        request_model = RequestUploadFileDto(request.files)
+
+        excel_file: File = request_model.file
         excel_body: bytes = excel_file.body
 
         excel_path = "src/excel"
