@@ -157,7 +157,7 @@ class CreateOrderEndpoint(BaseEndpoint):
             except DBVariationNotExistsException:
                 raise SanicVariationNotFound(message=f"Variation id {variation['variation_id']} not found")
 
-        db_delivery_type = delivery_types_queries.get_delivery_type_name_by_id(session, db_order.delivery_type_id)
+        db_delivery_type = delivery_types_queries.get_delivery_type_by_id(session, db_order.delivery_type_id)
 
         message = f"""
 Оформлен заказ №{response_model['id']} от {order_date}

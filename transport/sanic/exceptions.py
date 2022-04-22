@@ -163,6 +163,10 @@ class SanicDeliveryTypeConflictException(SanicException):
     status_code = 409
 
 
+class SanicDeliveryTypeNotFound(SanicException):
+    status_code = 404
+
+
 '''
 Orders Exceptions
 '''

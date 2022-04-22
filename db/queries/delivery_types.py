@@ -6,7 +6,7 @@ from db.exceptions import DBDeliveryTypeNotExistsException, DBDeliveryTypeExists
 from db.models import DBDeliveryTypes
 
 
-def get_delivery_type_name_by_id(session: DBSession, delivery_type_id: int) -> DBDeliveryTypes:
+def get_delivery_type_by_id(session: DBSession, delivery_type_id: int) -> DBDeliveryTypes:
     db_delivery_type = session.get_delivery_type_by_id(delivery_type_id)
 
     if db_delivery_type is None:
@@ -31,3 +31,12 @@ def create_delivery_type(session: DBSession, delivery_type: RequestCreateDeliver
 def get_all_delivery_types(session: DBSession) -> List['DBDeliveryTypes']:
     delivery_type = session.get_all_delivery_types()
     return delivery_type
+
+
+def patch_delivery_type(delivery_type: DBDeliveryTypes, new_name: str) -> DBDeliveryTypes:
+    delivery_type.name = new_name
+    return delivery_type
+
+
+def delete_delivery_type(session: DBSession, delivery_type_id: int) -> None:
+    session.delete_delivery_type(delivery_type_id)

@@ -265,6 +265,9 @@ class DBSession:
     def get_all_delivery_types(self) -> List['DBDeliveryTypes']:
         return self.query(DBDeliveryTypes).all()
 
+    def delete_delivery_type(self, delivery_type_id: int) -> DBDeliveryTypes:
+        return self.query(DBDeliveryTypes).filter(DBDeliveryTypes.id == delivery_type_id).delete()
+
     '''
     requests to DBStatuses
     '''

@@ -21,3 +21,7 @@ class RequestPatchSizeDto(RequestDto, RequestPatchDirectoryItemDtoSchema):
 
 class RequestPatchStatusDto(RequestDto, RequestPatchDirectoryItemDtoSchema):
     __schema__ = RequestPatchDirectoryItemDtoSchema
+
+
+class RequestPatchDeliveryTypeDto(RequestDto, RequestPatchDirectoryItemDtoSchema):
+    __schema__ = RequestPatchDirectoryItemDtoSchema
