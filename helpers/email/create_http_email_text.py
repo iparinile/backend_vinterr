@@ -1,8 +1,8 @@
+from db.models import DBOrders, DBDeliveryTypes
 
-from db.models import DBOrders
 
-
-def make_email_text(db_order: DBOrders, variations_in_order: list, order_sum: int) -> str:
+def make_email_text(db_order: DBOrders, variations_in_order: list, order_sum: int,
+                    db_delivery_type: DBDeliveryTypes) -> str:
     email_text = """
     <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
 <html xmlns='http://www.w3.org/1999/xhtml' xmlns:o='urn:schemas-microsoft-com:office:office' style='width:100%;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0'> 
@@ -183,9 +183,14 @@ a[x-apple-data-detectors] {
         email_text += f"""
                          <tr style='border-collapse:collapse'> 
                           <td style='padding:5px 10px 5px 0;Margin:0' width='80%' align='left'><p style='Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:24px;color:#333333;font-size:16px'>{variation['name']} ({variation['amount']})</p></td> 
-                          <td style='padding:5px 0;Margin:0' width='20%' align='left'><p style='Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:24px;color:#333333;font-size:16px'>{variation['price']}</p></td> 
+                          <td style='padding:5px 0;Margin:0' width='20%' align='left'><p style='Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:24px;color:#333333;font-size:16px'>{variation['price']} руб.</p></td> 
                          </tr> 
                          """
+    email_text += f"""
+                        <tr style='border-collapse:collapse'> 
+                          <td style='padding:5px 10px 5px 0;Margin:0' width='80%' align='left'><p style='Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:24px;color:#333333;font-size:16px'>{db_delivery_type.name}</p></td> 
+                          <td style='padding:5px 0;Margin:0' width='20%' align='left'><p style='Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:24px;color:#333333;font-size:16px'>{db_order.delivery_cost} руб.</p></td> 
+                         </tr>"""
     email_text += """
                          </table></td> 
                      </tr> 
@@ -204,7 +209,7 @@ a[x-apple-data-detectors] {
                        <table style='mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:500px' class='cke_show_border' cellspacing='1' cellpadding='1' border='0' align='left'> 
                          <tr style='border-collapse:collapse'> 
                           <td width='80%' style='padding:0;Margin:0'><h4 style='Margin:0;line-height:120%;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif'>ИТОГО</h4></td>"""
-    email_text += f"<td width='20%' style='padding:0;Margin:0'><h4 style='Margin:0;line-height:120%;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif'>{order_sum} рублей</h4></td>"
+    email_text += f"<td width='20%' style='padding:0;Margin:0'><h4 style='Margin:0;line-height:120%;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif'>{order_sum + db_order.delivery_cost} руб.</h4></td>"
     email_text += """
                          </tr> 
                        </table></td> 
