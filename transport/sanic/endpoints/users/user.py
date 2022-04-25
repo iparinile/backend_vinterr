@@ -58,7 +58,7 @@ class UserEndpoint(BaseEndpoint):
         db_user = users_queries.patch_user(db_user, request_model)
 
         try:
-            session.commit_session(need_close=True)
+            session.commit_session()
         except DBDataException as e:
             raise SanicDBException(str(e))
         except DBIntegrityException as e:
@@ -69,5 +69,7 @@ class UserEndpoint(BaseEndpoint):
                 raise SanicDBException(str(e))
 
         response_model = ResponseUserDto(db_user)
+
+        session.close_session()
 
         return await self.make_response_json(status=200, body=response_model.dump())

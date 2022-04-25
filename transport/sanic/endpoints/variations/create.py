@@ -38,10 +38,12 @@ class CreateVariationEndpoint(BaseEndpoint):
                 raise SanicGoodNotFound("Good not found")
 
             try:
-                session.commit_session(need_close=True)
+                session.commit_session()
             except (DBDataException, DBIntegrityException) as e:
                 raise SanicDBException(str(e))
 
         response_model = ResponseVariationDto(db_variation)
+
+        session.close_session()
 
         return await self.make_response_json(body=response_model.dump(), status=201)

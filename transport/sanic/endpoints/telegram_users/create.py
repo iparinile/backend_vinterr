@@ -24,10 +24,12 @@ class CreateTelegramUserEndpoint(BaseEndpoint):
             raise SanicTelegramUserConflictException('Chat_id is busy')
 
         try:
-            session.commit_session(need_close=True)
+            session.commit_session()
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
         response_model = ResponseTelegramUserDto(db_telegram_user)
+
+        session.close_session()
 
         return await self.make_response_json(body=response_model.dump(), status=201)
