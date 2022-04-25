@@ -3,6 +3,7 @@ from sanic.response import BaseHTTPResponse
 
 from api.request.create_good import RequestCreateGoodDto
 from api.response.good import ResponseGoodDto
+from db.database import DBSession
 from db.exceptions import DBDataException, DBIntegrityException
 from db.queries import goods as goods_queries
 from helpers.psycopg2_exceptions.get_details import get_details_psycopg2_exception
@@ -12,14 +13,14 @@ from transport.sanic.exceptions import SanicDBException, SanicDBUniqueFieldExcep
 
 class CreateGoodEndpoint(BaseEndpoint):
 
-    async def method_post(self, request: Request, body: dict, session, *args, **kwargs) -> BaseHTTPResponse:
+    async def method_post(self, request: Request, body: dict, session: DBSession, *args, **kwargs) -> BaseHTTPResponse:
 
         request_model = RequestCreateGoodDto(body)
 
         db_good = goods_queries.create_good(session, request_model)
 
         try:
-            session.commit_session(need_close=True)
+            session.commit_session()
         except DBDataException as e:
             raise SanicDBException(str(e))
         except DBIntegrityException as e:
@@ -30,5 +31,7 @@ class CreateGoodEndpoint(BaseEndpoint):
                 raise SanicDBException(str(e))
 
         response_model = ResponseGoodDto(db_good)
+
+        session.close_session()
 
         return await self.make_response_json(body=response_model.dump(), status=201)

@@ -3,6 +3,7 @@ from sanic.response import BaseHTTPResponse
 
 from api.request.create_directory_item import RequestCreateStructureDto
 from api.response.directory_item import ResponseStructureDto
+from db.database import DBSession
 from db.exceptions import DBDataException, DBIntegrityException, DBStructureExistsException
 from db.queries import structures as structures_queries
 from transport.sanic.endpoints import BaseEndpoint
@@ -11,7 +12,7 @@ from transport.sanic.exceptions import SanicDBException, SanicStructureConflictE
 
 class CreateStructureEndpoint(BaseEndpoint):
 
-    async def method_post(self, request: Request, body: dict, session, *args, **kwargs) -> BaseHTTPResponse:
+    async def method_post(self, request: Request, body: dict, session: DBSession, *args, **kwargs) -> BaseHTTPResponse:
 
         request_model = RequestCreateStructureDto(body)
 
@@ -21,10 +22,12 @@ class CreateStructureEndpoint(BaseEndpoint):
             raise SanicStructureConflictException('Structure with this name exists')
 
         try:
-            session.commit_session(need_close=True)
+            session.commit_session()
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
         response_model = ResponseStructureDto(db_structure)
+
+        session.close_session()
 
         return await self.make_response_json(body=response_model.dump(), status=201)

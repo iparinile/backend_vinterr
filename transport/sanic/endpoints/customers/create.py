@@ -33,10 +33,12 @@ class CreateCustomerEndpoint(BaseEndpoint):
             raise SanicCustomerConflictException('Phone number is busy')
 
         try:
-            session.commit_session(need_close=True)
+            session.commit_session()
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
         response_model = ResponseCustomerDto(db_customer)
+
+        session.close_session()
 
         return await self.make_response_json(body=response_model.dump(), status=201)

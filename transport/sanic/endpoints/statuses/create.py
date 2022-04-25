@@ -22,10 +22,12 @@ class CreateStatusEndpoint(BaseEndpoint):
             raise SanicStatusConflictException('Status with this name exists')
 
         try:
-            session.commit_session(need_close=True)
+            session.commit_session()
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
         response_model = ResponseStatusDto(db_status)
+
+        session.close_session()
 
         return await self.make_response_json(body=response_model.dump(), status=201)

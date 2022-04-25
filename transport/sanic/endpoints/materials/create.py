@@ -3,6 +3,7 @@ from sanic.response import BaseHTTPResponse
 
 from api.request.create_directory_item import RequestCreateMaterialDto
 from api.response.directory_item import ResponseMaterialDto
+from db.database import DBSession
 from db.exceptions import DBMaterialExistsException, DBDataException, DBIntegrityException
 from db.queries import materials as materials_queries
 from transport.sanic.endpoints import BaseEndpoint
@@ -11,7 +12,7 @@ from transport.sanic.exceptions import SanicMaterialConflictException, SanicDBEx
 
 class CreateMaterialEndpoint(BaseEndpoint):
 
-    async def method_post(self, request: Request, body: dict, session, *args, **kwargs) -> BaseHTTPResponse:
+    async def method_post(self, request: Request, body: dict, session: DBSession, *args, **kwargs) -> BaseHTTPResponse:
 
         request_model = RequestCreateMaterialDto(body)
 
@@ -21,10 +22,12 @@ class CreateMaterialEndpoint(BaseEndpoint):
             raise SanicMaterialConflictException('Material with this name exists')
 
         try:
-            session.commit_session(need_close=True)
+            session.commit_session()
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
         response_model = ResponseMaterialDto(db_material)
+
+        session.close_session()
 
         return await self.make_response_json(body=response_model.dump(), status=201)
