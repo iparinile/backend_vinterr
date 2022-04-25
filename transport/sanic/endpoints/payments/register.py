@@ -47,7 +47,7 @@ class RegisterPaymentsEndpoint(BaseEndpoint):
             raise SanicSberbankIdConflictException(message="Sberbank_id already exists")
 
         try:
-            session.commit_session(need_close=True)
+            session.commit_session()
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
@@ -58,4 +58,7 @@ class RegisterPaymentsEndpoint(BaseEndpoint):
             "amount": request_model.amount,
         }
         response_model = ResponseRegisterPaymentDto(response_body, is_input_dict=True)
+
+        session.close_session()
+
         return await self.make_response_json(body=response_model.dump(), status=200)

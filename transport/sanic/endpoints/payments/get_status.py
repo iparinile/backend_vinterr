@@ -39,7 +39,7 @@ class GetStatusPaymentsEndpoint(BaseEndpoint):
             db_order.is_payed = True
 
             try:
-                session.commit_session(need_close=True)
+                session.commit_session()
             except (DBDataException, DBIntegrityException) as e:
                 raise SanicDBException(str(e))
 
@@ -51,5 +51,7 @@ class GetStatusPaymentsEndpoint(BaseEndpoint):
 """
 
             await send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
+
+        session.close_session()
 
         return await self.make_response_json(body=sberbank_response_body, status=200)
