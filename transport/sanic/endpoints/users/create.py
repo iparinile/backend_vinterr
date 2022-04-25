@@ -4,6 +4,7 @@ from sanic.response import BaseHTTPResponse
 
 from api.request import RequestCreateUserDto
 from api.response import ResponseUserDto
+from db.database import DBSession
 
 from db.queries import users as users_queries
 from db.exceptions import DBUserExistsException, DBDataException, DBIntegrityException
@@ -16,7 +17,7 @@ from transport.sanic.exceptions import SanicPasswordHashException, SanicUserConf
 
 class CreateUserEndpoint(BaseEndpoint):
 
-    async def method_post(self, request: Request, body: dict, session, *args, **kwargs) -> BaseHTTPResponse:
+    async def method_post(self, request: Request, body: dict, session: DBSession, *args, **kwargs) -> BaseHTTPResponse:
 
         request_model = RequestCreateUserDto(body)
 
@@ -31,7 +32,7 @@ class CreateUserEndpoint(BaseEndpoint):
             raise SanicUserConflictException('Login is busy')
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 

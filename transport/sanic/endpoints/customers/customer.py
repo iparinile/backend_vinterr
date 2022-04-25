@@ -32,6 +32,8 @@ class CustomerEndpoint(BaseEndpoint):
 
         response_model = ResponseCustomerDto(db_customer)
 
+        session.close_session()
+
         return await self.make_response_json(status=200, body=response_model.dump())
 
     async def method_patch(self, request: Request, body: dict, session: DBSession, customer_id: int, token: dict,
@@ -58,7 +60,7 @@ class CustomerEndpoint(BaseEndpoint):
         db_customer = customers_queries.patch_customer(db_customer, request_model)
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except DBDataException as e:
             raise SanicDBException(str(e))
         except DBIntegrityException as e:

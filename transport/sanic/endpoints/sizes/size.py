@@ -25,7 +25,7 @@ class SizeEndpoint(BaseEndpoint):
         size = sizes_queries.patch_size(size, request_model.name)
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
@@ -44,7 +44,7 @@ class SizeEndpoint(BaseEndpoint):
         sizes_queries.delete_size(session, size.id)
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
@@ -59,5 +59,7 @@ class SizeEndpoint(BaseEndpoint):
             raise SanicSizeNotFound('Size not found')
 
         response_model = ResponseSizeDto(size)
+
+        session.close_session()
 
         return await self.make_response_json(body=response_model.dump(), status=200)

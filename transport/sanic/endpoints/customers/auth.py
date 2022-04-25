@@ -3,6 +3,7 @@ from sanic.response import BaseHTTPResponse
 
 from api.request.auth_customer import RequestAuthCustomerDto
 from api.response.auth import ResponseAuthDto
+from db.database import DBSession
 from db.exceptions import DBCustomerNotExistsException
 from db.queries import customers as customers_queries
 from helpers.auth import create_token
@@ -13,7 +14,7 @@ from transport.sanic.exceptions import SanicCustomerNotFound, SanicPasswordHashE
 
 class AuthCustomerEndpoint(BaseEndpoint):
 
-    async def method_post(self, request: Request, body: dict, session, *args, **kwargs) -> BaseHTTPResponse:
+    async def method_post(self, request: Request, body: dict, session: DBSession, *args, **kwargs) -> BaseHTTPResponse:
 
         request_model = RequestAuthCustomerDto(body)
 
@@ -39,5 +40,7 @@ class AuthCustomerEndpoint(BaseEndpoint):
         }
 
         response_model = ResponseAuthDto(response_body, is_input_dict=True)
+
+        session.close_session()
 
         return await self.make_response_json(body=response_model.dump(), status=200)

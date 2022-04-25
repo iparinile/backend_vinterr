@@ -37,4 +37,6 @@ class GetVariationEndpoint(BaseEndpoint):
         else:
             valid_variation['images'] = []
 
+        session.close_session()
+
         return await self.make_response_json(body=valid_variation, status=200)

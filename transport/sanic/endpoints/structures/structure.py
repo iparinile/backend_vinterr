@@ -25,7 +25,7 @@ class StructureEndpoint(BaseEndpoint):
         structure = structures_queries.patch_structure(structure, request_model.name)
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
@@ -44,7 +44,7 @@ class StructureEndpoint(BaseEndpoint):
         structures_queries.delete_structure(session, structure.id)
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
@@ -59,5 +59,7 @@ class StructureEndpoint(BaseEndpoint):
             raise SanicStructureNotFound('Structure not found')
 
         response_model = ResponseStructureDto(structure)
+
+        session.close_session()
 
         return await self.make_response_json(body=response_model.dump(), status=200)

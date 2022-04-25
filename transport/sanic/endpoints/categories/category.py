@@ -25,7 +25,7 @@ class CategoryEndpoint(BaseEndpoint):
         category = categories_queries.patch_category(category, request_model.name)
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
@@ -44,7 +44,7 @@ class CategoryEndpoint(BaseEndpoint):
         categories_queries.delete_category(session, category.id)
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
@@ -59,5 +59,7 @@ class CategoryEndpoint(BaseEndpoint):
             raise SanicCategoryNotFound('Category not found')
 
         response_model = ResponseCategoryDto(category)
+
+        session.close_session()
 
         return await self.make_response_json(body=response_model.dump(), status=200)

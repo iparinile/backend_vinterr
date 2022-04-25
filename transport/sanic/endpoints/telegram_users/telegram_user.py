@@ -21,6 +21,8 @@ class TelegramUserEndpoint(BaseEndpoint):
 
         response_model = ResponseTelegramUserDto(telegram_user)
 
+        session.close_session()
+
         return await self.make_response_json(body=response_model.dump(), status=200)
 
     async def method_patch(self, request: Request, body: dict, session: DBSession, telegram_user_id: int,
@@ -36,7 +38,7 @@ class TelegramUserEndpoint(BaseEndpoint):
         telegram_user = telegram_users_queries.patch_color(telegram_user, request_model)
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 

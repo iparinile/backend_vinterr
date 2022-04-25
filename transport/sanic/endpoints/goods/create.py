@@ -19,7 +19,7 @@ class CreateGoodEndpoint(BaseEndpoint):
         db_good = goods_queries.create_good(session, request_model)
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except DBDataException as e:
             raise SanicDBException(str(e))
         except DBIntegrityException as e:

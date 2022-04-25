@@ -58,4 +58,7 @@ class GoodEndpoint(BaseEndpoint):
 
             valid_good['variations_to_show'] = [variation_id for variation_id in
                                                 valid_good['variations_to_show'].values()]
+
+        session.close_session()
+
         return await self.make_response_json(body=valid_good, status=200)

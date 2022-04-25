@@ -4,6 +4,7 @@ from sanic.response import BaseHTTPResponse
 
 from api.request.auth_user import RequestAuthUserDto
 from api.response.auth import ResponseAuthDto
+from db.database import DBSession
 
 from db.exceptions import DBUserNotExistsException
 from db.queries import users as users_queries
@@ -17,7 +18,7 @@ from transport.sanic.exceptions import SanicUserNotFound, SanicPasswordHashExcep
 
 class AuthUserEndpoint(BaseEndpoint):
 
-    async def method_post(self, request: Request, body: dict, session, *args, **kwargs) -> BaseHTTPResponse:
+    async def method_post(self, request: Request, body: dict, session: DBSession, *args, **kwargs) -> BaseHTTPResponse:
 
         request_model = RequestAuthUserDto(body)
 
@@ -43,5 +44,7 @@ class AuthUserEndpoint(BaseEndpoint):
         }
 
         response_model = ResponseAuthDto(response_body, is_input_dict=True)
+
+        session.close_session()
 
         return await self.make_response_json(body=response_model.dump(), status=200)

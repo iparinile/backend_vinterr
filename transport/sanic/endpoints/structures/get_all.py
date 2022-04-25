@@ -13,4 +13,6 @@ class GetAllStructuresEndpoint(BaseEndpoint):
 
         response_model = ResponseStructureDto(structures, many=True)
 
+        session.close_session()
+
         return await self.make_response_json(status=200, body=response_model.dump())

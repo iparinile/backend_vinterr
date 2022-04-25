@@ -25,4 +25,6 @@ class GetAllVariationsEndpoint(BaseEndpoint):
                 else:
                     variation['images'] = []
 
+        session.close_session()
+
         return await self.make_response_json(status=200, body=response_model)

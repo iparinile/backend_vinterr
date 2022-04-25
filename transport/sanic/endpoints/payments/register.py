@@ -47,7 +47,7 @@ class RegisterPaymentsEndpoint(BaseEndpoint):
             raise SanicSberbankIdConflictException(message="Sberbank_id already exists")
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 

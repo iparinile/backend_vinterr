@@ -21,7 +21,7 @@ class CreateCategoryEndpoint(BaseEndpoint):
             raise SanicCategoryConflictException('Category with this name exists')
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 

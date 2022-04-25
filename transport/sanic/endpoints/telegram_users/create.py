@@ -3,6 +3,7 @@ from sanic.response import BaseHTTPResponse
 
 from api.request.create_telegram_user import RequestCreateTelegramUserDto
 from api.response.telegram_user import ResponseTelegramUserDto
+from db.database import DBSession
 
 from db.queries import telegram_users as telegram_users_queries
 from db.exceptions import DBDataException, DBIntegrityException, DBTelegramUserExistsException
@@ -13,7 +14,7 @@ from transport.sanic.exceptions import SanicDBException, SanicTelegramUserConfli
 
 class CreateTelegramUserEndpoint(BaseEndpoint):
 
-    async def method_post(self, request: Request, body: dict, session, *args, **kwargs) -> BaseHTTPResponse:
+    async def method_post(self, request: Request, body: dict, session: DBSession, *args, **kwargs) -> BaseHTTPResponse:
 
         request_model = RequestCreateTelegramUserDto(body)
 
@@ -23,7 +24,7 @@ class CreateTelegramUserEndpoint(BaseEndpoint):
             raise SanicTelegramUserConflictException('Chat_id is busy')
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 

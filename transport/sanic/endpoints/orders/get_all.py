@@ -29,4 +29,6 @@ class GetAllOrdersEndpoint(BaseEndpoint):
 
         response_body = [order for order in response_body.values()]
 
+        session.close_session()
+
         return await self.make_response_json(status=200, body=response_body)

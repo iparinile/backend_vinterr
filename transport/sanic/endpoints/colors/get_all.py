@@ -13,4 +13,6 @@ class GetAllColorsEndpoint(BaseEndpoint):
 
         response_model = ResponseColorDto(colors, many=True)
 
+        session.close_session()
+
         return await self.make_response_json(status=200, body=response_model.dump())

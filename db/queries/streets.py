@@ -2,7 +2,7 @@ from db.database import DBSession
 from db.models import DBStreets
 
 
-def create_city(session: DBSession, name: str) -> DBStreets:
+def create_street(session: DBSession, name: str) -> DBStreets:
     new_street = DBStreets(
         name=name
     )

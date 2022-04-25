@@ -25,4 +25,6 @@ class GetVariationsForGoodEndpoint(BaseEndpoint):
 
         response_model = ResponseVariationDto(variations, many=True)
 
+        session.close_session()
+
         return await self.make_response_json(status=200, body=response_model.dump())

@@ -25,7 +25,7 @@ class MaterialEndpoint(BaseEndpoint):
         material = materials_queries.patch_material(material, request_model.name)
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
@@ -44,7 +44,7 @@ class MaterialEndpoint(BaseEndpoint):
         materials_queries.delete_material(session, material.id)
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
@@ -59,5 +59,7 @@ class MaterialEndpoint(BaseEndpoint):
             raise SanicMaterialNotFound('Material not found')
 
         response_model = ResponseMaterialDto(material)
+
+        session.close_session()
 
         return await self.make_response_json(body=response_model.dump(), status=200)

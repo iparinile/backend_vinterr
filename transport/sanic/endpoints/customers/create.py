@@ -3,6 +3,7 @@ from sanic.response import BaseHTTPResponse
 
 from api.request.create_customer import RequestCreateCustomerDto
 from api.response.customer import ResponseCustomerDto
+from db.database import DBSession
 from db.exceptions import DBCustomerLoginExistsException, DBDataException, DBIntegrityException, \
     DBCustomerEmailExistsException, DBCustomerPhoneNumberExistsException
 from db.queries import customers as customers_queries
@@ -13,7 +14,7 @@ from transport.sanic.exceptions import SanicPasswordHashException, SanicCustomer
 
 class CreateCustomerEndpoint(BaseEndpoint):
 
-    async def method_post(self, request: Request, body: dict, session, *args, **kwargs) -> BaseHTTPResponse:
+    async def method_post(self, request: Request, body: dict, session: DBSession, *args, **kwargs) -> BaseHTTPResponse:
 
         request_model = RequestCreateCustomerDto(body)
 
@@ -32,7 +33,7 @@ class CreateCustomerEndpoint(BaseEndpoint):
             raise SanicCustomerConflictException('Phone number is busy')
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 

@@ -13,4 +13,6 @@ class GetAllDeliveryTypesEndpoint(BaseEndpoint):
 
         response_model = ResponseDeliveryTypeDto(delivery_types, many=True)
 
+        session.close_session()
+
         return await self.make_response_json(status=200, body=response_model.dump())

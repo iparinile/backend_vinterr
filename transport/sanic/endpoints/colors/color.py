@@ -25,7 +25,7 @@ class ColorEndpoint(BaseEndpoint):
         color = colors_queries.patch_color(color, request_model)
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
@@ -44,7 +44,7 @@ class ColorEndpoint(BaseEndpoint):
         colors_queries.delete_color(session, color.id)
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
@@ -59,5 +59,7 @@ class ColorEndpoint(BaseEndpoint):
             raise SanicColorNotFound('Color not found')
 
         response_model = ResponseColorDto(color)
+
+        session.close_session()
 
         return await self.make_response_json(body=response_model.dump(), status=200)

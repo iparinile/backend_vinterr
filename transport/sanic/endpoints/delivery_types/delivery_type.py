@@ -25,7 +25,7 @@ class DeliveryTypeEndpoint(BaseEndpoint):
         delivery_type = delivery_types_queries.patch_delivery_type(delivery_type, request_model.name)
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
@@ -44,7 +44,7 @@ class DeliveryTypeEndpoint(BaseEndpoint):
         delivery_types_queries.delete_delivery_type(session, delivery_type.id)
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
@@ -59,5 +59,7 @@ class DeliveryTypeEndpoint(BaseEndpoint):
             raise SanicDeliveryTypeNotFound('Delivery type not found')
 
         response_model = ResponseDeliveryTypeDto(delivery_type)
+
+        session.close_session()
 
         return await self.make_response_json(body=response_model.dump(), status=200)

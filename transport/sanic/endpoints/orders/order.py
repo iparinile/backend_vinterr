@@ -34,6 +34,8 @@ class OrderEndpoint(BaseEndpoint):
 
         response_body = response_body[order_id]
 
+        session.close_session()
+
         return await self.make_response_json(status=200, body=response_body)
 
     async def method_patch(self, request: Request, body: dict, session: DBSession, order_id: int,

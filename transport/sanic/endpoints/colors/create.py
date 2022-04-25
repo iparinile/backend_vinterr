@@ -23,7 +23,7 @@ class CreateColorEndpoint(BaseEndpoint):
             raise SanicColorConflictException('Color with this code exists')
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 

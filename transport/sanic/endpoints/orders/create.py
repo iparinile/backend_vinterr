@@ -63,7 +63,7 @@ class CreateOrderEndpoint(BaseEndpoint):
                 raise SanicDBException(str(e))
 
         db_city = cities_queries.create_city(session, request_model.city)
-        db_street = streets_queries.create_city(session, request_model.street)
+        db_street = streets_queries.create_street(session, request_model.street)
 
         try:
             session.commit_session()

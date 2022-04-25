@@ -25,7 +25,7 @@ class StatusEndpoint(BaseEndpoint):
         status = statuses_queries.patch_status(status, request_model.name)
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
@@ -44,7 +44,7 @@ class StatusEndpoint(BaseEndpoint):
         statuses_queries.delete_status(session, status.id)
 
         try:
-            session.commit_session()
+            session.commit_session(need_close=True)
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
@@ -59,5 +59,7 @@ class StatusEndpoint(BaseEndpoint):
             raise SanicStatusNotFound('Status not found')
 
         response_model = ResponseStatusDto(status)
+
+        session.close_session()
 
         return await self.make_response_json(body=response_model.dump(), status=200)
