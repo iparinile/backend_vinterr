@@ -19,6 +19,7 @@ from db.queries import variation_in_orders as variation_in_orders_queries
 from db.exceptions import DBDataException, DBIntegrityException, DBCustomerNotExistsException, \
     DBVariationNotExistsException, DBVariationNegativeRest
 from helpers.auth import read_token, ReadTokenException
+from helpers.email.create_http_email_text import make_email_text
 from helpers.email.sending_email import send_email
 from helpers.psycopg2_exceptions.get_details import get_details_psycopg2_exception
 from helpers.telegram_bot.send_message import send_message_to_chat
@@ -147,6 +148,9 @@ class CreateOrderEndpoint(BaseEndpoint):
         order_date = order_date.strftime("%d.%m.%Y")
         table_variations_in_order = PrettyTable()
         table_variations_in_order.field_names = ['Наименование', 'Количество', 'Цена']
+
+        variations_in_order_list_to_email = []
+
         order_sum = 0
         for variation in variations_list:
             try:
@@ -154,6 +158,14 @@ class CreateOrderEndpoint(BaseEndpoint):
                 table_variations_in_order.add_row(
                     [db_variation_in_order.name, variation['amount'], variation['current_price']])
                 order_sum += variation['current_price'] * variation['amount']
+
+                variations_in_order_list_to_email.append(
+                    {
+                        "name": db_variation_in_order.name,
+                        "amount": variation['amount'],
+                        "price": variation['current_price']
+                    }
+                )
             except DBVariationNotExistsException:
                 raise SanicVariationNotFound(message=f"Variation id {variation['variation_id']} not found")
 
@@ -179,22 +191,9 @@ Email: {db_customer.email}
 Итого: {db_order.delivery_cost + order_sum} руб.
 Тип оплаты: {"наличными при получении" if db_order.is_cash_payment else "онлайн на сайте"}
 """
-        message_to_customer = f"""
-Оформлен заказ №{response_model['id']} от {order_date}
-
-Клиент:
-ФИО: {db_customer.first_name} {db_customer.second_name} {db_customer.last_name}
-Телефон: {db_customer.phone_number}
-Email: {db_customer.email}
-
-Товары:
-```{table_variations_in_order}```
-Итого: {order_sum} руб.
-
-Тип доставки: {db_delivery_type.name}
-"""
+        message_to_customer = make_email_text(db_order, variations_in_order_list_to_email, order_sum)
         await send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
-        await send_email(to_address=[os.getenv("email_to")], subject="Новый заказ на сайте", text=message)
+        # await send_email(to_address=[os.getenv("email_to")], subject="Новый заказ на сайте", text=message_to_customer)
         await send_email(to_address=[db_customer.email], subject="Данные по заказу Vinterr", text=message_to_customer)
 
         session.close_session()
