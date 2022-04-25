@@ -248,8 +248,7 @@ class DBSession:
         return self.query(DBOrders).filter(DBOrders.id == order_id).all()
 
     def get_order_by_sberbank_id(self, sberbank_id: str) -> DBOrders:
-        query = self.order_query()
-        query = query.filter(DBOrders.sberbank_id == sberbank_id)
+        query = self.query(DBOrders).filter(DBOrders.sberbank_id == sberbank_id)
         return query.first()
 
     '''

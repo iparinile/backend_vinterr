@@ -1,7 +1,9 @@
 import os
 import uuid
+from datetime import datetime
 
 import requests
+from dateutil.tz import tzlocal
 from dotenv import load_dotenv
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse
@@ -43,8 +45,18 @@ class GetStatusPaymentsEndpoint(BaseEndpoint):
             except (DBDataException, DBIntegrityException) as e:
                 raise SanicDBException(str(e))
 
-            pay_data = sberbank_response_body["depositedDate"]
+            pay_data = sberbank_response_body["depositedDate"] / 1000
+            pay_data = datetime.utcfromtimestamp(pay_data)
+            pay_data = datetime(
+                year=pay_data.year,
+                month=pay_data.month,
+                day=pay_data.day,
+                hour=pay_data.hour + 5,
+                minute=pay_data.minute,
+                second=pay_data.second
+            )
 
+            pay_data = pay_data.strftime('%H:%M - %d.%m.%Y')
             message = f"""
 Оплачен заказ №{db_order.id} в {pay_data}
 
