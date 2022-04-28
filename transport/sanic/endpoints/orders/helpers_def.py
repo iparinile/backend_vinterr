@@ -32,6 +32,7 @@ def assembling_order_response(response_body: dict,
         valid_order['customer'] = valid_customer
         valid_order['status'] = valid_status
         valid_order['delivery_type'] = valid_delivery_type
+        valid_order['total_sum'] = 0
         valid_order['variations'] = []
         response_body[valid_order['id']] = valid_order
     if db_variation_in_orders is not None:
@@ -48,5 +49,6 @@ def assembling_order_response(response_body: dict,
         valid_variation['size'] = valid_size
         valid_variation_in_order['variation'] = valid_variation
         response_body[db_orders.id]['variations'].append(valid_variation_in_order)
+        response_body[db_orders.id]['total_sum'] += valid_variation_in_order['current_price']
 
     return response_body
