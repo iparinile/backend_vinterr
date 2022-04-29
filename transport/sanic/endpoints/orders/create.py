@@ -25,7 +25,7 @@ from helpers.psycopg2_exceptions.get_details import get_details_psycopg2_excepti
 from helpers.telegram_bot.send_message import send_message_to_chat
 from transport.sanic.endpoints import BaseEndpoint
 from transport.sanic.exceptions import SanicCustomerNotFound, SanicDBException, SanicDBUniqueFieldException, \
-    SanicVariationNotFound, SanicInsufficientAmountVariation
+    SanicVariationNotFound, SanicInsufficientAmountVariation, SanicNoVariationsInOrder
 
 load_dotenv()
 
@@ -35,6 +35,8 @@ class CreateOrderEndpoint(BaseEndpoint):
     async def method_post(self, request: Request, body: dict, session: DBSession, *args, **kwargs) -> BaseHTTPResponse:
         request_model = RequestCreateOrderDto(body)
 
+        if len(request_model.variations) == 0:
+            raise SanicNoVariationsInOrder(message="There are no variations in the order")
         customer_is_registered = True
         token = ''
 

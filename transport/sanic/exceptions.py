@@ -180,6 +180,10 @@ class SanicSberbankIdConflictException(SanicException):
     status_code = 409
 
 
+class SanicNoVariationsInOrder(SanicException):
+    status_code = 400
+
+
 '''
 Statuses Exceptions
 '''
