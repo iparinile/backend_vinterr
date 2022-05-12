@@ -18,3 +18,4 @@ class DBVariations(BaseModel):
     barcode = Column(VARCHAR(255))
     is_sale = Column(BOOLEAN(), default=False)
     is_new = Column(BOOLEAN(), default=False)
+    is_delete = Column(BOOLEAN(), default=False)

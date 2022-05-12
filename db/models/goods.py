@@ -16,3 +16,4 @@ class DBGoods(BaseModel):
     description = Column(VARCHAR(), nullable=False)
     default_variation = Column(Integer, ForeignKey('Variations.id', ondelete='SET NULL'))
     is_visible = Column(BOOLEAN(), default=True)
+    is_delete = Column(BOOLEAN(), default=False)
