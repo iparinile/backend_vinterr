@@ -143,7 +143,7 @@ class DBSession:
 
     def get_all_goods(self, request_params: dict) -> List['DBGoods']:
         query = self.query(DBGoods, DBVariations, DBColors, DBSizes, DBImages)
-        query = query.filter(DBGoods.is_delete == 0)
+        # query = query.filter(DBGoods.is_delete == 0)
         query = query.outerjoin(DBVariations, DBVariations.good_id == DBGoods.id)
         if "category_id" in request_params.keys():
             query = query.filter(DBGoods.category_id == request_params["category_id"][0])
@@ -167,11 +167,11 @@ class DBSession:
     '''
 
     def get_all_variations(self) -> List['DBVariations']:
-        return self.query(DBVariations).filter(DBVariations.is_delete == 0).all()
+        return self.query(DBVariations).all()
 
     def get_variations_by_good_id(self, good_id: int) -> List['DBVariations']:
         query = self.query(DBVariations, DBColors, DBSizes)
-        query = query.filter(DBVariations.is_delete == 0)
+        # query = query.filter(DBVariations.is_delete == 0)
         query = query.outerjoin(DBColors, DBColors.id == DBVariations.color_id)
         query = query.outerjoin(DBSizes, DBSizes.id == DBVariations.size_id)
         query = query.filter(DBVariations.good_id == good_id)
@@ -182,7 +182,7 @@ class DBSession:
 
     def get_variation_by_id_with_full_info(self, variation_id: int) -> DBVariations:
         query = self.query(DBVariations, DBColors, DBSizes)
-        query = query.filter(DBVariations.is_delete == 0)
+        # query = query.filter(DBVariations.is_delete == 0)
         query = query.outerjoin(DBColors, DBColors.id == DBVariations.color_id)
         query = query.outerjoin(DBSizes, DBSizes.id == DBVariations.size_id)
         query = query.filter(DBVariations.id == variation_id)
