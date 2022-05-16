@@ -313,6 +313,9 @@ class DBSession:
     def rollback(self):
         self._session.rollback()
 
+    def flush(self):
+        self._session.flush()
+
     def add(self, model):
         self._session.add(model)
 

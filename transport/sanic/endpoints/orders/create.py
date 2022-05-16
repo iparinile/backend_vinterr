@@ -75,6 +75,7 @@ class CreateOrderEndpoint(BaseEndpoint):
         db_order = orders_queries.create_order(session, body_request=request_model, customer=db_customer)
 
         session.add(db_order)
+        session.flush()
 
         variations_list = []
         for variation in request_model.variations:
@@ -93,6 +94,7 @@ class CreateOrderEndpoint(BaseEndpoint):
 
             session.add(db_variation_in_order)
 
+        session.flush()
         variations_list = VariationInOrderDto(variations_list, many=True).dump()
 
         response_body = {
