@@ -170,8 +170,10 @@ Email: {db_customer.email}
         try:
             session.commit_session()
         except DBDataException as e:
+            session.rollback()
             raise SanicDBException(str(e))
         except DBIntegrityException as e:
+            session.rollback()
             exception_code, exception_info = get_details_psycopg2_exception(e)
             if exception_code == '23505':
                 raise SanicDBUniqueFieldException(exception_info)
