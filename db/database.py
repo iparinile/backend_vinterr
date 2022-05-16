@@ -310,6 +310,9 @@ class DBSession:
         if need_close:
             self.close_session()
 
+    def rollback(self):
+        self._session.rollback()
+
 
 class DataBase:
     connexion: Engine

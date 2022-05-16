@@ -57,8 +57,10 @@ class CreateOrderEndpoint(BaseEndpoint):
         try:
             session.commit_session()
         except DBDataException as e:
+            session.rollback()
             raise SanicDBException(str(e))
         except DBIntegrityException as e:
+            session.rollback()
             exception_code, exception_info = get_details_psycopg2_exception(e)
             if exception_code == '23505':
                 raise SanicDBUniqueFieldException(exception_info)
@@ -71,8 +73,10 @@ class CreateOrderEndpoint(BaseEndpoint):
         try:
             session.commit_session()
         except DBDataException as e:
+            session.rollback()
             raise SanicDBException(str(e))
         except DBIntegrityException as e:
+            session.rollback()
             exception_code, exception_info = get_details_psycopg2_exception(e)
             if exception_code == '23505':
                 raise SanicDBUniqueFieldException(exception_info)
@@ -90,8 +94,10 @@ class CreateOrderEndpoint(BaseEndpoint):
         try:
             session.commit_session()
         except DBDataException as e:
+            session.rollback()
             raise SanicDBException(str(e))
         except DBIntegrityException as e:
+            session.rollback()
             exception_code, exception_info = get_details_psycopg2_exception(e)
             if exception_code == '23505':
                 raise SanicDBUniqueFieldException(exception_info)
@@ -101,8 +107,16 @@ class CreateOrderEndpoint(BaseEndpoint):
         db_order = orders_queries.create_order(session, body_request=request_model, customer=db_customer)
         try:
             session.commit_session()
-        except (DBDataException, DBIntegrityException) as e:
+        except DBDataException as e:
+            session.rollback()
             raise SanicDBException(str(e))
+        except DBIntegrityException as e:
+            session.rollback()
+            exception_code, exception_info = get_details_psycopg2_exception(e)
+            if exception_code == '23505':
+                raise SanicDBUniqueFieldException(exception_info)
+            else:
+                raise SanicDBException(str(e))
 
         variations_list = []
         for variation in request_model.variations:
@@ -121,8 +135,16 @@ class CreateOrderEndpoint(BaseEndpoint):
 
         try:
             session.commit_session()
-        except (DBDataException, DBIntegrityException) as e:
+        except DBDataException as e:
+            session.rollback()
             raise SanicDBException(str(e))
+        except DBIntegrityException as e:
+            session.rollback()
+            exception_code, exception_info = get_details_psycopg2_exception(e)
+            if exception_code == '23505':
+                raise SanicDBUniqueFieldException(exception_info)
+            else:
+                raise SanicDBException(str(e))
 
         variations_list = VariationInOrderDto(variations_list, many=True).dump()
 
