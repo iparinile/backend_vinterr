@@ -313,6 +313,9 @@ class DBSession:
     def rollback(self):
         self._session.rollback()
 
+    def add(self, model):
+        self._session.add(model)
+
 
 class DataBase:
     connexion: Engine

@@ -54,34 +54,13 @@ class CreateOrderEndpoint(BaseEndpoint):
         else:
             db_customer = customers_queries.create_unregistered_customer(session, request_model)
 
-        try:
-            session.commit_session()
-        except DBDataException as e:
-            session.rollback()
-            raise SanicDBException(str(e))
-        except DBIntegrityException as e:
-            session.rollback()
-            exception_code, exception_info = get_details_psycopg2_exception(e)
-            if exception_code == '23505':
-                raise SanicDBUniqueFieldException(exception_info)
-            else:
-                raise SanicDBException(str(e))
+        session.add(db_customer)
 
         db_city = cities_queries.create_city(session, request_model.city)
         db_street = streets_queries.create_street(session, request_model.street)
 
-        try:
-            session.commit_session()
-        except DBDataException as e:
-            session.rollback()
-            raise SanicDBException(str(e))
-        except DBIntegrityException as e:
-            session.rollback()
-            exception_code, exception_info = get_details_psycopg2_exception(e)
-            if exception_code == '23505':
-                raise SanicDBUniqueFieldException(exception_info)
-            else:
-                raise SanicDBException(str(e))
+        session.add(db_city)
+        session.add(db_street)
 
         db_customer_address = customer_addresses_queries.create_customer_addresses(
             session,
@@ -91,32 +70,11 @@ class CreateOrderEndpoint(BaseEndpoint):
             street=db_street
         )
 
-        try:
-            session.commit_session()
-        except DBDataException as e:
-            session.rollback()
-            raise SanicDBException(str(e))
-        except DBIntegrityException as e:
-            session.rollback()
-            exception_code, exception_info = get_details_psycopg2_exception(e)
-            if exception_code == '23505':
-                raise SanicDBUniqueFieldException(exception_info)
-            else:
-                raise SanicDBException(str(e))
+        session.add(db_customer_address)
 
         db_order = orders_queries.create_order(session, body_request=request_model, customer=db_customer)
-        try:
-            session.commit_session()
-        except DBDataException as e:
-            session.rollback()
-            raise SanicDBException(str(e))
-        except DBIntegrityException as e:
-            session.rollback()
-            exception_code, exception_info = get_details_psycopg2_exception(e)
-            if exception_code == '23505':
-                raise SanicDBUniqueFieldException(exception_info)
-            else:
-                raise SanicDBException(str(e))
+
+        session.add(db_order)
 
         variations_list = []
         for variation in request_model.variations:
@@ -133,18 +91,7 @@ class CreateOrderEndpoint(BaseEndpoint):
             except DBVariationNegativeRest:
                 raise SanicInsufficientAmountVariation(message="Insufficient number of variations in stock to order")
 
-        try:
-            session.commit_session()
-        except DBDataException as e:
-            session.rollback()
-            raise SanicDBException(str(e))
-        except DBIntegrityException as e:
-            session.rollback()
-            exception_code, exception_info = get_details_psycopg2_exception(e)
-            if exception_code == '23505':
-                raise SanicDBUniqueFieldException(exception_info)
-            else:
-                raise SanicDBException(str(e))
+            session.add(db_variation_in_order)
 
         variations_list = VariationInOrderDto(variations_list, many=True).dump()
 
@@ -219,6 +166,17 @@ Email: {db_customer.email}
         await send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
         # await send_email(to_address=[os.getenv("email_to")], subject="Новый заказ на сайте", text=message_to_customer)
         await send_email(to_address=[db_customer.email], subject="Данные по заказу Vinterr", text=message_to_customer)
+
+        try:
+            session.commit_session()
+        except DBDataException as e:
+            raise SanicDBException(str(e))
+        except DBIntegrityException as e:
+            exception_code, exception_info = get_details_psycopg2_exception(e)
+            if exception_code == '23505':
+                raise SanicDBUniqueFieldException(exception_info)
+            else:
+                raise SanicDBException(str(e))
 
         session.close_session()
 
