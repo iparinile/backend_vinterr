@@ -12,7 +12,7 @@ class RequestCreateVariationDtoSchema(Schema):
     discounted_price = fields.Int(missing=None)
     variation_1c_id = fields.Str(missing=None)
     amount = fields.Int(required=True, allow_none=False)
-    barcode = fields.Str(required=True, allow_none=False)
+    barcode = fields.Str(missing=None)
     is_sale = fields.Bool(missing=False)
     is_new = fields.Bool(missing=False)
     is_default = fields.Bool(missing=None)

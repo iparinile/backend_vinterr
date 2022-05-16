@@ -8,7 +8,7 @@ class RequestCreateGoodDtoSchema(Schema):
     article = fields.Str(required=True, allow_none=False)
     good_1c_id = fields.Str(missing=None)
     category_id = fields.Int(required=True, allow_none=False)
-    barcode = fields.Str(required=True, allow_none=False)
+    barcode = fields.Str(missing=None)
     structure_id = fields.Int(required=True, allow_none=False)
     description = fields.Str(required=True, allow_none=False)
     is_visible = fields.Bool(missing=True)
