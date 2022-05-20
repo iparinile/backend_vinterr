@@ -40,6 +40,7 @@ class CreateImageEndpoint(BaseEndpoint):
         if files_amount >= 100:
             latest_images_path = f"{images_path}/{folders_counter + 1}"
             os.mkdir(latest_images_path)
+            folders_counter += 1
 
         image_path = f"{latest_images_path}/{image.name}"
         image_path_in_db = f"{folders_counter}/{image.name}"
