@@ -211,9 +211,13 @@ class SanicTelegramUserNotFound(SanicException):
 
 
 '''
-Upload images Exceptions
+Images Exceptions
 '''
 
 
 class SanicIncorrectRequest(SanicException):
+    status_code = 400
+
+
+class SanicWrongImagePath(SanicException):
     status_code = 400
