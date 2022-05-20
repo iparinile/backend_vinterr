@@ -4,6 +4,7 @@ from sanic.request import Request, File
 from sanic.response import BaseHTTPResponse
 
 from api.request.create_image import RequestCreateImageDto
+from api.response.create_image import ResponseCreateImageDto
 from db.database import DBSession
 from db.exceptions import DBVariationNotExistsException, DBDataException, DBIntegrityException
 from db.queries.images import create_image
@@ -61,4 +62,6 @@ class CreateImageEndpoint(BaseEndpoint):
             "variation_id": variation_id
         }
 
-        return await self.make_response_json(body=response_body, status=201)
+        response_object = ResponseCreateImageDto(response_body, is_input_dict=True)
+
+        return await self.make_response_json(body=response_object.dump(), status=201)
