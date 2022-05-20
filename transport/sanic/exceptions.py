@@ -208,3 +208,12 @@ class SanicTelegramUserConflictException(SanicException):
 
 class SanicTelegramUserNotFound(SanicException):
     status_code = 404
+
+
+'''
+Upload images Exceptions
+'''
+
+
+class SanicIncorrectRequest(SanicException):
+    status_code = 400

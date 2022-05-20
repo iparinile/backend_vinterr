@@ -20,16 +20,8 @@ class CreateVariationEndpoint(BaseEndpoint):
 
         db_variation = variations_queries.create_variation(session, request_model)
 
-        try:
-            session.commit_session()
-        except DBDataException as e:
-            raise SanicDBException(str(e))
-        except DBIntegrityException as e:
-            exception_code, exception_info = get_details_psycopg2_exception(e)
-            if exception_code in ['23503', '23505']:
-                raise SanicDBUniqueFieldException(exception_info)
-            else:
-                raise SanicDBException(str(e))
+        session.add(db_variation)
+        session.flush()
 
         if request_model.is_default:
             try:
@@ -43,6 +35,17 @@ class CreateVariationEndpoint(BaseEndpoint):
                 raise SanicDBException(str(e))
 
         response_model = ResponseVariationDto(db_variation)
+
+        try:
+            session.commit_session()
+        except DBDataException as e:
+            raise SanicDBException(str(e))
+        except DBIntegrityException as e:
+            exception_code, exception_info = get_details_psycopg2_exception(e)
+            if exception_code in ['23503', '23505']:
+                raise SanicDBUniqueFieldException(exception_info)
+            else:
+                raise SanicDBException(str(e))
 
         session.close_session()
 
