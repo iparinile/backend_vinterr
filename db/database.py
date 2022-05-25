@@ -158,8 +158,14 @@ class DBSession:
 
         return query.all()
 
-    def get_good_by_id(self, good_id: int) -> DBGoods:
+    def get_good_by_id_with_full_info(self, good_id: int) -> DBGoods:
         query = self.query(DBGoods, DBCategories, DBStructures)
+        query = query.filter(DBGoods.is_delete == False)
+        query = query.filter(DBGoods.id == good_id)
+        return query.first()
+
+    def get_good_by_id(self, good_id: int) -> DBGoods:
+        query = self.query(DBGoods)
         query = query.filter(DBGoods.is_delete == False)
         query = query.filter(DBGoods.id == good_id)
         return query.first()

@@ -29,7 +29,7 @@ def get_all_goods(session: DBSession, request_params: dict) -> List['DBGoods']:
 
 
 def get_good(session: DBSession, good_id: int):
-    db_good = session.get_good_by_id(good_id)
+    db_good = session.get_good_by_id_with_full_info(good_id)
 
     if len(db_good) == 0:
         raise DBGoodNotExistsException
