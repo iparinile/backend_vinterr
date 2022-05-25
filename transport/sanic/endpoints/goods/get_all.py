@@ -55,6 +55,7 @@ class GetAllGoodsEndpoint(BaseEndpoint):
                     valid_image = ResponseImageDto(db_images).dump()
                     response_body[db_goods.id]['variations'][db_variations.id]['images'].append(valid_image)
 
+            response_body[db_goods.id]['variations'][db_variations.id]['images'].sort()
         response_body = [good for good in response_body.values()]
         for good in response_body:
             good['colors'] = [color for color in good['colors'].values()]
