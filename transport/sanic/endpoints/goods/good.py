@@ -48,6 +48,7 @@ class GoodEndpoint(BaseEndpoint):
                 if len(images) > 0:
                     response_image = ResponseImageDto(images, many=True)
                     valid_variation['images'] = response_image.dump()
+                    valid_variation['images'].sort()
                 else:
                     valid_variation['images'] = []
 
