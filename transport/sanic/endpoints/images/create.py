@@ -1,5 +1,6 @@
 import os
 
+from PIL import Image
 from sanic.request import Request, File
 from sanic.response import BaseHTTPResponse
 
@@ -44,10 +45,16 @@ class CreateImageEndpoint(BaseEndpoint):
             folders_counter += 1
 
         image_path = f"{latest_images_path}/{image.name}"
-        image_path_in_db = f"{folders_counter}/{image.name}"
         new_image = open(image_path, mode="wb")
         new_image.write(image_body)
         new_image.close()
+
+        image_webp_name = f"{image.name.split('.')[0]}.webp"
+        image_webp_path = f"{latest_images_path}/{image_webp_name}"
+        image = Image.open(fp=image_path).convert("RGB")
+        image.save(image_webp_path, "webp")
+
+        image_path_in_db = f"{folders_counter}/{image_webp_name}"
 
         db_images = create_image(session, variation_id, image_path_in_db)
 
