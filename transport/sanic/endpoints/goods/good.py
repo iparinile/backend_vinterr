@@ -1,6 +1,7 @@
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
+from api.request.patch_good import RequestPatchGoodDto
 from api.response.category import ResponseCategoryDto
 from api.response.color import ResponseColorDto
 from api.response.directory_item import ResponseStructureDto, ResponseSizeDto
@@ -8,15 +9,60 @@ from api.response.good import ResponseGoodDto
 from api.response.image import ResponseImageDto
 from api.response.variation import ResponseVariationDto
 from db.database import DBSession
-from db.exceptions import DBGoodNotExistsException
+from db.exceptions import DBGoodNotExistsException, DBDataException, DBIntegrityException
 from db.queries import goods as goods_queries
 from db.queries import variations as variations_queries
 from db.queries import images as images_queries
+from helpers.psycopg2_exceptions.get_details import get_details_psycopg2_exception
 from transport.sanic.endpoints import BaseEndpoint
-from transport.sanic.exceptions import SanicGoodNotFound
+from transport.sanic.exceptions import SanicGoodNotFound, SanicDBException, SanicDBUniqueFieldException
 
 
 class GoodEndpoint(BaseEndpoint):
+    async def method_delete(self, request: Request, body: dict, session: DBSession, good_id: int,
+                            *args, **kwargs) -> BaseHTTPResponse:
+
+        try:
+            db_good = goods_queries.get_good_by_id(session, good_id)
+        except DBGoodNotExistsException:
+            raise SanicGoodNotFound('Good not found')
+
+        goods_queries.delete_good(db_good)
+
+        try:
+            session.commit_session(need_close=True)
+        except (DBDataException, DBIntegrityException) as e:
+            raise SanicDBException(str(e))
+
+        return await self.make_response_json(status=204)
+
+    async def method_patch(self, request: Request, body: dict, session: DBSession, good_id: int,
+                           *args, **kwargs) -> BaseHTTPResponse:
+        request_model = RequestPatchGoodDto(body)
+
+        try:
+            db_good = goods_queries.get_good_by_id(session, good_id)
+        except DBGoodNotExistsException:
+            raise SanicGoodNotFound('Good not found')
+
+        db_good = goods_queries.patch_good(db_good, request_model)
+
+        try:
+            session.commit_session()
+        except DBDataException as e:
+            raise SanicDBException(str(e))
+        except DBIntegrityException as e:
+            exception_code, exception_info = get_details_psycopg2_exception(e)
+            if exception_code in ['23503', '23505']:
+                raise SanicDBUniqueFieldException(exception_info)
+            else:
+                raise SanicDBException(str(e))
+
+        response_model = ResponseGoodDto(db_good)
+
+        session.close_session()
+        return await self.make_response_json(body=response_model.dump(), status=200)
+
     async def method_get(self, request: Request, body: dict, session: DBSession, good_id: int,
                          *args, **kwargs) -> BaseHTTPResponse:
 

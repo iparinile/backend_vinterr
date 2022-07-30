@@ -12,6 +12,22 @@ from transport.sanic.exceptions import SanicVariationNotFound, SanicDBException,
 
 
 class VariationEndpoint(BaseEndpoint):
+    async def method_delete(self, request: Request, body: dict, session: DBSession, variation_id: int,
+                            *args, **kwargs) -> BaseHTTPResponse:
+
+        try:
+            variation = variations_queries.get_variations_by_id(session, variation_id)
+        except DBVariationNotExistsException:
+            raise SanicVariationNotFound('Variation not found')
+
+        variations_queries.delete_variation(variation)
+
+        try:
+            session.commit_session(need_close=True)
+        except (DBDataException, DBIntegrityException) as e:
+            raise SanicDBException(str(e))
+
+        return await self.make_response_json(status=204)
     async def method_patch(self, request: Request, body: dict, session: DBSession, variation_id: int,
                            *args, **kwargs) -> BaseHTTPResponse:
 

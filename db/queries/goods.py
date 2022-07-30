@@ -1,6 +1,7 @@
 from typing import List
 
 from api.request.create_good import RequestCreateGoodDto
+from api.request.patch_good import RequestPatchGoodDto
 from db.database import DBSession
 from db.exceptions import DBGoodNotExistsException
 from db.models import DBGoods, DBVariations
@@ -37,6 +38,13 @@ def get_good(session: DBSession, good_id: int):
     return db_good
 
 
+def get_good_by_id(session: DBSession, good_id: int):
+    db_good = session.get_good_by_id(good_id)
+    if db_good is None:
+        raise DBGoodNotExistsException
+    return db_good
+
+
 def set_default_variation(session: DBSession, db_variation: DBVariations) -> DBGoods:
     db_good = session.get_good_by_id(db_variation.good_id)
 
@@ -46,3 +54,16 @@ def set_default_variation(session: DBSession, db_variation: DBVariations) -> DBG
     db_good.default_variation = db_variation.id
 
     return db_good
+
+
+def patch_good(good: DBGoods, patch_fields_good: RequestPatchGoodDto) -> DBGoods:
+    for attr in patch_fields_good.fields:
+        if hasattr(patch_fields_good, attr):
+            value = getattr(patch_fields_good, attr)
+            setattr(good, attr, value)
+    return good
+
+
+def delete_good(good: DBGoods) -> DBGoods:
+    good.is_delete = True
+    return good

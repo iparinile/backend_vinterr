@@ -81,3 +81,8 @@ def patch_variation(variation: DBVariations, patch_fields_variation: RequestPatc
             value = getattr(patch_fields_variation, attr)
             setattr(variation, attr, value)
     return variation
+
+
+def delete_variation(variation: DBVariations) -> DBVariations:
+    variation.is_delete = True
+    return variation
