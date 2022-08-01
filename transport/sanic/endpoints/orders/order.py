@@ -3,6 +3,7 @@ from sanic.response import BaseHTTPResponse
 
 from api.request.patch_order import RequestPatchOrderDto
 from api.response.order import ResponseOrderDto
+from api.response.order_from_db import ResponseOrderDBDto
 from db.database import DBSession
 from db.exceptions import DBDataException, DBIntegrityException, DBOrderNotExistsException
 from db.queries import orders as orders_queries
@@ -44,7 +45,7 @@ class OrderEndpoint(BaseEndpoint):
         request_model = RequestPatchOrderDto(body)
 
         try:
-            order = orders_queries.get_order(session, order_id)
+            order = orders_queries.get_order_by_id(session, order_id)
         except DBOrderNotExistsException:
             raise SanicOrderNotFound('Order not found')
 
@@ -61,7 +62,7 @@ class OrderEndpoint(BaseEndpoint):
             else:
                 raise SanicDBException(str(e))
 
-        response_model = ResponseOrderDto(order)
+        response_model = ResponseOrderDBDto(order)
 
         session.close_session()
         return await self.make_response_json(body=response_model.dump(), status=200)

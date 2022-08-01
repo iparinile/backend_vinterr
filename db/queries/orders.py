@@ -40,6 +40,15 @@ def get_order(session: DBSession, order_id: int) -> DBOrders:
     return order
 
 
+def get_order_by_id(session: DBSession, order_id: int) -> DBOrders:
+    order = session.get_order_by_id_patch(order_id)
+
+    if order is None:
+        raise DBOrderNotExistsException
+
+    return order
+
+
 def get_order_by_sberbank_id(session: DBSession, sberbank_order_id: str) -> DBOrders:
     order = session.get_order_by_sberbank_id(sberbank_order_id)
 

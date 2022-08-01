@@ -255,6 +255,10 @@ class DBSession:
         query = query.filter(DBOrders.id == order_id)
         return query.first()
 
+    def get_order_by_id_patch(self, order_id) -> DBOrders:
+        query = self.query(DBOrders).filter(DBOrders.id == order_id)
+        return query.first()
+
     def get_order_by_id(self, order_id: int) -> DBOrders:
         return self.query(DBOrders).filter(DBOrders.id == order_id).all()
 
