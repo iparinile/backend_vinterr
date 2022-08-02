@@ -167,7 +167,7 @@ Email: {db_customer.email}
 """
         message_to_customer = make_email_text(db_order, variations_in_order_list_to_email, order_sum, db_delivery_type)
         await send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
-        await send_email(to_address=[os.getenv("email_to")], subject="Новый заказ на сайте", text=message_to_customer)
+        # await send_email(to_address=[os.getenv("email_to")], subject="Новый заказ на сайте", text=message_to_customer)
         await send_email(to_address=[db_customer.email], subject="Данные по заказу Vinterr", text=message_to_customer)
 
         try:
