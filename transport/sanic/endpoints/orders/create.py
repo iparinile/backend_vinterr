@@ -61,6 +61,7 @@ class CreateOrderEndpoint(BaseEndpoint):
 
         session.add(db_city)
         session.add(db_street)
+        session.flush()
 
         db_customer_address = customer_addresses_queries.create_customer_addresses(
             session,
@@ -165,7 +166,7 @@ Email: {db_customer.email}
 Тип оплаты: {"наличными при получении" if db_order.is_cash_payment else "онлайн на сайте"}
 """
         message_to_customer = make_email_text(db_order, variations_in_order_list_to_email, order_sum, db_delivery_type)
-        await send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
+        # await send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
         # await send_email(to_address=[os.getenv("email_to")], subject="Новый заказ на сайте", text=message_to_customer)
         await send_email(to_address=[db_customer.email], subject="Данные по заказу Vinterr", text=message_to_customer)
 
