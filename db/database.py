@@ -206,6 +206,12 @@ class DBSession:
     def get_images_by_variation_id(self, variation_id: int) -> List['DBImages']:
         return self.query(DBImages).filter(DBImages.variation_id == variation_id).all()
 
+    def get_images_by_url(self, image_url: str) -> DBImages:
+        return self.query(DBImages).filter(DBImages.url == image_url).first()
+
+    def delete_image(self, image_id: int):
+        return self.query(DBImages).filter(DBImages.id == image_id).delete()
+
     '''
     requests to DBCities
     '''

@@ -185,3 +185,10 @@ class DBStatusExistsException(Exception):
 
 class DBStatusNotExistsException(Exception):
     pass
+
+'''
+Images Exceptions
+'''
+
+class DBImageNotExistsException(Exception):
+    pass
