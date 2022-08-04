@@ -83,7 +83,7 @@ def get_routes(config: ApplicationConfig, context: Context) -> Tuple:
                                 methods=['GET', 'DELETE']),
         endpoints.CreateImageEndpoint(config=config, context=context, uri='/images', methods=['POST'],
                                       auth_required=True, is_administrator_access=True),
-        endpoints.CreateImageEndpoint(config=config, context=context, uri='/images', methods=['OPTIONS', 'GET']),
+        endpoints.CreateImageEndpoint(config=config, context=context, uri='/images', methods=['OPTIONS']),
         endpoints.CreateOrderEndpoint(config=config, context=context, uri='/orders', methods=['POST', 'OPTIONS']),
         endpoints.GetAllOrdersEndpoint(config=config, context=context, uri='/orders/all', methods=['GET'],
                                        auth_required=True, is_administrator_access=True),
