@@ -16,22 +16,23 @@ from transport.sanic.exceptions import SanicIncorrectRequest, SanicVariationNotF
 
 class CreateImageEndpoint(BaseEndpoint):
     async def method_get(self, request: Request, body: dict, session: DBSession, *args, **kwargs) -> BaseHTTPResponse:
+        if (len(request.args) != 1) or ("variation_id" not in request.args.keys()):
+            raise SanicIncorrectRequest(message="Incorrect request")
 
+        image_folder_name = request.args["variation_id"][0]
         images_path = "src/img"
-        array = os.listdir(images_path)  # получаем список папок из \NN
 
-        for image_folder_name in array:  # в цикле от первой до последней папки
-            path = f"{images_path}/{image_folder_name}"  # получаем директорию i-ой папки
-            # os.chdir(path)  # перемещаемся в директорию i-ой папки
-            path_files = os.listdir(path)  # получаем список файлов i-ой папки
+        path = f"{images_path}/{image_folder_name}"  # получаем директорию i-ой папки
+        # os.chdir(path)  # перемещаемся в директорию i-ой папки
+        path_files = os.listdir(path)  # получаем список файлов i-ой папки
 
-            for file_name in path_files:  # цикле от первого до последнего файла i-ой папки
-                if file_name.split(".")[1] == "jpg":
-                    image_webp_name = f"{file_name.split('.')[0]}.webp"
-                    image_webp_path = f"{path}/{image_webp_name}"
-                    print(image_webp_path)
-                    image = Image.open(fp=f"{path}/{file_name}").convert("RGB")
-                    image.save(image_webp_path, "webp", optimize=True, quality=5)
+        for file_name in path_files:  # цикле от первого до последнего файла i-ой папки
+            if file_name.split(".")[1] == "jpg":
+                image_webp_name = f"{file_name.split('.')[0]}.webp"
+                image_webp_path = f"{path}/{image_webp_name}"
+                print(image_webp_path)
+                image = Image.open(fp=f"{path}/{file_name}").convert("RGB")
+                image.save(image_webp_path, "webp", optimize=True, quality=5)
 
         return await self.make_response_json(status=200)
 
