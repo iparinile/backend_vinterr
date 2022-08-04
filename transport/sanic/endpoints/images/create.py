@@ -25,6 +25,7 @@ class CreateImageEndpoint(BaseEndpoint):
         path = f"{images_path}/{image_folder_name}"  # получаем директорию i-ой папки
         # os.chdir(path)  # перемещаемся в директорию i-ой папки
         path_files = os.listdir(path)  # получаем список файлов i-ой папки
+        print(path_files)
 
         for file_name in path_files:  # цикле от первого до последнего файла i-ой папки
             if file_name.split(".")[1] == "jpg":
