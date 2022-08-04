@@ -72,7 +72,7 @@ class CreateImageEndpoint(BaseEndpoint):
         image_webp_name = f"{image.name.split('.')[0]}.webp"
         image_webp_path = f"{latest_images_path}/{image_webp_name}"
         image = Image.open(fp=image_path).convert("RGB")
-        image.save(image_webp_path, "webp")
+        image.save(image_webp_path, "webp", optimize=True, quality=5)
 
         image_path_in_db = f"{folders_counter}/{image_webp_name}"
 
