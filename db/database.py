@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker, Session, Query
 from db.exceptions import DBIntegrityException, DBDataException
 from db.models import BaseModel, DBUsers, DBCustomers, DBMaterials, DBCategories, DBStructures, DBSizes, DBColors, \
     DBGoods, DBVariations, DBImages, DBCities, DBStreets, DBOrders, DBStatuses, DBDeliveryTypes, \
-    DBVariationInOrders, DBTelegramUsers
+    DBVariationInOrders, DBTelegramUsers, DBStatusChanges
 
 
 class DBSession:
@@ -310,6 +310,13 @@ class DBSession:
 
     def get_telegram_user_by_id(self, user_id: int) -> DBTelegramUsers:
         return self.query(DBTelegramUsers).filter(DBTelegramUsers.chat_id == user_id).first()
+
+    '''
+    requests to DBTelegramUsers
+    '''
+
+    def get_all_status_changes_for_order(self, order_id: int) -> List[DBStatusChanges]:
+        return self.query(DBStatusChanges).filter(DBStatusChanges.order_id == order_id).all()
 
     '''
 ----------------------------------------------------------------------------------

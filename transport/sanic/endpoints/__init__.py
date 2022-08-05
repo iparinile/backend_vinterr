@@ -62,3 +62,5 @@ from .payments.get_status import GetStatusPaymentsEndpoint
 
 from .telegram_users.create import CreateTelegramUserEndpoint
 from .telegram_users.telegram_user import TelegramUserEndpoint
+
+from .status_changes.get_all_for_order import GetAllStatusChangesEndpoint

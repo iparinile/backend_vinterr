@@ -13,6 +13,7 @@ from db.queries import customers as customers_queries
 from db.queries import customer_addresses as customer_addresses_queries
 from db.queries import delivery_types as delivery_types_queries
 from db.queries import orders as orders_queries
+from db.queries import status_changes as status_changes_queries
 from db.queries import streets as streets_queries
 from db.queries import variations as variations_queries
 from db.queries import variation_in_orders as variation_in_orders_queries
@@ -182,6 +183,12 @@ Email: {db_customer.email}
                 raise SanicDBUniqueFieldException(exception_info)
             else:
                 raise SanicDBException(str(e))
+
+        db_status_changes = status_changes_queries.create_status_changes(session, db_order.id, db_order.status_id)
+        try:
+            session.commit_session()
+        except (DBDataException, DBIntegrityException) as e:
+            raise SanicDBException(str(e))
 
         session.close_session()
 

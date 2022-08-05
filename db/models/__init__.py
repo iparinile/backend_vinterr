@@ -19,3 +19,4 @@ from .variation_in_orders import DBVariationInOrders
 from .variations import DBVariations
 from .contact_forms import DBContactForms
 from .telegram_users import DBTelegramUsers
+from .status_changes import DBStatusChanges

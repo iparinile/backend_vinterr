@@ -110,5 +110,8 @@ def get_routes(config: ApplicationConfig, context: Context) -> Tuple:
         endpoints.CreateTelegramUserEndpoint(config=config, context=context, uri='/telegram_users', methods=['POST'],
                                              telegram_password_required=True),
         endpoints.TelegramUserEndpoint(config=config, context=context, uri='/telegram_users/<telegram_user_id:int>',
-                                       methods=['GET', 'PATCH'], telegram_password_required=True)
+                                       methods=['GET', 'PATCH'], telegram_password_required=True),
+        endpoints.GetAllStatusChangesEndpoint(config=config, context=context,
+                                              uri='/orders/<order_id:int>/status_changes', methods=['GET'],
+                                              auth_required=True, is_administrator_access=True),
     )

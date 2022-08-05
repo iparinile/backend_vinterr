@@ -2,10 +2,10 @@ from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
 from api.request.patch_order import RequestPatchOrderDto
-from api.response.order import ResponseOrderDto
 from api.response.order_from_db import ResponseOrderDBDto
 from db.database import DBSession
 from db.exceptions import DBDataException, DBIntegrityException, DBOrderNotExistsException
+from db.queries import status_changes as status_changes_queries
 from db.queries import orders as orders_queries
 from helpers.psycopg2_exceptions.get_details import get_details_psycopg2_exception
 from transport.sanic.endpoints import BaseEndpoint
@@ -60,6 +60,13 @@ class OrderEndpoint(BaseEndpoint):
             if exception_code in ['23503', '23505']:
                 raise SanicDBUniqueFieldException(exception_info)
             else:
+                raise SanicDBException(str(e))
+
+        if hasattr(request_model, "status_id"):
+            db_status_changes = status_changes_queries.create_status_changes(session, order.id, order.status_id)
+            try:
+                session.commit_session()
+            except (DBDataException, DBIntegrityException) as e:
                 raise SanicDBException(str(e))
 
         response_model = ResponseOrderDBDto(order)
