@@ -7,10 +7,9 @@ from db.queries import status_changes as status_changes_queries
 from transport.sanic.endpoints import BaseEndpoint
 
 
-class GetAllStatusChangesForOrderEndpoint(BaseEndpoint):
-    async def method_get(self, request: Request, body: dict, session: DBSession, order_id: int,
-                         *args, **kwargs) -> BaseHTTPResponse:
-        status_changes = status_changes_queries.get_all_status_changes_for_order(session, order_id)
+class GetAllStatusChangesEndpoint(BaseEndpoint):
+    async def method_get(self, request: Request, body: dict, session: DBSession, *args, **kwargs) -> BaseHTTPResponse:
+        status_changes = status_changes_queries.get_all_status_changes(session)
 
         response_model = ResponseStatusChangesDto(status_changes, many=True)
 

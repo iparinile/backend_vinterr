@@ -15,7 +15,13 @@ def create_status_changes(session: DBSession, order_id: int, status_id: int) -> 
     return new_status_changes
 
 
-def get_all_status_changes(session: DBSession, order_id: int) -> List[DBStatusChanges]:
+def get_all_status_changes_for_order(session: DBSession, order_id: int) -> List[DBStatusChanges]:
     status_changes = session.get_all_status_changes_for_order(order_id)
+
+    return status_changes
+
+
+def get_all_status_changes(session: DBSession) -> List[DBStatusChanges]:
+    status_changes = session.get_all_status_changes()
 
     return status_changes

@@ -315,6 +315,9 @@ class DBSession:
     requests to DBTelegramUsers
     '''
 
+    def get_all_status_changes(self) -> List[DBStatusChanges]:
+        return self.query(DBStatusChanges).all()
+
     def get_all_status_changes_for_order(self, order_id: int) -> List[DBStatusChanges]:
         return self.query(DBStatusChanges).filter(DBStatusChanges.order_id == order_id).all()
 
