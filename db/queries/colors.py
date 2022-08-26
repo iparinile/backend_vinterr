@@ -3,7 +3,7 @@ from typing import List
 from api.request.create_color import RequestCreateColorDto
 from api.request.patch_color import RequestPatchColorDto
 from db.database import DBSession
-from db.exceptions import DBColorNameExistsException, DBColorCodeExistsException, DBColorNotExistsException
+from db.exceptions import DBColorNameExistsException, DBColorNotExistsException
 from db.models import DBColors
 
 
@@ -15,8 +15,6 @@ def create_color(session: DBSession, color: RequestCreateColorDto) -> DBColors:
 
     if session.get_color_by_name(new_color.name) is not None:
         raise DBColorNameExistsException
-    elif session.get_color_by_code(new_color.code) is not None:
-        raise DBColorCodeExistsException
 
     session.add_model(new_color)
 

@@ -101,10 +101,6 @@ class DBColorNameExistsException(Exception):
     pass
 
 
-class DBColorCodeExistsException(Exception):
-    pass
-
-
 class DBColorNotExistsException(Exception):
     pass
 
@@ -186,9 +182,11 @@ class DBStatusExistsException(Exception):
 class DBStatusNotExistsException(Exception):
     pass
 
+
 '''
 Images Exceptions
 '''
+
 
 class DBImageNotExistsException(Exception):
     pass
