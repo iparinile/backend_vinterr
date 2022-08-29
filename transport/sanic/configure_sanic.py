@@ -11,7 +11,7 @@ def configure_app(config: ApplicationConfig, context: Context):
 
     init_db_postgres(config, context)
 
-    app = Sanic(__name__)
+    app = Sanic("Backend_vinterr")
     app.blueprint(openapi3_blueprint)
     app.config.API_VERSION = "0.1.0"
     app.config.API_TITLE = "Backend_vinterr_API"
