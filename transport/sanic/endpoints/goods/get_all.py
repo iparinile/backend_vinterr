@@ -63,6 +63,7 @@ class GetAllGoodsEndpoint(BaseEndpoint):
 
             for color in good['colors']:
                 color['sizes'] = [size for size in color['sizes'].values()]
+        # Тест новой ветки
 
         session.close_session()
 
