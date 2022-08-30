@@ -13,5 +13,8 @@ async def send_message_to_chat(chat_id: str, message: str) -> None:
 
 
 if __name__ == '__main__':
+    # @bot.message_handler(content_types=['text'])
+    # def text(message: Message):
+    #     bot.send_message(message.chat.id, message.text)
     # bot.polling(none_stop=True, interval=0)
     send_message_to_chat("-1001758152269", "test")
