@@ -65,11 +65,11 @@ class SanicEndpoint:
                 'error_code': error_code or status
             }
 
-        if str(status).startswith("5") or str(error_code).startswith("5"):
-            errors_chat_id = os.getenv('telegram_errors_chat_id')
-            error_info = ''.join('{}{}'.format(key, val) for key, val in body.items())
-            error_info = error_info.replace("[", "\\[").replace("_", "\\_")
-            await send_message_to_chat(errors_chat_id, error_info)
+        # if str(status).startswith("5") or str(error_code).startswith("5"):
+        #     errors_chat_id = os.getenv('telegram_errors_chat_id')
+        #     error_info = ''.join('{}{}'.format(key, val) for key, val in body.items())
+        #     error_info = error_info.replace("[", "\\[").replace("_", "\\_")
+        #     await send_message_to_chat(errors_chat_id, error_info)
         return json(headers=headers, body=body, status=status)
 
     @staticmethod

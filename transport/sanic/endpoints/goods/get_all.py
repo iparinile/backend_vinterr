@@ -1,10 +1,10 @@
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse
-from transliterate import translit
 
 from api.response.color import ResponseColorDto
 from api.response.directory_item import ResponseSizeDto
 from api.response.good import ResponseGoodDto
+from api.response.goods_all import ResponseGoodsAllDto
 from api.response.image import ResponseImageDto
 from api.response.variation import ResponseVariationDto
 from db.database import DBSession
@@ -27,43 +27,45 @@ class GetAllGoodsEndpoint(BaseEndpoint):
         response_body = dict()
         for db_goods, db_variations, db_colors, db_sizes, db_images in records:
             if db_goods.id not in response_body.keys():
-                valid_goods = ResponseGoodDto(db_goods).dump()
-                valid_goods['variations'] = dict()
-                valid_goods['colors'] = dict()
-                valid_goods['variations_to_show'] = dict()
-                response_body[valid_goods['id']] = valid_goods
+                # valid_goods = ResponseGoodDto(db_goods).dump()
+                db_goods.variations = dict()
+                db_goods.colors = dict()
+                db_goods.variations_to_show = dict()
+                response_body[db_goods.id] = db_goods
             if db_variations is not None:
-                if db_variations.id not in response_body[db_goods.id]['variations'].keys():
-                    valid_variation = ResponseVariationDto(db_variations).dump()
-                    valid_color = ResponseColorDto(db_colors).dump()
-                    valid_size = ResponseSizeDto(db_sizes).dump()
-                    valid_variation['images'] = []
-                    response_body[db_goods.id]['variations'][db_variations.id] = valid_variation
-                    colors_dict = response_body[db_goods.id]['colors']
-                    if valid_color['id'] not in colors_dict.keys():
-                        valid_color['sizes'] = dict()
-                        response_body[db_goods.id]['colors'][valid_color['id']] = valid_color
+                if db_variations.id not in response_body[db_goods.id].variations.keys():
+                    # valid_variation = ResponseVariationDto(db_variations).dump()
+                    # valid_color = ResponseColorDto(db_colors).dump()
+                    # valid_size = ResponseSizeDto(db_sizes).dump()
+                    db_variations.images = []
+                    response_body[db_goods.id].variations[db_variations.id] = db_variations
+                    colors_dict = response_body[db_goods.id].colors
+                    if db_colors.id not in colors_dict.keys():
+                        db_colors.sizes = dict()
+                        response_body[db_goods.id].colors[db_colors.id] = db_colors
 
-                    variations_to_show_dict = response_body[db_goods.id]['variations_to_show']
-                    if valid_color['id'] not in variations_to_show_dict.keys():
-                        response_body[db_goods.id]['variations_to_show'][valid_color['id']] = valid_variation['id']
+                    variations_to_show_dict = response_body[db_goods.id].variations_to_show
+                    if db_colors.id not in variations_to_show_dict.keys():
+                        response_body[db_goods.id].variations_to_show[db_colors.id] = db_variations.id
 
-                    if valid_size['id'] not in response_body[db_goods.id]['colors'][valid_color['id']]['sizes']:
-                        response_body[db_goods.id]['colors'][valid_color['id']]['sizes'][valid_size['id']] = valid_size
+                    if db_sizes.id not in response_body[db_goods.id].colors[db_colors.id].sizes:
+                        response_body[db_goods.id].colors[db_colors.id].sizes[db_sizes.id] = db_sizes
 
                 if db_images is not None:
-                    valid_image = ResponseImageDto(db_images).dump()
-                    response_body[db_goods.id]['variations'][db_variations.id]['images'].append(valid_image)
+                    # valid_image = ResponseImageDto(db_images).dump()
+                    response_body[db_goods.id].variations[db_variations.id].images.append(db_images)
 
         response_body = [good for good in response_body.values()]
         for good in response_body:
-            good['colors'] = [color for color in good['colors'].values()]
-            good['variations'] = [variation for variation in good['variations'].values()]
-            good['variations_to_show'] = [variation for variation in good['variations_to_show'].values()]
+            good.colors = [color for color in good.colors.values()]
+            good.variations = [variation for variation in good.variations.values()]
+            good.variations_to_show = [variation for variation in good.variations_to_show.values()]
 
-            for color in good['colors']:
-                color['sizes'] = [size for size in color['sizes'].values()]
+            for color in good.colors:
+                color.sizes = [size for size in color.sizes.values()]
+
+        response = ResponseGoodsAllDto(response_body, many=True)
 
         session.close_session()
 
-        return await self.make_response_json(status=200, body=response_body)
+        return await self.make_response_json(status=200, body=response.dump())
