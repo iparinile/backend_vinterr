@@ -1,4 +1,4 @@
-from sanic import Request
+from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
 from api.request.patch_directory_item import RequestPatchProductsCareDto
