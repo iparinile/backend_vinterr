@@ -80,6 +80,19 @@ class DBStructureNotExistsException(Exception):
 
 
 '''
+ProductsCare Exceptions
+'''
+
+
+class DBProductsCareExistsException(Exception):
+    pass
+
+
+class DBProductsCareNotExistsException(Exception):
+    pass
+
+
+'''
 Sizes Exceptions
 '''
 

@@ -103,6 +103,19 @@ class SanicStructureNotFound(SanicException):
 
 
 '''
+ProductsCare Exceptions
+'''
+
+
+class SanicProductsCareConflictException(SanicException):
+    status_code = 409
+
+
+class SanicProductsCareNotFound(SanicException):
+    status_code = 404
+
+
+'''
 Sizes Exceptions
 '''
 

@@ -65,3 +65,7 @@ from .telegram_users.telegram_user import TelegramUserEndpoint
 
 from .status_changes.get_all_for_order import GetAllStatusChangesForOrderEndpoint
 from .status_changes.get_all import GetAllStatusChangesEndpoint
+
+from .products_care.products_care import ProductsCareEndpoint
+from .products_care.create import CreateProductsCareEndpoint
+from .products_care.get_all import GetAllProductsCareEndpoint

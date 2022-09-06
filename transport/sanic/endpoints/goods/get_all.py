@@ -1,6 +1,5 @@
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse
-from transliterate import translit
 
 from api.response.color import ResponseColorDto
 from api.response.directory_item import ResponseSizeDto
@@ -25,9 +24,17 @@ class GetAllGoodsEndpoint(BaseEndpoint):
         records = goods_queries.get_all_goods(session, request_params)
 
         response_body = dict()
-        for db_goods, db_variations, db_colors, db_sizes, db_images in records:
+        for db_goods, db_variations, db_colors, db_sizes, db_images, db_structures, db_products_care in records:
             if db_goods.id not in response_body.keys():
                 valid_goods = ResponseGoodDto(db_goods).dump()
+                if db_structures is not None:
+                    valid_goods['structure'] = db_structures.name
+                else:
+                    valid_goods['structure'] = None
+                if db_products_care is not None:
+                    valid_goods['product_care'] = db_products_care.name
+                else:
+                    valid_goods['product_care'] = None
                 valid_goods['variations'] = dict()
                 valid_goods['colors'] = dict()
                 valid_goods['variations_to_show'] = dict()

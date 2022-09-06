@@ -25,3 +25,7 @@ class RequestPatchStatusDto(RequestDto, RequestPatchDirectoryItemDtoSchema):
 
 class RequestPatchDeliveryTypeDto(RequestDto, RequestPatchDirectoryItemDtoSchema):
     __schema__ = RequestPatchDirectoryItemDtoSchema
+
+
+class RequestPatchProductsCareDto(RequestDto, RequestPatchDirectoryItemDtoSchema):
+    __schema__ = RequestPatchDirectoryItemDtoSchema

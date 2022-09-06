@@ -26,3 +26,7 @@ class ResponseStatusDto(ResponseDto, ResponseDirectoryItemDtoSchema):
 
 class ResponseDeliveryTypeDto(ResponseDto, ResponseDirectoryItemDtoSchema):
     __schema__ = ResponseDirectoryItemDtoSchema
+
+
+class ResponseProductsCareDto(ResponseDto, ResponseDirectoryItemDtoSchema):
+    __schema__ = ResponseDirectoryItemDtoSchema

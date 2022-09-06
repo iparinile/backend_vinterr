@@ -8,6 +8,7 @@ from db.exceptions import DBIntegrityException, DBDataException
 from db.models import BaseModel, DBUsers, DBCustomers, DBMaterials, DBCategories, DBStructures, DBSizes, DBColors, \
     DBGoods, DBVariations, DBImages, DBCities, DBStreets, DBOrders, DBStatuses, DBDeliveryTypes, \
     DBVariationInOrders, DBTelegramUsers, DBStatusChanges
+from db.models.products_care import DBProductsCare
 
 
 class DBSession:
@@ -103,6 +104,22 @@ class DBSession:
         self.query(DBStructures).filter(DBStructures.id == structure_id).delete()
 
     '''
+    requests to DBProductsCare
+    '''
+
+    def get_products_care_by_name(self, products_care_name: str) -> DBProductsCare:
+        return self.query(DBProductsCare).filter(DBProductsCare.name == products_care_name).first()
+
+    def get_all_products_care(self) -> List['DBProductsCare']:
+        return self.query(DBProductsCare).all()
+
+    def get_products_care_by_id(self, products_care_id: int) -> DBProductsCare:
+        return self.query(DBProductsCare).filter(DBProductsCare.id == products_care_id).first()
+
+    def delete_products_care(self, products_care_id: int):
+        self.query(DBProductsCare).filter(DBProductsCare.id == products_care_id).delete()
+
+    '''
     requests to DBSizes
     '''
 
@@ -142,7 +159,7 @@ class DBSession:
     '''
 
     def get_all_goods(self, request_params: dict) -> List['DBGoods']:
-        query = self.query(DBGoods, DBVariations, DBColors, DBSizes, DBImages)
+        query = self.query(DBGoods, DBVariations, DBColors, DBSizes, DBImages, DBStructures, DBProductsCare)
         query = query.filter(DBGoods.is_delete == False)
         query = query.filter(DBVariations.is_delete == False)
         query = query.outerjoin(DBVariations, DBVariations.good_id == DBGoods.id)
@@ -152,6 +169,8 @@ class DBSession:
             query = query.filter(DBVariations.color_id == request_params["color_id"][0])
         if "size_id" in request_params.keys():
             query = query.filter(DBVariations.size_id == request_params["size_id"][0])
+        query = query.outerjoin(DBStructures, DBStructures.id == DBGoods.structure_id)
+        query = query.outerjoin(DBProductsCare, DBProductsCare.id == DBGoods.products_care_id)
         query = query.outerjoin(DBColors, DBColors.id == DBVariations.color_id)
         query = query.outerjoin(DBSizes, DBSizes.id == DBVariations.size_id)
         query = query.outerjoin(DBImages, DBImages.variation_id == DBVariations.id)

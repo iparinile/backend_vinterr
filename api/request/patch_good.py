@@ -10,6 +10,7 @@ class RequestPatchGoodDtoSchema(Schema):
     category_id = fields.Int()
     barcode = fields.Str()
     structure_id = fields.Int()
+    products_care_id = fields.Int()
     description = fields.Str()
     is_visible = fields.Bool()
 

@@ -24,6 +24,7 @@ class ResponseGoodDtoSchema(Schema):
     category_id = fields.Int(required=True)
     barcode = fields.Str(missing=None)
     structure_id = fields.Int(required=True)
+    products_care_id = fields.Int(missing=None)
     description = fields.Str(missing=None)
     is_visible = fields.Bool(required=True)
     default_variation = fields.Int(missing=None)

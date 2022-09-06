@@ -25,3 +25,7 @@ class RequestCreateStatusDto(RequestDto, RequestCreateDirectoryItemDtoSchema):
 
 class RequestCreateDeliveryTypeDto(RequestDto, RequestCreateDirectoryItemDtoSchema):
     __schema__ = RequestCreateDirectoryItemDtoSchema
+
+
+class RequestCreateProductsCareDto(RequestDto, RequestCreateDirectoryItemDtoSchema):
+    __schema__ = RequestCreateDirectoryItemDtoSchema
