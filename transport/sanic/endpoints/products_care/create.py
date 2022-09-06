@@ -1,4 +1,5 @@
-from sanic.response import Request, BaseHTTPResponse
+from sanic.request import Request
+from sanic.response import BaseHTTPResponse
 
 from api.request.create_directory_item import RequestCreateProductsCareDto
 from api.response.directory_item import ResponseProductsCareDto
