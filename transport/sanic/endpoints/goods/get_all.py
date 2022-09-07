@@ -62,8 +62,10 @@ class GetAllGoodsEndpoint(BaseEndpoint):
             good.variations_to_show = [variation for variation in good.variations_to_show.values()]
 
             for color in good.colors:
-                color.sizes = [size for size in color.sizes.values()]
-
+                try:
+                    color.sizes = [size for size in color.sizes.values()]
+                except AttributeError:
+                    pass
         response = ResponseGoodsAllDto(response_body, many=True)
 
         session.close_session()

@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, EXCLUDE
 
 from api.base import ResponseDto
 from api.response.image import ResponseImageDtoSchema
@@ -16,7 +16,7 @@ class VariationDtoSchema(Schema):
     amount = fields.Int(required=True)
     is_sale = fields.Bool(required=True)
     is_new = fields.Bool(required=True)
-    images = fields.List(fields.Nested(ResponseImageDtoSchema), required=True)
+    images = fields.List(fields.Nested(ResponseImageDtoSchema, unknown=EXCLUDE), required=True)
 
 
 class SizeDtoSchema(Schema):
@@ -28,7 +28,7 @@ class ColorDtoSchema(Schema):
     id = fields.Int(required=True)
     name = fields.Str(required=True)
     code = fields.Str(required=True)
-    # sizes = fields.List(fields.Nested(SizeDtoSchema), required=True)
+    sizes = fields.List(fields.Nested(SizeDtoSchema, unknown=EXCLUDE), required=True)
 
 
 class ResponseGoodsAllDtoSchema(Schema):
@@ -41,8 +41,8 @@ class ResponseGoodsAllDtoSchema(Schema):
     is_visible = fields.Bool(required=True)
     default_variation = fields.Int(missing=None)
 
-    # variations = fields.List(fields.Nested(VariationDtoSchema), required=True)
-    colors = fields.List(fields.Nested(ColorDtoSchema), many=True, required=True)
+    variations = fields.List(fields.Nested(VariationDtoSchema, unknown=EXCLUDE), required=True)
+    colors = fields.List(fields.Nested(ColorDtoSchema, unknown=EXCLUDE), required=True)
     variations_to_show = fields.List(fields.Int(), required=True)
 
 
