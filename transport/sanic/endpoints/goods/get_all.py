@@ -1,12 +1,7 @@
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
-from api.response.color import ResponseColorDto
-from api.response.directory_item import ResponseSizeDto
-from api.response.good import ResponseGoodDto
 from api.response.goods_all import ResponseGoodsAllDto
-from api.response.image import ResponseImageDto
-from api.response.variation import ResponseVariationDto
 from db.database import DBSession
 from db.queries import goods as goods_queries
 from transport.sanic.endpoints import BaseEndpoint
@@ -42,9 +37,6 @@ class GetAllGoodsEndpoint(BaseEndpoint):
                 response_body[db_goods.id] = db_goods
             if db_variations is not None:
                 if db_variations.id not in response_body[db_goods.id].variations.keys():
-                    # valid_variation = ResponseVariationDto(db_variations).dump()
-                    # valid_color = ResponseColorDto(db_colors).dump()
-                    # valid_size = ResponseSizeDto(db_sizes).dump()
                     db_variations.images = []
                     response_body[db_goods.id].variations[db_variations.id] = db_variations
                     colors_dict = response_body[db_goods.id].colors
@@ -60,7 +52,6 @@ class GetAllGoodsEndpoint(BaseEndpoint):
                         response_body[db_goods.id].colors[db_colors.id].sizes[db_sizes.id] = db_sizes
 
                 if db_images is not None:
-                    # valid_image = ResponseImageDto(db_images).dump()
                     response_body[db_goods.id].variations[db_variations.id].images.append(db_images)
 
         response_body = [good for good in response_body.values()]
