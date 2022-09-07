@@ -25,8 +25,16 @@ class GetAllGoodsEndpoint(BaseEndpoint):
         records = goods_queries.get_all_goods(session, request_params)
 
         response_body = dict()
-        for db_goods, db_variations, db_colors, db_sizes, db_images in records:
+        for db_goods, db_variations, db_colors, db_sizes, db_images, db_structures, db_products_care in records:
             if db_goods.id not in response_body.keys():
+                if db_structures is not None:
+                    db_goods.structure = db_structures.name
+                else:
+                    db_goods.structure = None
+                if db_products_care is not None:
+                    db_goods.product_care = db_products_care.name
+                else:
+                    db_goods.product_care = None
                 # valid_goods = ResponseGoodDto(db_goods).dump()
                 db_goods.variations = dict()
                 db_goods.colors = dict()
