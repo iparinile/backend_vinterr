@@ -8,7 +8,6 @@ from sanic.response import BaseHTTPResponse, json, file
 from configs.config import ApplicationConfig
 from context import Context
 from helpers.auth import ReadTokenException, read_token
-from helpers.telegram_bot.send_message import send_message_to_chat
 from transport.sanic.exceptions import SanicAuthException
 
 

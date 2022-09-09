@@ -8,7 +8,6 @@ from transport.sanic.routes import get_routes
 
 
 def configure_app(config: ApplicationConfig, context: Context):
-
     init_db_postgres(config, context)
 
     app = Sanic("Backend_vinterr")

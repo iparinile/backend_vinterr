@@ -2,7 +2,7 @@ from typing import List
 
 from sqlalchemy.engine import Engine
 from sqlalchemy.exc import IntegrityError, DataError
-from sqlalchemy.orm import sessionmaker, Session, Query
+from sqlalchemy.orm import sessionmaker, Session, Query, aliased
 
 from db.exceptions import DBIntegrityException, DBDataException
 from db.models import BaseModel, DBUsers, DBCustomers, DBMaterials, DBCategories, DBStructures, DBSizes, DBColors, \
@@ -157,20 +157,36 @@ class DBSession:
     '''
     requests to DBGoods
     '''
+    def get_goods_pagination(self, page: int, count: int = 10) -> List[DBGoods]:
+        query = self.query(DBGoods).offset(10).limit(10)
+        return query.all()
 
     def get_all_goods(self, request_params: dict) -> List['DBGoods']:
-        query = self.query(DBGoods, DBVariations, DBColors, DBSizes, DBImages, DBStructures, DBProductsCare)
-        query = query.filter(DBGoods.is_delete == False)
+        db_goods_query = self.query(DBGoods)
+        if "page" in request_params.keys():
+            if "count" in request_params.keys():
+                pagination_count = int(request_params["count"][0])
+            else:
+                pagination_count = 10
+            pagination_page = int(request_params["page"][0])
+            pagination_offset = (pagination_count * pagination_page) - pagination_count
+            db_goods_query = db_goods_query.offset(pagination_offset).limit(pagination_count)
+        goods_subquery = db_goods_query.subquery("goods_alias")
+        goods_alias = aliased(DBGoods, goods_subquery)
+
+        query = self.query(goods_alias, DBVariations, DBColors, DBSizes, DBImages, DBStructures, DBProductsCare)
+
+        query = query.filter(goods_alias.is_delete == False)
         query = query.filter(DBVariations.is_delete == False)
-        query = query.outerjoin(DBVariations, DBVariations.good_id == DBGoods.id)
+        query = query.outerjoin(DBVariations, DBVariations.good_id == goods_alias.id)
         if "category_id" in request_params.keys():
-            query = query.filter(DBGoods.category_id == request_params["category_id"][0])
+            query = query.filter(goods_alias.category_id == int(request_params["category_id"][0]))
         if "color_id" in request_params.keys():
-            query = query.filter(DBVariations.color_id == request_params["color_id"][0])
+            query = query.filter(DBVariations.color_id == int(request_params["color_id"][0]))
         if "size_id" in request_params.keys():
-            query = query.filter(DBVariations.size_id == request_params["size_id"][0])
-        query = query.outerjoin(DBStructures, DBStructures.id == DBGoods.structure_id)
-        query = query.outerjoin(DBProductsCare, DBProductsCare.id == DBGoods.products_care_id)
+            query = query.filter(DBVariations.size_id == int(request_params["size_id"][0]))
+        query = query.outerjoin(DBStructures, DBStructures.id == goods_alias.structure_id)
+        query = query.outerjoin(DBProductsCare, DBProductsCare.id == goods_alias.products_care_id)
         query = query.outerjoin(DBColors, DBColors.id == DBVariations.color_id)
         query = query.outerjoin(DBSizes, DBSizes.id == DBVariations.size_id)
         query = query.outerjoin(DBImages, DBImages.variation_id == DBVariations.id)
@@ -304,8 +320,8 @@ class DBSession:
     def get_all_delivery_types(self) -> List['DBDeliveryTypes']:
         return self.query(DBDeliveryTypes).all()
 
-    def delete_delivery_type(self, delivery_type_id: int) -> DBDeliveryTypes:
-        return self.query(DBDeliveryTypes).filter(DBDeliveryTypes.id == delivery_type_id).delete()
+    def delete_delivery_type(self, delivery_type_id: int) -> None:
+        self.query(DBDeliveryTypes).filter(DBDeliveryTypes.id == delivery_type_id).delete()
 
     '''
     requests to DBStatuses
