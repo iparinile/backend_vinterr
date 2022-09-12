@@ -1,3 +1,5 @@
+import copy
+
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
@@ -34,7 +36,7 @@ class GetAllGoodsEndpoint(BaseEndpoint):
                 db_goods.variations = dict()
                 db_goods.colors = dict()
                 db_goods.variations_to_show = dict()
-                response_body[db_goods.id] = db_goods
+                response_body[db_goods.id] = copy.deepcopy(db_goods)
             if db_variations is not None:
                 if db_variations.id not in response_body[db_goods.id].variations.keys():
                     db_variations.images = []
@@ -42,14 +44,14 @@ class GetAllGoodsEndpoint(BaseEndpoint):
                     colors_dict = response_body[db_goods.id].colors
                     if db_colors.id not in colors_dict.keys():
                         db_colors.sizes = dict()
-                        response_body[db_goods.id].colors[db_colors.id] = db_colors
+                        response_body[db_goods.id].colors[db_colors.id] = copy.deepcopy(db_colors)
 
                     variations_to_show_dict = response_body[db_goods.id].variations_to_show
                     if db_colors.id not in variations_to_show_dict.keys():
                         response_body[db_goods.id].variations_to_show[db_colors.id] = db_variations.id
 
                     if db_sizes.id not in response_body[db_goods.id].colors[db_colors.id].sizes.keys():
-                        response_body[db_goods.id].colors[db_colors.id].sizes[db_sizes.id] = db_sizes
+                        response_body[db_goods.id].colors[db_colors.id].sizes[db_sizes.id] = copy.deepcopy(db_sizes)
 
                 if db_images is not None:
                     response_body[db_goods.id].variations[db_variations.id].images.append(db_images)
