@@ -48,7 +48,7 @@ class GetAllGoodsEndpoint(BaseEndpoint):
                     if db_colors.id not in variations_to_show_dict.keys():
                         response_body[db_goods.id].variations_to_show[db_colors.id] = db_variations.id
 
-                    if db_sizes.id not in response_body[db_goods.id].colors[db_colors.id].sizes:
+                    if db_sizes.id not in response_body[db_goods.id].colors[db_colors.id].sizes.keys():
                         response_body[db_goods.id].colors[db_colors.id].sizes[db_sizes.id] = db_sizes
 
                 if db_images is not None:
