@@ -10,4 +10,3 @@ class SanicConfig:
     port = int(os.getenv('port', 8000))
     workers = int(os.getenv('workers', 1))
     debug = False
-    access_log = False
