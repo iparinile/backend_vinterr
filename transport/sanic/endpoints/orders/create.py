@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from prettytable import PrettyTable
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse
+from telebot.apihelper import ApiTelegramException
 
 from api.request.create_order import RequestCreateOrderDto
 from api.response.order import ResponseOrderDto, VariationInOrderDto
@@ -167,7 +168,13 @@ Email: {db_customer.email}
 Тип оплаты: {"наличными при получении" if db_order.is_cash_payment else "онлайн на сайте"}
 """
         message_to_customer = make_email_text(db_order, variations_in_order_list_to_email, order_sum, db_delivery_type)
-        await send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
+        try:
+            await send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
+        except ApiTelegramException:
+            errors_chat_id = os.getenv('telegram_errors_chat_id')
+            error_info = ''.join('{}{}'.format(key, val) for key, val in body.items())
+            error_info = error_info.replace("[", "\\[").replace("_", "\\_")
+            await send_message_to_chat(errors_chat_id, error_info)
         # await send_email(to_address=[os.getenv("email_to")], subject="Новый заказ на сайте", text=message_to_customer)
         await send_email(to_address=[db_customer.email], subject="Данные по заказу Vinterr", text=message_to_customer)
 
