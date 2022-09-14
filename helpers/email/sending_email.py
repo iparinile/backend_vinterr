@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-async def send_email(to_address: list, subject: str, text: str, encode: str = 'utf-8'):
+def send_email(to_address: list, subject: str, text: str, encode: str = 'utf-8'):
     """
     Отправка электронного письма (email)
     """

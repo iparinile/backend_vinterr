@@ -62,7 +62,7 @@ class GetStatusPaymentsEndpoint(BaseEndpoint):
 
 """
 
-            await send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
+            send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
 
         session.close_session()
 

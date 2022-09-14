@@ -8,7 +8,7 @@ load_dotenv()
 bot = telebot.TeleBot(os.getenv('telegram_token'))
 
 
-async def send_message_to_chat(chat_id: str, message: str) -> None:
+def send_message_to_chat(chat_id: str, message: str) -> None:
     bot.send_message(chat_id, message, parse_mode="MARKDOWN")
 
 

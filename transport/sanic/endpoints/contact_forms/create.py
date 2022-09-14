@@ -102,7 +102,7 @@ center;border-radius:3px 3px 0 0;background-color:#FF9F00;margin:0;padding:20px;
 </html>
 """
 
-        await send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
+        send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
         # await send_email(to_address=[os.getenv("email_to")], subject="Новое сообщение на сайте", text=message)
 
         response_model = ResponseCreateContactFormDto(db_contact_forms).dump()
