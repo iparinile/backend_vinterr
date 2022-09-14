@@ -174,7 +174,9 @@ Email: {db_customer.email}
             errors_chat_id = os.getenv('telegram_errors_chat_id')
             error_info = e.description
             error_info = error_info.replace("[", "\\[").replace("_", "\\_")
+            message = message.replace("[", "\\[").replace("_", "\\_")
             send_message_to_chat(errors_chat_id, error_info)
+            send_message_to_chat(errors_chat_id, message)
         # await send_email(to_address=[os.getenv("email_to")], subject="Новый заказ на сайте", text=message_to_customer)
         send_email(to_address=[db_customer.email], subject="Данные по заказу Vinterr", text=message_to_customer)
 
