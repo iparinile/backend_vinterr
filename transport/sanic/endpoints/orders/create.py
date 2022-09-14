@@ -170,9 +170,9 @@ Email: {db_customer.email}
         message_to_customer = make_email_text(db_order, variations_in_order_list_to_email, order_sum, db_delivery_type)
         try:
             await send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
-        except ApiTelegramException:
+        except ApiTelegramException as e:
             errors_chat_id = os.getenv('telegram_errors_chat_id')
-            error_info = ''.join('{}{}'.format(key, val) for key, val in body.items())
+            error_info = e.description
             error_info = error_info.replace("[", "\\[").replace("_", "\\_")
             await send_message_to_chat(errors_chat_id, error_info)
         # await send_email(to_address=[os.getenv("email_to")], subject="Новый заказ на сайте", text=message_to_customer)
