@@ -10,6 +10,6 @@ class DBCustomerAddresses(BaseModel):
     customer_id = Column(Integer, ForeignKey('Customers.id', ondelete='CASCADE'), nullable=False)
     city_id = Column(Integer, ForeignKey('Cities.id', ondelete='CASCADE'), nullable=False)
     streets_id = Column(Integer, ForeignKey('Streets.id', ondelete='CASCADE'), nullable=False)
-    house_number = Column(VARCHAR(10), nullable=False)
-    apartment = Column(Integer, nullable=False)
+    house_number = Column(VARCHAR(10))
+    apartment = Column(Integer)
     other_info = Column(VARCHAR(255))

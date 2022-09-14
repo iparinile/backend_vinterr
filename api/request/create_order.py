@@ -22,7 +22,7 @@ class RequestCreateOrderDtoSchema(Schema):
     # Address info
     city = fields.Str(required=True)
     street = fields.Str(required=True)
-    house_number = fields.Str(required=True)
+    house_number = fields.Str(missing=None)
     apartment = fields.Int(missing=None)
     other_info = fields.Str(missing=None)
     delivery_address = fields.Str(missing=None)
