@@ -169,6 +169,7 @@ Email: {db_customer.email}
 """
         message_to_customer = make_email_text(db_order, variations_in_order_list_to_email, order_sum, db_delivery_type)
         try:
+            message = message.replace("[", "\\[").replace("_", "\\_")
             send_message_to_chat(chat_id=os.getenv("telegram_chat_id"), message=message)
         except ApiTelegramException as e:
             errors_chat_id = os.getenv('telegram_errors_chat_id')
@@ -179,19 +180,6 @@ Email: {db_customer.email}
             send_message_to_chat(errors_chat_id, message)
         # await send_email(to_address=[os.getenv("email_to")], subject="Новый заказ на сайте", text=message_to_customer)
         send_email(to_address=[db_customer.email], subject="Данные по заказу Vinterr", text=message_to_customer)
-
-        try:
-            session.commit_session()
-        except DBDataException as e:
-            session.rollback()
-            raise SanicDBException(str(e))
-        except DBIntegrityException as e:
-            session.rollback()
-            exception_code, exception_info = get_details_psycopg2_exception(e)
-            if exception_code == '23505':
-                raise SanicDBUniqueFieldException(exception_info)
-            else:
-                raise SanicDBException(str(e))
 
         db_status_changes = status_changes_queries.create_status_changes(session, db_order.id, db_order.status_id)
         try:
