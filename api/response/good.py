@@ -28,6 +28,7 @@ class ResponseGoodDtoSchema(Schema):
     description = fields.Str(missing=None)
     is_visible = fields.Bool(required=True)
     default_variation = fields.Int(missing=None)
+    weight = fields.Float(missing=None)
     # variations = fields.List(fields.Nested(VariationDtoSchema), required=True)
 
 

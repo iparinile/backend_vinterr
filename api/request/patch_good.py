@@ -13,6 +13,7 @@ class RequestPatchGoodDtoSchema(Schema):
     products_care_id = fields.Int()
     description = fields.Str()
     is_visible = fields.Bool()
+    weight = fields.Float()
 
 
 class RequestPatchGoodDto(RequestDto, RequestPatchGoodDtoSchema):

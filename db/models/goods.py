@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, VARCHAR, ForeignKey, BOOLEAN
+from sqlalchemy import Column, Integer, VARCHAR, ForeignKey, BOOLEAN, Float
 
 from db.models import BaseModel
 
@@ -18,3 +18,4 @@ class DBGoods(BaseModel):
     default_variation = Column(Integer, ForeignKey('Variations.id', ondelete='SET NULL'))
     is_visible = Column(BOOLEAN(), default=True)
     is_delete = Column(BOOLEAN(), default=False)
+    weight = Column(Float)

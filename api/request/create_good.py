@@ -13,6 +13,7 @@ class RequestCreateGoodDtoSchema(Schema):
     products_care_id = fields.Int(missing=None)
     description = fields.Str(required=True, allow_none=False)
     is_visible = fields.Bool(missing=True)
+    weight = fields.Float(required=True, allow_none=False)
     # variations = fields.List(fields.Nested(VariationDtoSchema), required=True)
 
 
