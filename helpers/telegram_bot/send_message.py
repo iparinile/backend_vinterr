@@ -9,6 +9,7 @@ bot = telebot.TeleBot(os.getenv('telegram_token'))
 
 
 def send_message_to_chat(chat_id: str, message: str) -> None:
+    message = message.replace("[", "\\[").replace("_", "\\_")
     bot.send_message(chat_id, message, parse_mode="MARKDOWN")
 
 
