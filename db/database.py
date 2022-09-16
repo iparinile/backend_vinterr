@@ -157,9 +157,6 @@ class DBSession:
     '''
     requests to DBGoods
     '''
-    def get_goods_pagination(self, page: int, count: int = 10) -> List[DBGoods]:
-        query = self.query(DBGoods).offset(10).limit(10)
-        return query.all()
 
     def get_all_goods(self, request_params: dict) -> List['DBGoods']:
         db_goods_query = self.query(DBGoods)
@@ -204,6 +201,10 @@ class DBSession:
         query = query.filter(DBGoods.is_delete == False)
         query = query.filter(DBGoods.id == good_id)
         return query.first()
+
+    def get_goods_only(self) -> List[DBGoods]:
+        query = self.query(DBGoods)
+        return query.all()
 
     '''
     requests to DBVariations

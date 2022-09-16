@@ -1,7 +1,11 @@
+import json
+import os
+
 from marshmallow import Schema, ValidationError, EXCLUDE
 from sqlalchemy import MetaData
 
 from api.exceptions import ApiValidationException, ApiResponseValidationException
+from helpers.telegram_bot.send_message import send_message_to_chat
 
 
 class RequestDto:
@@ -11,6 +15,12 @@ class RequestDto:
         try:
             valid_data = self.__schema__(unknown=EXCLUDE).load(data)
         except ValidationError as error:
+            errors_chat_id = os.getenv('telegram_errors_chat_id')
+            try:
+                error_info = json.dumps(data)
+                send_message_to_chat(errors_chat_id, error_info)
+            except Exception:
+                pass
             raise ApiValidationException(error.messages)
         else:
             self._import(valid_data)
