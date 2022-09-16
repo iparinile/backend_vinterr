@@ -7,4 +7,4 @@ class DBCities(BaseModel):
     __tablename__ = 'Cities'
 
     id = Column(Integer, autoincrement=True, unique=True, nullable=False, primary_key=True)
-    name = Column(VARCHAR(255), unique=True, nullable=False)
+    name = Column(VARCHAR(), unique=True, nullable=False)
