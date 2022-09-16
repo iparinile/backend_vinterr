@@ -13,12 +13,6 @@ class RequestDto:
 
     def __init__(self, data: dict):
         try:
-            errors_chat_id = os.getenv('telegram_errors_chat_id')
-            try:
-                error_info = json.dumps(data)
-                send_message_to_chat(errors_chat_id, error_info)
-            except Exception:
-                pass
             valid_data = self.__schema__(unknown=EXCLUDE).load(data)
         except ValidationError as error:
             errors_chat_id = os.getenv('telegram_errors_chat_id')

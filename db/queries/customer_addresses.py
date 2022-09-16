@@ -10,6 +10,10 @@ def create_customer_addresses(
         city: DBCities,
         street: DBStreets
 ) -> DBCustomerAddresses:
+    if body_request.apartment == "":
+        body_request.apartment = None
+    else:
+        body_request.apartment = int(body_request.apartment)
     new_customer_addresses = DBCustomerAddresses(
         customer_id=customer.id,
         city_id=city.id,
