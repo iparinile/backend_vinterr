@@ -1,4 +1,4 @@
-<h1 align="center">Тестовое задание Python Backend</h1>
+<h1 align="center">Python Backend</h1>
 
 ## Описание
 
