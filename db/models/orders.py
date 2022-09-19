@@ -14,7 +14,6 @@ class DBOrders(BaseModel):
     status_id = Column(Integer, ForeignKey('Statuses.id', ondelete='CASCADE'), nullable=False)
     delivery_type_id = Column(Integer, ForeignKey('Delivery_types.id', ondelete='CASCADE'), nullable=False)
     is_payed = Column(BOOLEAN(), default=False)
-    created_at = Column(TIMESTAMP, nullable=False, default=datetime.datetime.utcnow)
     delivery_address = Column(VARCHAR())
     delivery_cost = Column(FLOAT)
     is_cash_payment = Column(BOOLEAN(), default=False, nullable=False)

@@ -20,9 +20,6 @@ class AutoUpdateRemainsEndpoint(BaseEndpoint):
 
         db_variations = variations_queries.get_all_variations(session)
 
-        errors_chat_id = os.getenv('telegram_errors_chat_id')
-        error_info = ''.join('{}{}'.format(key, val) for key, val in body.items())
-        send_message_to_chat(errors_chat_id, error_info)
 
         # for db_variation in db_variations:
         #     if db_variation.variation_1c_id in remains_data.keys():
