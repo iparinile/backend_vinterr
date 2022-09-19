@@ -11,13 +11,13 @@ class BaseModel(Base):
 
     created_at = Column(
         TIMESTAMP,
-        nullable=False,
+        nullable=True,
         default=datetime.datetime.utcnow
     )
 
     update_at = Column(
         TIMESTAMP,
-        nullable=False,
+        nullable=True,
         default=datetime.datetime.utcnow,
         onupdate=datetime.datetime.utcnow
     )
