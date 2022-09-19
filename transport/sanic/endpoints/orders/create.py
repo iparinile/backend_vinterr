@@ -161,25 +161,23 @@ class CreateOrderEndpoint(BaseEndpoint):
         db_delivery_type = delivery_types_queries.get_delivery_type_by_id(session, db_order.delivery_type_id)
 
         message = f"""
-**Оформлен заказ №{response_model['id']} от {order_date}**
+***Оформлен заказ №{response_model['id']} от {order_date}***
 
-**Клиент:**
+***Клиент:***
 ФИО: {db_customer.second_name} {db_customer.first_name} {db_customer.last_name}
 Телефон: {db_customer.phone_number}
 Email: {db_customer.email}
 
-**Товары:**
+***Товары:***
 ```{table_variations_in_order}```
 Подытог: {order_sum} руб.
 
-**Тип доставки:** {db_delivery_type.name}
-
-**Данные по доставке:**
+***Данные по доставке:***
+***Тип доставки:*** {db_delivery_type.name}
 {db_order.delivery_address}
 Стоимость: {db_order.delivery_cost} руб.
 
-**Итого: {db_order.delivery_cost + order_sum} руб.**
-
+***Итого: {db_order.delivery_cost + order_sum} руб.***
 Тип оплаты: {"наличными при получении" if db_order.is_cash_payment else "онлайн на сайте"}
 """
         message_to_customer = make_email_text(db_order, variations_in_order_list_to_email, order_sum, db_delivery_type)
