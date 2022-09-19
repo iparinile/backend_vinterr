@@ -17,15 +17,17 @@ class AutoUpdateRemainsEndpoint(BaseEndpoint):
     async def method_post(self, request: Request, body: dict, session: DBSession, *args, **kwargs) -> BaseHTTPResponse:
 
         request_model = RequestAutoUpdateRemainsDto(body)
+        variations = {}
+        for variation in request_model.variations_data:
+            variations[variation.one_c_id] = variation.amount
 
         db_variations = variations_queries.get_all_variations(session)
 
-
-        # for db_variation in db_variations:
-        #     if db_variation.variation_1c_id in remains_data.keys():
-        #         db_variation.amount = remains_data[db_variation.variation_1c_id]
-        #     else:
-        #         db_variation.amount = 0
+        for db_variation in db_variations:
+            if db_variation.variation_1c_id in variations:
+                db_variation.amount = variations[db_variation.variation_1c_id]
+            else:
+                db_variation.amount = 0
 
         try:
             session.commit_session()
