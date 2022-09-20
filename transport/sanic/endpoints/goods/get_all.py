@@ -59,12 +59,8 @@ class GetAllGoodsEndpoint(BaseEndpoint):
 
         response_body = [good for good in response_body.values()]
         for good in response_body:
-            good.colors = [color for color in good.colors.values()]
-            good.variations = [variation for variation in good.variations.values()]
             good.variations_to_show = [variation for variation in good.variations_to_show.values()]
 
-            for color in good.colors:
-                color['sizes'] = [size for size in color['sizes'].values()]
         response = ResponseGoodsAllDto(response_body, many=True)
 
         session.close_session()

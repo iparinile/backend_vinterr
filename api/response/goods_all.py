@@ -28,7 +28,7 @@ class ColorDtoSchema(Schema):
     id = fields.Int(required=True)
     name = fields.Str(required=True)
     code = fields.Str(required=True)
-    sizes = fields.List(fields.Nested(SizeDtoSchema, unknown=EXCLUDE), required=True)
+    sizes = fields.Dict(keys=fields.Int, values=fields.Nested(SizeDtoSchema, unknown=EXCLUDE), required=True)
 
 
 class ResponseGoodsAllDtoSchema(Schema):
@@ -45,8 +45,9 @@ class ResponseGoodsAllDtoSchema(Schema):
     default_variation = fields.Int(missing=None)
     weight = fields.Float(missing=None)
 
-    variations = fields.List(fields.Nested(VariationDtoSchema, unknown=EXCLUDE), required=True)
-    colors = fields.List(fields.Nested(ColorDtoSchema, unknown=EXCLUDE), required=True)
+    variations = fields.Dict(keys=fields.Int(), values=fields.Nested(VariationDtoSchema, unknown=EXCLUDE),
+                             required=True)
+    colors = fields.Dict(keys=fields.Int(), values=fields.Nested(ColorDtoSchema, unknown=EXCLUDE), required=True)
     variations_to_show = fields.List(fields.Int(), required=True)
 
 
