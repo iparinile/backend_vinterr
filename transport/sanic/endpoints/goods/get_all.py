@@ -40,21 +40,22 @@ class GetAllGoodsEndpoint(BaseEndpoint):
             if db_variations is not None:
                 if db_variations.id not in response_body[db_goods.id].variations.keys():
                     db_variations.images = []
-                    response_body[db_goods.id].variations[db_variations.id] = db_variations
+                    response_body[db_goods.id].variations[db_variations.id] = vars(copy.deepcopy(db_variations))
                     colors_dict = response_body[db_goods.id].colors
                     if db_colors.id not in colors_dict.keys():
                         db_colors.sizes = dict()
-                        response_body[db_goods.id].colors[db_colors.id] = copy.deepcopy(db_colors)
+                        response_body[db_goods.id].colors[db_colors.id] = vars(copy.deepcopy(db_colors))
 
                     variations_to_show_dict = response_body[db_goods.id].variations_to_show
                     if db_colors.id not in variations_to_show_dict.keys():
                         response_body[db_goods.id].variations_to_show[db_colors.id] = db_variations.id
 
-                    if db_sizes.id not in response_body[db_goods.id].colors[db_colors.id].sizes.keys():
-                        response_body[db_goods.id].colors[db_colors.id].sizes[db_sizes.id] = copy.deepcopy(db_sizes)
+                    if db_sizes.id not in response_body[db_goods.id].colors[db_colors.id]['sizes'].keys():
+                        response_body[db_goods.id].colors[db_colors.id]['sizes'][db_sizes.id] = vars(
+                            copy.deepcopy(db_sizes))
 
                 if db_images is not None:
-                    response_body[db_goods.id].variations[db_variations.id].images.append(db_images)
+                    response_body[db_goods.id].variations[db_variations.id]['images'].append(vars(db_images))
 
         response_body = [good for good in response_body.values()]
         for good in response_body:
@@ -63,10 +64,7 @@ class GetAllGoodsEndpoint(BaseEndpoint):
             good.variations_to_show = [variation for variation in good.variations_to_show.values()]
 
             for color in good.colors:
-                try:
-                    color.sizes = [size for size in color.sizes.values()]
-                except AttributeError:
-                    pass
+                color['sizes'] = [size for size in color['sizes'].values()]
         response = ResponseGoodsAllDto(response_body, many=True)
 
         session.close_session()
