@@ -7,6 +7,7 @@ from api.request.auto_update_remains import RequestAutoUpdateRemainsDto
 from db.database import DBSession
 from db.exceptions import DBDataException, DBIntegrityException
 from db.queries import variations as variations_queries
+from helpers.telegram_bot.send_message import send_message_to_chat
 from transport.sanic.endpoints import BaseEndpoint
 from transport.sanic.exceptions import SanicDBException
 
@@ -16,6 +17,8 @@ class AutoUpdateRemainsEndpoint(BaseEndpoint):
     async def method_post(self, request: Request, body: dict, session: DBSession, *args, **kwargs) -> BaseHTTPResponse:
 
         request_model = RequestAutoUpdateRemainsDto(body)
+        errors_chat_id = os.getenv('telegram_errors_chat_id')
+        send_message_to_chat(errors_chat_id, "Произошло обновление остатков")
         variations = {}
         for variation in request_model.variations_data:
             variations[variation['one_c_id']] = variation['amount']
