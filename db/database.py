@@ -309,6 +309,14 @@ class DBSession:
         return query.first()
 
     '''
+    requests to DBVariationInOrders
+    '''
+
+    def get_variations_in_order_for_order(self, order_id: int) -> List[DBVariationInOrders]:
+        query = self.query(DBVariationInOrders).filter(DBVariationInOrders.order_id == order_id)
+        return query.all()
+
+    '''
     requests to DBDeliveryTypes
     '''
 

@@ -1,3 +1,4 @@
+import json
 import os
 
 import requests
@@ -10,6 +11,8 @@ from api.response.register_payment import ResponseRegisterPaymentDto
 from db.database import DBSession
 from db.exceptions import DBOrderNotExistsException, DBOrderExistsException, DBDataException, DBIntegrityException
 from db.queries import orders as orders_queries
+from db.queries import variations as variations_queries
+from db.queries import variation_in_orders as variation_in_orders_queries
 from transport.sanic.endpoints import BaseEndpoint
 from transport.sanic.exceptions import SanicOrderNotFound, SanicSberbankIdConflictException, SanicDBException, \
     SanicRegisterPaymentException
@@ -28,12 +31,44 @@ class RegisterPaymentsEndpoint(BaseEndpoint):
 
         request_model.amount = request_model.amount * 100  # Без учета копеек
 
+        order_bundle = {"cartItems": {"items": []}}
+
+        variations_in_order = variation_in_orders_queries.get_variations_in_order_by_order_id(session, db_order.id)
+        for db_variation_in_order in variations_in_order:
+            db_variation = variations_queries.get_variations_by_id(session, db_variation_in_order.variation_id)
+
+            order_bundle["cartItems"]["items"].append({
+                "positionId": db_variation_in_order.id,
+                "name": db_variation.name,
+                "quantity": {
+                    "value": str(db_variation_in_order.amount),
+                    "measure": "шт."
+                },
+                "itemCode": db_variation.id,
+                "tax": {
+                    "taxType": 0,
+                    "taxSum": 0
+                },
+                "itemPrice": db_variation_in_order.current_price * 100,
+                "itemAttributes": {
+                    "attributes": [
+                        {"name": "paymentMethod", "value": "1"},
+                        {"name": "paymentObject", "value": "1"}
+                    ]
+                }
+            })
+
+        if db_order.delivery_type_id != 1:
+            order_bundle["cartItems"]["items"].append("")
+
+
         sberbank_username = os.getenv("sber_username")
         sberbank_password = os.getenv("sber_password")
         register_payment_sberbank_url = "https://securepayments.sberbank.ru/payment/rest/register.do?"
         register_payment_sberbank_url += f"userName={sberbank_username}&password={sberbank_password}&"
         register_payment_sberbank_url += f"orderNumber={db_order.id}&amount={request_model.amount}&"
-        register_payment_sberbank_url += f"returnUrl={request_model.return_url}&failUrl={request_model.fail_url}"
+        register_payment_sberbank_url += f"returnUrl={request_model.return_url}&failUrl={request_model.fail_url}&"
+        register_payment_sberbank_url += f"orderBundle={json.dumps(order_bundle)}"
 
         sberbank_response = requests.get(register_payment_sberbank_url)
         sberbank_response_body = sberbank_response.json()
