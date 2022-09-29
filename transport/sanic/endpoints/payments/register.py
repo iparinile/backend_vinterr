@@ -10,6 +10,7 @@ from api.request.register_payment import RequestRegisterPaymentDto
 from api.response.register_payment import ResponseRegisterPaymentDto
 from db.database import DBSession
 from db.exceptions import DBOrderNotExistsException, DBOrderExistsException, DBDataException, DBIntegrityException
+from db.queries import delivery_types as delivery_types_queries
 from db.queries import orders as orders_queries
 from db.queries import variations as variations_queries
 from db.queries import variation_in_orders as variation_in_orders_queries
@@ -29,19 +30,21 @@ class RegisterPaymentsEndpoint(BaseEndpoint):
         except DBOrderNotExistsException:
             raise SanicOrderNotFound('Order not found')
 
-        request_model.amount = request_model.amount * 100  # Без учета копеек
+        request_model.amount = str(request_model.amount)
 
         order_bundle = {"cartItems": {"items": []}}
 
         variations_in_order = variation_in_orders_queries.get_variations_in_order_by_order_id(session, db_order.id)
+        amount = 0
         for db_variation_in_order in variations_in_order:
+            amount += db_variation_in_order.current_price
             db_variation = variations_queries.get_variations_by_id(session, db_variation_in_order.variation_id)
 
             order_bundle["cartItems"]["items"].append({
                 "positionId": db_variation_in_order.id,
                 "name": db_variation.name,
                 "quantity": {
-                    "value": str(db_variation_in_order.amount),
+                    "value": db_variation_in_order.amount,
                     "measure": "шт."
                 },
                 "itemCode": db_variation.id,
@@ -59,14 +62,34 @@ class RegisterPaymentsEndpoint(BaseEndpoint):
             })
 
         if db_order.delivery_type_id != 1:
-            order_bundle["cartItems"]["items"].append("")
-
+            amount += request_model.shipping_cost
+            db_delivery_type = delivery_types_queries.get_delivery_type_by_id(session, db_order.delivery_type_id)
+            order_bundle["cartItems"]["items"].append({
+                "positionId": db_delivery_type.id,
+                "name": db_delivery_type.name,
+                "quantity": {
+                    "value": "1",
+                    "measure": "шт."
+                },
+                "itemCode": db_delivery_type.id,
+                "tax": {
+                    "taxType": 0,
+                    "taxSum": 0
+                },
+                "itemPrice": int(request_model.shipping_cost * 100),
+                "itemAttributes": {
+                    "attributes": [
+                        {"name": "paymentMethod", "value": "1"},
+                        {"name": "paymentObject", "value": "4"}
+                    ]
+                }
+            })
 
         sberbank_username = os.getenv("sber_username")
         sberbank_password = os.getenv("sber_password")
         register_payment_sberbank_url = "https://securepayments.sberbank.ru/payment/rest/register.do?"
         register_payment_sberbank_url += f"userName={sberbank_username}&password={sberbank_password}&"
-        register_payment_sberbank_url += f"orderNumber={db_order.id}&amount={request_model.amount}&"
+        register_payment_sberbank_url += f"orderNumber={db_order.id}&amount={int(amount)}&"
         register_payment_sberbank_url += f"returnUrl={request_model.return_url}&failUrl={request_model.fail_url}&"
         register_payment_sberbank_url += f"orderBundle={json.dumps(order_bundle)}"
 
