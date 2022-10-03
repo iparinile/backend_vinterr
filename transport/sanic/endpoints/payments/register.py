@@ -30,8 +30,6 @@ class RegisterPaymentsEndpoint(BaseEndpoint):
         except DBOrderNotExistsException:
             raise SanicOrderNotFound('Order not found')
 
-        request_model.amount = str(request_model.amount)
-
         order_bundle = {"cartItems": {"items": []}}
 
         variations_in_order = variation_in_orders_queries.get_variations_in_order_by_order_id(session, db_order.id)
@@ -62,7 +60,7 @@ class RegisterPaymentsEndpoint(BaseEndpoint):
             })
 
         if db_order.delivery_type_id != 1:
-            amount += request_model.shipping_cost
+            amount += db_order.delivery_cost
             db_delivery_type = delivery_types_queries.get_delivery_type_by_id(session, db_order.delivery_type_id)
             order_bundle["cartItems"]["items"].append({
                 "positionId": db_delivery_type.id,
@@ -76,7 +74,7 @@ class RegisterPaymentsEndpoint(BaseEndpoint):
                     "taxType": 0,
                     "taxSum": 0
                 },
-                "itemPrice": int(request_model.shipping_cost * 100),
+                "itemPrice": int(db_order.delivery_cost * 100),
                 "itemAttributes": {
                     "attributes": [
                         {"name": "paymentMethod", "value": "1"},
@@ -89,7 +87,7 @@ class RegisterPaymentsEndpoint(BaseEndpoint):
         sberbank_password = os.getenv("sber_password")
         register_payment_sberbank_url = "https://securepayments.sberbank.ru/payment/rest/register.do?"
         register_payment_sberbank_url += f"userName={sberbank_username}&password={sberbank_password}&"
-        register_payment_sberbank_url += f"orderNumber={db_order.id}&amount={int(amount)}&"
+        register_payment_sberbank_url += f"orderNumber={db_order.id}&amount={int(amount * 100)}&"
         register_payment_sberbank_url += f"returnUrl={request_model.return_url}&failUrl={request_model.fail_url}&"
         register_payment_sberbank_url += f"orderBundle={json.dumps(order_bundle)}"
 
@@ -113,7 +111,7 @@ class RegisterPaymentsEndpoint(BaseEndpoint):
             "order_id": db_order.id,
             "sberbank_order_id": sberbank_response_body["orderId"],
             "payment_form_url": sberbank_response_body["formUrl"],
-            "amount": request_model.amount,
+            "amount": float(amount),
         }
         response_model = ResponseRegisterPaymentDto(response_body, is_input_dict=True)
 
