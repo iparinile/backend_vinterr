@@ -5,17 +5,19 @@
 **Что из себя представляет сервер:**
 
 Backend-сервер, отвечающий на http запросы, написан на фреймворке sanic
-
+____
 ## Доступные запросы (routes):
-
-<h3>HealthEndpoint</h3>
+<details>
+<summary><b><u>HealthEndpoint</u></b></summary>
 uri = '/'
 
 Методы = GET, POST
 
 Проверка работоспособности сервера
-
-<h3>CreateUserEndpoint</h3>
+</details>
+<h3>User</h3>
+<details>
+<summary><b><u>CreateUserEndpoint</u></b></summary>
 uri = '/user'
 
 Методы = POST
@@ -28,8 +30,9 @@ uri = '/user'
 <li>first_name - str, обязательное</li>
 <li>last_name - str, обязательное</li>
 </ul>
-
-<h3>AuthUserEndpoint</h3>
+</details>
+<details>
+<summary><b><u>AuthUserEndpoint</u></b></summary>
 uri = '/user/auth'
 
 Методы = POST
@@ -43,8 +46,9 @@ uri = '/user/auth'
 
 Полученный токен нужно вставить в заголовки последующих запросов, в которых требуется авторизация, в виде:
 Authorization: "token"
-
-<h3>UserEndpoint (user auth)</h3>
+</details>
+<details>
+<summary><b><u>UserEndpoint (user auth)</u></b></summary>
 uri = '/user/{id пользователя}'
 
 Методы = PATCH, DELETE
@@ -55,15 +59,18 @@ uri = '/user/{id пользователя}'
 <li>first_name - str</li>
 <li>last_name - str</li>
 </ul>
-
-<h3>AllUserEndpoint (user auth)</h3>
+</details>
+<details>
+<summary><b><u>AllUserEndpoint (user auth)</u></b></summary>
 uri = '/user/all'
 
 Методы = GET
 
 Получение списка всех пользователей
-
-<h3>CreateCustomerEndpoint</h3>
+</details>
+<h3>Customer</h3>
+<details>
+<summary><b><u>CreateCustomerEndpoint</u></b></summary>
 uri = /customers
 
 Методы = POST, OPTIONS
@@ -81,8 +88,9 @@ uri = /customers
 <li>email - str</li>
 <li>birthday - date</li>
 </ul>
-
-<h3>AuthCustomerEndpoint</h3>
+</details>
+<details>
+<summary><b><u>AuthCustomerEndpoint</u></b></summary>
 uri = /customers/auth
 
 Методы = POST, OPTIONS
@@ -95,8 +103,9 @@ uri = /customers/auth
 
 Полученный токен нужно вставить в заголовки последующих запросов, в которых требуется авторизация, в виде:
 Authorization: "token"
-
-<h3>CustomerEndpoint (customer auth)</h3>
+</details>
+<details>
+<summary><b><u>CustomerEndpoint (customer auth)</u></b></summary>
 uri = /customers/<customer_id:int>
 
 Методы = GET, PATCH, OPTIONS
@@ -114,15 +123,18 @@ uri = /customers/<customer_id:int>
 <li>birthday - date</li>
 <li>phone_number - str</li>
 </ul>
-
-<h3>GetAllMaterialsEndpoint</h3>
+</details>
+<h3>Materials</h3>
+<details>
+<summary><b><u>GetAllMaterialsEndpoint</u></b></summary>
 uri = /materials/all
 
 Методы = GET
 
 Получение всех записей из таблицы materials
-
-<h3>CreateMaterialEndpoint (user auth)</h3>
+</details>
+<details>
+<summary><b><u>CreateMaterialEndpoint</u></b></summary>
 uri = /materials
 
 Методы = POST, OPTIONS
@@ -133,8 +145,9 @@ uri = /materials
 <ul>
 <li>name - str, обязательное</li>
 </ul>
-
-<h3>MaterialEndpoint (user auth)</h3>
+</details>
+<details>
+<summary><b><u>MaterialEndpoint</u></b></summary>
 uri = /materials/<material_id:int>
 
 Методы = GET, PATCH, DELETE
@@ -146,15 +159,18 @@ GET запрос позволит получить материал по его 
 <ul>
 <li>name - str</li>
 </ul>
-
-<h3>GetAllCategoriesEndpoint</h3>
+</details>
+<h3>Categories</h3>
+<details>
+<summary><b><u>GetAllCategoriesEndpoint</u></b></summary>
 uri = /categories/all
 
 Методы = GET
 
 Получение всех записей из таблицы categories
-
-<h3>CreateCategoryEndpoint (user auth)</h3>
+</details>
+<details>
+<summary><b><u>CreateCategoryEndpoint</u></b></summary>
 uri = /categories
 
 Методы = POST, OPTIONS
@@ -165,8 +181,9 @@ uri = /categories
 <ul>
 <li>name - str, обязательное</li>
 </ul>
-
-<h3>CategoryEndpoint (user auth)</h3>
+</details>
+<details>
+<summary><b><u>CategoryEndpoint (user auth)</u></b></summary>
 uri = /categories/<category_id:int>
 
 Методы = GET (доступен без auth), PATCH, DELETE
@@ -178,15 +195,19 @@ GET запрос позволит получить категорию по ее 
 <ul>
 <li>name - str</li>
 </ul>
+</details>
 
-<h3>GetAllStructuresEndpoint</h3>
+<h3>Structures</h3>
+<details>
+<summary><b><u>GetAllStructuresEndpoint</u></b></summary>
 uri = /structures/all
 
 Методы = GET
 
 Получение всех записей из таблицы structures
-
-<h3>CreateStructureEndpoint (user auth)</h3>
+</details>
+<details>
+<summary><b><u>CreateStructureEndpoint (user auth)</u></b></summary>
 uri = /structures
 
 Методы = POST, OPTIONS
@@ -197,8 +218,9 @@ uri = /structures
 <ul>
 <li>name - str, обязательное</li>
 </ul>
-
-<h3>StructureEndpoint (user auth)</h3>
+</details>
+<details>
+<summary><b><u>StructureEndpoint (user auth)</u></b></summary>
 uri = /structures/<structure_id:int>
 
 Методы = GET, PATCH, DELETE, OPTIONS
@@ -210,15 +232,18 @@ GET запрос позволит получить состав по его id, 
 <ul>
 <li>name - str</li>
 </ul>
-
-<h3>GetAllProductsCareEndpoint</h3>
+</details>
+<h3>Products_care</h3>
+<details>
+<summary><b><u>GetAllProductsCareEndpoint</u></b></summary>
 uri = /products_care/all
 
 Методы = GET
 
 Получение всех записей из таблицы products_care
-
-<h3>CreateProductsCareEndpoint (user auth)</h3>
+</details>
+<details>
+<summary><b><u>CreateProductsCareEndpoint (user auth)</u></b></summary>
 uri = /products_care
 
 Методы = POST, OPTIONS
@@ -229,8 +254,9 @@ uri = /products_care
 <ul>
 <li>name - str, обязательное</li>
 </ul>
-
-<h3>ProductsCareEndpoint (user auth)</h3>
+</details>
+<details>
+<summary><b><u>ProductsCareEndpoint (user auth)</u></b></summary>
 uri = /products_care/<products_care_id:int>
 
 Методы = GET, PATCH, DELETE, OPTIONS
@@ -242,15 +268,19 @@ GET запрос позволит получить информацию об у�
 <ul>
 <li>name - str</li>
 </ul>
+</details>
 
-<h3>GetAllSizesEndpoint</h3>
+<h3>Sizes</h3>
+<details>
+<summary><b><u>GetAllSizesEndpoint</u></b></summary>
 uri = /sizes/all
 
 Методы = GET
 
 Получение всех записей из таблицы sizes
-
-<h3>CreateSizeEndpoint (user auth)</h3>
+</details>
+<details>
+<summary><b><u>CreateSizeEndpoint (user auth)</u></b></summary>
 uri = /sizes
 
 Методы = POST, OPTIONS
@@ -261,8 +291,10 @@ uri = /sizes
 <ul>
 <li>name - str, обязательное</li>
 </ul>
+</details>
 
-<h3>SizeEndpoint (user auth)</h3>
+<details>
+<summary><b><u>SizeEndpoint (user auth)</u></b></summary>
 uri = /sizes/<size_id:int>
 
 Методы = GET, PATCH, DELETE, OPTIONS
@@ -274,15 +306,20 @@ GET запрос позволит получить размер по его id, 
 <ul>
 <li>name - str</li>
 </ul>
+</details>
 
-<h3>GetAllColorsEndpoint</h3>
+<h3>Colors</h3>
+<details>
+<summary><b><u>GetAllColorsEndpoint</u></b></summary>
 uri = /colors/all
 
 Методы = GET
 
 Получение всех записей из таблицы colors
+</details>
 
-<h3>CreateColorEndpoint (user auth)</h3>
+<details>
+<summary><b><u>CreateColorEndpoint (user auth)</u></b></summary>
 uri = /colors
 
 Методы = POST, OPTIONS
@@ -294,8 +331,10 @@ uri = /colors
 <li>name - str, обязательное</li>
 <li>code - str, обязательное</li>
 </ul>
+</details>
 
-<h3>ColorEndpoint (user auth)</h3>
+<details>
+<summary><b><u>ColorEndpoint (user auth)</u></b></summary>
 uri = /colors/<color_id:int>
 
 Методы = GET, PATCH, DELETE, OPTIONS
@@ -308,15 +347,20 @@ GET запрос позволит получить цвет по его id, DELE
 <li>name - str</li>
 <li>code - str</li>
 </ul>
+</details>
 
-<h3>GetAllStatusesEndpoint</h3>
+<h3>Statuses</h3>
+<details>
+<summary><b><u>GetAllStatusesEndpoint</u></b></summary>
 uri = /statuses/all
 
 Методы = GET
 
 Получение всех записей из таблицы statuses
+</details>
 
-<h3>CreateStatusEndpoint (user auth)</h3>
+<details>
+<summary><b><u>CreateStatusEndpoint (user auth)</u></b></summary>
 uri = /statuses
 
 Методы = POST, OPTIONS
@@ -327,22 +371,25 @@ uri = /statuses
 <ul>
 <li>name - str, обязательное</li>
 </ul>
+</details>
 
-<h3>StatusEndpoint (user auth)</h3>
+<details>
+<summary><b><u>StatusEndpoint (user auth)</u></b></summary>
 uri = /statuses/<status_id:int>
 
 Методы = GET, PATCH, DELETE, OPTIONS
 
 GET запрос позволит получить статус по его id, DELETE для удаления статуса по его id, PATCH - изменение 
 статуса
-
 Доступные поля для PATCH:
 <ul>
 <li>name - str</li>
 </ul>
+</details>
+
+____
 
 ## Об архитектуре сервера
-
 <img src="https://habrastorage.org/r/w1560/files/23a/0de/4d9/23a0de4d93d747c89f1e216077c2d604.jpg">
 Когда на сервер приходит request, он проходит следующий путь:
 <ul>
@@ -356,7 +403,7 @@ GET запрос позволит получить статус по его id, 
 Response от сервера проходит этот путь в обратном направлении.
 
 Подробнее про чистую архитектуру можно почитать [тут](https://habr.com/ru/post/269589/)
-
+____
 ## Установка и запуск сервера
 
 Необходимо, но не обязательно, в переменных окружение указать следующие параметры:
