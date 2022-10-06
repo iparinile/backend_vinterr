@@ -352,12 +352,109 @@ uri = /goods <br/>
 
 <details>
 <summary><b><u>GetAllGoodsEndpoint</u></b></summary>
+Получение информации обо всех товарах и сопутствующих данных, необходимых для их отображения на сайте<br/>
+uri = /goods/all <br/>
+Методы = GET
 </details>
 
 <details>
 <summary><b><u>GoodEndpoint (user auth)</u></b></summary>
+uri = /goods/<good_id:int> <br/>
+Методы = GET, PATCH, DELETE, OPTIONS<br/>
+Получение записей из таблицы goods, их правка и удаление, в зависимости от метода запроса<br/>
+Доступные поля PATCH запроса:
+<ul>
+<li>name - str</li>
+<li>article - str</li>
+<li>good_1c_id - str</li>
+<li>category_id - int</li>
+<li>barcode - str</li>
+<li>structure_id - int</li>
+<li>products_care_id - int</li>
+<li>description - str</li>
+<li>is_visible - bool</li>
+<li>weight - float</li>
+</ul>
 </details>
 
+<details>
+<summary><b><u>UpdateWeightsEndpoint (user auth)</u></b></summary>
+uri = /goods/update_weights <br/>
+Методы = POST, OPTIONS<br/>
+Обновление данных по весу товаров из отчета 1С<br/>
+Файл передается в form-data запроса с наименованием "file"
+</details>
+
+<h3>Variations</h3>
+<details>
+<summary><b><u>GetVariationsForGoodEndpoint</u></b></summary>
+Получение всех вариаций для конкретного товара<br/>
+uri = /goods/<good_id:int>/variations <br/>
+Методы = GET
+</details>
+
+<details>
+<summary><b><u>CreateVariationEndpoint (user auth)</u></b></summary>
+Создание записи в таблице variations<br/>
+uri = /variations <br/>
+Методы = POST, OPTIONS<br/>
+Поля POST запроса:
+<ul>
+<li>good_id - int, обязательное</li>
+<li>name - str, обязательное</li>
+<li>color_id - int, обязательное</li>
+<li>size_id - int, обязательное</li>
+<li>price - int, обязательное</li>
+<li>discounted_price - int</li>
+<li>variation_1c_id - str</li>
+<li>amount - int, обязательное</li>
+<li>barcode - str</li>
+<li>is_sale - bool</li>
+<li>is_new - bool</li>
+<li>is_default - bool</li>
+</ul>
+</details>
+
+<details>
+<summary><b><u>GetAllVariationsEndpoint</u></b></summary>
+Получение всех записей из таблицы variations<br/>
+uri = /variations/all <br/>
+Методы = GET
+</details>
+
+<details>
+<summary><b><u>GetVariationEndpoint</u></b></summary>
+Получение информации об отдельной вариации<br/>
+uri = /variations/<variation_id:int> <br/>
+Методы = GET
+</details>
+
+<details>
+<summary><b><u>VariationEndpoint (user auth)</u></b></summary>
+Изменение и удаление записей из таблицы variations<br/>
+uri = /variations/<variation_id:int> <br/>
+Методы = PATCH, DELETE, OPTIONS
+</details>
+
+<details>
+<summary><b><u>UpdateRemainsEndpoint (user auth)</u></b></summary>
+Обновление остатков вариаций с помощью отчета об остатках из 1С<br/>
+uri = /variations/update_remains <br/>
+Методы = POST, OPTIONS
+Файл передается в form-data запроса с наименованием "file"
+</details>
+
+<details>
+<summary><b><u>AutoUpdateRemainsEndpoint (user auth)</u></b></summary>
+Обновление остатков вариаций из JSON<br/>
+uri = /variations/auto_update_remains<br/>
+Методы = POST, OPTIONS<br/>
+Ожидается массив объектов, с данными об остатках. Поля объектов:
+<ul>
+<li>one_c_id - str, обязательное</li>
+<li>amount - int, обязательное</li>
+</ul>
+</details>
 ____
 
 ## Об архитектуре сервера
