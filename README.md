@@ -5,7 +5,7 @@
 **Что из себя представляет сервер:**
 
 Backend-сервер, отвечающий на http запросы, написан на фреймворке sanic<br/>
-Схема данных:
+Схема данных:<br/>
 ![Иллюстрация к проекту](https://raw.githubusercontent.com/iparinile/backend_vinterr/master/readme_images/vinterr%20-%20public.png)
 ____
 ## Доступные запросы (routes):
