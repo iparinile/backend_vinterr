@@ -455,6 +455,181 @@ uri = /variations/auto_update_remains<br/>
 <li>amount - int, обязательное</li>
 </ul>
 </details>
+
+<h3>Images</h3>
+<details>
+<summary><b><u>ImageEndpoint</u></b></summary>
+Получение изображений и их удаление(user auth) по ссылке<br/>
+uri = /images/<img_path:path> <br/>
+Методы = GET, DELETE
+</details>
+
+<details>
+<summary><b><u>CreateImageEndpoint (user auth)</u></b></summary>
+Загрузка изображений с помощью form-data. Наименование поля - "image"<br/>
+uri = /images <br/>
+Методы = POST, OPTIONS
+</details>
+
+<h3>Orders</h3>
+<details>
+<summary><b><u>CreateOrderEndpoint</u></b></summary>
+Создание заказа<br/>
+uri = /orders <br/>
+Методы = POST, OPTIONS<br/>
+Поля POST запроса:
+<ul>
+<li>first_name - str, обязательное</li>
+<li>second_name - str, обязательное</li>
+<li>last_name - str</li>
+<li>phone_number - str, обязательное</li>
+<li>email - str, обязательное</li>
+<li>status_id - int, обязательное</li>
+<li>delivery_type_id - int, обязательное</li>
+<li>city - str, обязательное</li>
+<li>street - str, обязательное</li>
+<li>house_number - str</li>
+<li>apartment - str</li>
+<li>other_info - str</li>
+<li>delivery_address - str, обязательное</li>
+<li>delivery_cost - float, обязательное</li>
+<li>is_cash_payment - bool</li>
+<li>variations - list, обязательное<br/>
+Поля списка variations:
+<ul>
+<li>variation_id - int, обязательное</li>
+<li>amount - int, обязательное</li>
+<li>current_price - int, обязательное</li>
+</ul></li>
+</ul>
+</details>
+
+<details>
+<summary><b><u>GetAllOrdersEndpoint (user auth)</u></b></summary>
+Получение всех заказов с сопутствующей информацией <br/>
+uri = /orders/all <br/>
+Методы = GET, OPTIONS
+</details>
+
+<details>
+<summary><b><u>OrderEndpoint (user auth)</u></b></summary>
+Получение отдельного заказа или его изменение<br/>
+uri = /orders/<order_id:int> <br/>
+Методы = GET, PATCH, OPTIONS<br/>
+Доступные поля в PATCH:
+<ul>
+<li>id - int</li>
+<li>is_payed - bool</li>
+<li>customer_id - int</li>
+<li>status_id - int</li>
+<li>delivery_type_id - int</li>
+<li>sberbank_id - str</li>
+<li>delivery_address - str</li>
+<li>delivery_cost - float</li>
+</ul>
+</details>
+
+<details>
+<summary><b><u>GetAllStatusChangesForOrderEndpoint (user auth)</u></b></summary>
+Получение всех изменений статусов конкретного заказа <br/>
+uri = /orders/<order_id:int>/status_changes <br/>
+Методы = GET
+</details>
+
+<details>
+<summary><b><u>GetAllStatusChangesEndpoint (user auth)</u></b></summary>
+Получение всех изменений статусов <br/>
+uri = /status_changes/all <br/>
+Методы = GET
+</details>
+
+<h3>Payments</h3>
+<details>
+<summary><b><u>RegisterPaymentsEndpoint</u></b></summary>
+Регистрация оплаты для получения ссылки на платежный шлюз <br/>
+uri = /register_payment <br/>
+Методы = POST, OPTIONS
+Доступные поля в POST:
+<ul>
+<li>order_id - int, обязательное</li>
+<li>return_url - str, обязательное</li>
+<li>fail_url - str, обязательное</li>
+</ul>
+</details>
+
+<details>
+<summary><b><u>GetStatusPaymentsEndpoint</u></b></summary>
+Получение статуса оплаты конкретного заказа по sberbank_id <br/>
+uri = /orders/<sberbank_order_id:uuid>/status_payment <br/>
+Методы = GET
+</details>
+
+<h3>Contact_forms (beta)</h3>
+<details>
+<summary><b><u>CreateContactFormEndpoint</u></b></summary>
+Получение информации с формы обратной связи <br/>
+uri = /contact_forms <br/>
+Методы = POST, OPTIONS
+Доступные поля в POST:
+<ul>
+<li>customer_name - str, обязательное</li>
+<li>phone_number - str, обязательное</li>
+<li>text - str</li>
+<li>email - str</li>
+</ul>
+</details>
+
+<h3>Delivery_types</h3>
+<details>
+<summary><b><u>GetAllDeliveryTypesEndpoint</u></b></summary>
+uri = /delivery_types/all<br/>
+Методы = GET<br/>
+Получение всех записей из таблицы delivery_types
+</details>
+
+<details>
+<summary><b><u>CreateDeliveryTypeEndpoint (user auth)</u></b></summary>
+uri = /delivery_types<br/>
+Методы = POST, OPTIONS<br/>
+Создание записей в таблице delivery_types<br/>
+Доступные поля для POST:
+<ul>
+<li>name - str, обязательное</li>
+</ul>
+</details>
+
+<details>
+<summary><b><u>DeliveryTypeEndpoint (user auth)</u></b></summary>
+uri = /statuses/<status_id:int><br/>
+Методы = GET, PATCH, DELETE, OPTIONS<br/>
+GET запрос позволит получить тип доставки по его id, DELETE для удаления типа доставки по его id, PATCH - изменение 
+типа доставки<br/>
+Доступные поля для PATCH:
+<ul>
+<li>name - str</li>
+</ul>
+</details>
+
+<h3>Telegram_users</h3>
+<details>
+<summary><b><u>CreateTelegramUserEndpoint (telegram auth token)</u></b></summary>
+uri = /telegram_users<br/>
+Методы = POST<br/>
+Создание пользователя бота для подбора ассортимента в telegram
+</details>
+
+<details>
+<summary><b><u>TelegramUserEndpoint (telegram auth token)</u></b></summary>
+uri = /telegram_users/<telegram_user_id:int><br/>
+Методы = PATCH, GET<br/>
+Получение отдельных пользователей бота и их изменение<br/>
+Доступные поля для PATCH:
+<ul>
+<li>chat_id - int</li>
+<li>status_id - int</li>
+</ul>
+</details>
+
 ____
 
 ## Об архитектуре сервера
