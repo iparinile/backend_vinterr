@@ -9,21 +9,17 @@ ____
 ## Доступные запросы (routes):
 <details>
 <summary><b><u>HealthEndpoint</u></b></summary>
-uri = '/'
-
-Методы = GET, POST
-
+uri = '/'<br/>
+Методы = GET, POST<br/>
 Проверка работоспособности сервера
 </details>
+
 <h3>User</h3>
 <details>
 <summary><b><u>CreateUserEndpoint</u></b></summary>
-uri = '/user'
-
-Методы = POST
-
+uri = '/user'<br/>
+Методы = POST<br/>
 Создание пользователя для работы с сервером. Поля в body запроса:
-
 <ul>
 <li>login - str, обязательное</li>
 <li>password - str, обязательное</li>
@@ -31,14 +27,12 @@ uri = '/user'
 <li>last_name - str, обязательное</li>
 </ul>
 </details>
+
 <details>
 <summary><b><u>AuthUserEndpoint</u></b></summary>
-uri = '/user/auth'
-
-Методы = POST
-
+uri = '/user/auth'<br/>
+Методы = POST<br/>
 Авторизация пользователя. Поля в body запроса:
-
 <ul>
 <li>login - str, обязательное</li>
 <li>password - str, обязательное</li>
@@ -47,36 +41,31 @@ uri = '/user/auth'
 Полученный токен нужно вставить в заголовки последующих запросов, в которых требуется авторизация, в виде:
 Authorization: "token"
 </details>
+
 <details>
 <summary><b><u>UserEndpoint (user auth)</u></b></summary>
-uri = '/user/{id пользователя}'
-
-Методы = PATCH, DELETE
-
+uri = '/user/{id пользователя}'<br/>
+Методы = PATCH, DELETE<br/>
 Редактирование или удаление пользователя (доступно только самому пользователю). Поля в body запроса PATCH:
-
 <ul>
 <li>first_name - str</li>
 <li>last_name - str</li>
 </ul>
 </details>
+
 <details>
 <summary><b><u>AllUserEndpoint (user auth)</u></b></summary>
-uri = '/user/all'
-
-Методы = GET
-
+uri = '/user/all'<br/>
+Методы = GET<br/>
 Получение списка всех пользователей
 </details>
+
 <h3>Customer</h3>
 <details>
 <summary><b><u>CreateCustomerEndpoint</u></b></summary>
-uri = /customers
-
-Методы = POST, OPTIONS
-
-Создание пользователей сайта (регистрация)
-
+uri = /customers<br/>
+Методы = POST, OPTIONS<br/>
+Создание пользователей сайта (регистрация)<br/>
 Необходимые поля в body:
 <ul>
 <li>first_name - str, обязательное</li>
@@ -89,29 +78,25 @@ uri = /customers
 <li>birthday - date</li>
 </ul>
 </details>
+
 <details>
 <summary><b><u>AuthCustomerEndpoint</u></b></summary>
-uri = /customers/auth
-
-Методы = POST, OPTIONS
-
+uri = /customers/auth<br/>
+Методы = POST, OPTIONS<br/>
 Авторизация пользователя(клиента) сайта
 <ul>
 <li>login - str, обязательное</li>
 <li>password - str, обязательное</li>
 </ul>
-
-Полученный токен нужно вставить в заголовки последующих запросов, в которых требуется авторизация, в виде:
+Полученный токен нужно вставить в заголовки последующих запросов, в которых требуется авторизация, в виде:<br/>
 Authorization: "token"
 </details>
+
 <details>
 <summary><b><u>CustomerEndpoint (customer auth)</u></b></summary>
-uri = /customers/<customer_id:int>
-
-Методы = GET, PATCH, OPTIONS
-
-Получение, изменение покупателя по его id (доступно только самому покупателю)
-
+uri = /customers/<customer_id:int><br/>
+Методы = GET, PATCH, OPTIONS<br/>
+Получение, изменение покупателя по его id (доступно только самому покупателю)<br/>
 Доступные поля для PATCH:
 <ul>
 <li>first_name - str</li>
@@ -124,73 +109,63 @@ uri = /customers/<customer_id:int>
 <li>phone_number - str</li>
 </ul>
 </details>
+
 <h3>Materials</h3>
 <details>
 <summary><b><u>GetAllMaterialsEndpoint</u></b></summary>
-uri = /materials/all
-
-Методы = GET
-
+uri = /materials/all<br/>
+Методы = GET<br/>
 Получение всех записей из таблицы materials
 </details>
+
 <details>
 <summary><b><u>CreateMaterialEndpoint</u></b></summary>
-uri = /materials
-
-Методы = POST, OPTIONS
-
-Создание записей в таблице materials
-
+uri = /materials<br/>
+Методы = POST, OPTIONS<br/>
+Создание записей в таблице materials<br/>
 Доступные поля для POST:
 <ul>
 <li>name - str, обязательное</li>
 </ul>
 </details>
+
 <details>
 <summary><b><u>MaterialEndpoint</u></b></summary>
-uri = /materials/<material_id:int>
-
-Методы = GET, PATCH, DELETE
-
+uri = /materials/<material_id:int><br/>
+Методы = GET, PATCH, DELETE<br/>
 GET запрос позволит получить материал по его id, DELETE для удаления материала по его id, PATCH - изменение названия
-материала
-
+материала<br/>
 Доступные поля для PATCH:
 <ul>
 <li>name - str</li>
 </ul>
 </details>
+
 <h3>Categories</h3>
 <details>
 <summary><b><u>GetAllCategoriesEndpoint</u></b></summary>
-uri = /categories/all
-
-Методы = GET
-
+uri = /categories/all<br/>
+Методы = GET<br/>
 Получение всех записей из таблицы categories
 </details>
+
 <details>
 <summary><b><u>CreateCategoryEndpoint</u></b></summary>
-uri = /categories
-
-Методы = POST, OPTIONS
-
-Создание записей в таблице categories
-
+uri = /categories<br/>
+Методы = POST, OPTIONS<br/>
+Создание записей в таблице categories<br/>
 Доступные поля для POST:
 <ul>
 <li>name - str, обязательное</li>
 </ul>
 </details>
+
 <details>
 <summary><b><u>CategoryEndpoint (user auth)</u></b></summary>
-uri = /categories/<category_id:int>
-
-Методы = GET (доступен без auth), PATCH, DELETE
-
+uri = /categories/<category_id:int><br/>
+Методы = GET (доступен без auth), PATCH, DELETE<br/>
 GET запрос позволит получить категорию по ее id, DELETE для удаления категории по ее id, PATCH - изменение названия
-категории
-
+категории<br/>
 Доступные поля для PATCH:
 <ul>
 <li>name - str</li>
@@ -200,70 +175,59 @@ GET запрос позволит получить категорию по ее 
 <h3>Structures</h3>
 <details>
 <summary><b><u>GetAllStructuresEndpoint</u></b></summary>
-uri = /structures/all
-
-Методы = GET
-
+uri = /structures/all<br/>
+Методы = GET<br/>
 Получение всех записей из таблицы structures
 </details>
+
 <details>
 <summary><b><u>CreateStructureEndpoint (user auth)</u></b></summary>
-uri = /structures
-
-Методы = POST, OPTIONS
-
-Создание записей в таблице structures
-
+uri = /structures<br/>
+Методы = POST, OPTIONS<br/>
+Создание записей в таблице structures<br/>
 Доступные поля для POST:
 <ul>
 <li>name - str, обязательное</li>
 </ul>
 </details>
+
 <details>
 <summary><b><u>StructureEndpoint (user auth)</u></b></summary>
-uri = /structures/<structure_id:int>
-
-Методы = GET, PATCH, DELETE, OPTIONS
-
+uri = /structures/<structure_id:int><br/>
+Методы = GET, PATCH, DELETE, OPTIONS<br/>
 GET запрос позволит получить состав по его id, DELETE для удаления состава по его id, PATCH - изменение названия
-состава
-
+состава<br/>
 Доступные поля для PATCH:
 <ul>
 <li>name - str</li>
 </ul>
 </details>
+
 <h3>Products_care</h3>
 <details>
 <summary><b><u>GetAllProductsCareEndpoint</u></b></summary>
-uri = /products_care/all
-
-Методы = GET
-
+uri = /products_care/all<br/>
+Методы = GET<br/>
 Получение всех записей из таблицы products_care
 </details>
+
 <details>
 <summary><b><u>CreateProductsCareEndpoint (user auth)</u></b></summary>
-uri = /products_care
-
-Методы = POST, OPTIONS
-
-Создание записей в таблице products_care
-
+uri = /products_care<br/>
+Методы = POST, OPTIONS<br/>
+Создание записей в таблице products_care<br/>
 Доступные поля для POST:
 <ul>
 <li>name - str, обязательное</li>
 </ul>
 </details>
+
 <details>
 <summary><b><u>ProductsCareEndpoint (user auth)</u></b></summary>
-uri = /products_care/<products_care_id:int>
-
-Методы = GET, PATCH, DELETE, OPTIONS
-
+uri = /products_care/<products_care_id:int><br/>
+Методы = GET, PATCH, DELETE, OPTIONS<br/>
 GET запрос позволит получить информацию об уходе по его id, DELETE для удаления информации об уходе по его id, PATCH - изменение 
-информации об уходе
-
+информации об уходе<br/>
 Доступные поля для PATCH:
 <ul>
 <li>name - str</li>
@@ -273,20 +237,16 @@ GET запрос позволит получить информацию об у�
 <h3>Sizes</h3>
 <details>
 <summary><b><u>GetAllSizesEndpoint</u></b></summary>
-uri = /sizes/all
-
-Методы = GET
-
+uri = /sizes/all<br/>
+Методы = GET<br/>
 Получение всех записей из таблицы sizes
 </details>
+
 <details>
 <summary><b><u>CreateSizeEndpoint (user auth)</u></b></summary>
-uri = /sizes
-
-Методы = POST, OPTIONS
-
-Создание записей в таблице sizes
-
+uri = /sizes<br/>
+Методы = POST, OPTIONS<br/>
+Создание записей в таблице sizes<br/>
 Доступные поля для POST:
 <ul>
 <li>name - str, обязательное</li>
@@ -295,13 +255,10 @@ uri = /sizes
 
 <details>
 <summary><b><u>SizeEndpoint (user auth)</u></b></summary>
-uri = /sizes/<size_id:int>
-
-Методы = GET, PATCH, DELETE, OPTIONS
-
+uri = /sizes/<size_id:int><br/>
+Методы = GET, PATCH, DELETE, OPTIONS<br/>
 GET запрос позволит получить размер по его id, DELETE для удаления размера по его id, PATCH - изменение 
-размера
-
+размера<br/>
 Доступные поля для PATCH:
 <ul>
 <li>name - str</li>
@@ -311,21 +268,16 @@ GET запрос позволит получить размер по его id, 
 <h3>Colors</h3>
 <details>
 <summary><b><u>GetAllColorsEndpoint</u></b></summary>
-uri = /colors/all
-
-Методы = GET
-
+uri = /colors/all<br/>
+Методы = GET<br/>
 Получение всех записей из таблицы colors
 </details>
 
 <details>
 <summary><b><u>CreateColorEndpoint (user auth)</u></b></summary>
-uri = /colors
-
-Методы = POST, OPTIONS
-
-Создание записей в таблице colors
-
+uri = /colors<br/>
+Методы = POST, OPTIONS<br/>
+Создание записей в таблице colors<br/>
 Доступные поля для POST:
 <ul>
 <li>name - str, обязательное</li>
@@ -335,13 +287,10 @@ uri = /colors
 
 <details>
 <summary><b><u>ColorEndpoint (user auth)</u></b></summary>
-uri = /colors/<color_id:int>
-
-Методы = GET, PATCH, DELETE, OPTIONS
-
+uri = /colors/<color_id:int><br/>
+Методы = GET, PATCH, DELETE, OPTIONS<br/>
 GET запрос позволит получить цвет по его id, DELETE для удаления цвета по его id, PATCH - изменение 
-цвета
-
+цвета<br/>
 Доступные поля для PATCH:
 <ul>
 <li>name - str</li>
@@ -352,21 +301,16 @@ GET запрос позволит получить цвет по его id, DELE
 <h3>Statuses</h3>
 <details>
 <summary><b><u>GetAllStatusesEndpoint</u></b></summary>
-uri = /statuses/all
-
-Методы = GET
-
+uri = /statuses/all<br/>
+Методы = GET<br/>
 Получение всех записей из таблицы statuses
 </details>
 
 <details>
 <summary><b><u>CreateStatusEndpoint (user auth)</u></b></summary>
-uri = /statuses
-
-Методы = POST, OPTIONS
-
-Создание записей в таблице statuses
-
+uri = /statuses<br/>
+Методы = POST, OPTIONS<br/>
+Создание записей в таблице statuses<br/>
 Доступные поля для POST:
 <ul>
 <li>name - str, обязательное</li>
@@ -375,16 +319,43 @@ uri = /statuses
 
 <details>
 <summary><b><u>StatusEndpoint (user auth)</u></b></summary>
-uri = /statuses/<status_id:int>
-
-Методы = GET, PATCH, DELETE, OPTIONS
-
+uri = /statuses/<status_id:int><br/>
+Методы = GET, PATCH, DELETE, OPTIONS<br/>
 GET запрос позволит получить статус по его id, DELETE для удаления статуса по его id, PATCH - изменение 
-статуса
+статуса<br/>
 Доступные поля для PATCH:
 <ul>
 <li>name - str</li>
 </ul>
+</details>
+
+<h3>Goods</h3>
+<details>
+<summary><b><u>CreateGoodEndpoint (user auth)</u></b></summary>
+Создание номенклатуры<br/>
+uri = /goods <br/>
+Методы = POST, OPTIONS<br/>
+Доступные поля для POST:
+<ul>
+<li>name - str, обязательное</li>
+<li>article - str, обязательное</li>
+<li>good_1c_id - str</li>
+<li>category_id - int, обязательное</li>
+<li>barcode - str</li>
+<li>structure_id - int, обязательное</li>
+<li>products_care_id - int</li>
+<li>description - str, обязательное</li>
+<li>is_visible - bool, default=True</li>
+<li>weight - float, обязательное</li>
+</ul>
+</details>
+
+<details>
+<summary><b><u>GetAllGoodsEndpoint</u></b></summary>
+</details>
+
+<details>
+<summary><b><u>GoodEndpoint (user auth)</u></b></summary>
 </details>
 
 ____
