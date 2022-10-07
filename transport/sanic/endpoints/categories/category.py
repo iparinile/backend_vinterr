@@ -15,10 +15,10 @@ class CategoryEndpoint(BaseEndpoint):
     async def method_patch(self, request: Request, body: dict, session: DBSession, category_id: int,
                            *args, **kwargs) -> BaseHTTPResponse:
 
-        request_model = RequestPatchCategoryDto(body)
+        request_model = RequestPatchCategoryDto(body)  # Валидация входных данных
 
         try:
-            category = categories_queries.get_category(session, category_id)
+            category = categories_queries.get_category(session, category_id)  # Попытка получить строку из таблицы
         except DBCategoryNotExistsException:
             raise SanicCategoryNotFound('Category not found')
 
@@ -29,7 +29,7 @@ class CategoryEndpoint(BaseEndpoint):
         except (DBDataException, DBIntegrityException) as e:
             raise SanicDBException(str(e))
 
-        response_model = ResponseCategoryDto(category)
+        response_model = ResponseCategoryDto(category) # Валидация выходных данных
 
         return await self.make_response_json(body=response_model.dump(), status=200)
 
