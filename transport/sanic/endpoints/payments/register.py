@@ -85,7 +85,7 @@ class RegisterPaymentsEndpoint(BaseEndpoint):
 
         sberbank_username = os.getenv("sber_username")
         sberbank_password = os.getenv("sber_password")
-        register_payment_sberbank_url = "https://securepayments.sberbank.ru/payment/rest/register.do?"
+        register_payment_sberbank_url = "https://3dsec.sberbank.ru/payment/rest/register.do"
         register_payment_sberbank_url += f"userName={sberbank_username}&password={sberbank_password}&"
         register_payment_sberbank_url += f"orderNumber={db_order.id}&amount={int(amount * 100)}&"
         register_payment_sberbank_url += f"returnUrl={request_model.return_url}&failUrl={request_model.fail_url}&"
