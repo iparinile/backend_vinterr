@@ -32,7 +32,7 @@ class GetStatusPaymentsEndpoint(BaseEndpoint):
         register_payment_sberbank_url += f"userName={sberbank_username}&password={sberbank_password}&"
         register_payment_sberbank_url += f"orderId={db_order.sberbank_id}"
 
-        sberbank_response = requests.get(register_payment_sberbank_url)
+        sberbank_response = requests.get(register_payment_sberbank_url, verify=False)
         sberbank_response_body = sberbank_response.json()
 
         sberbank_response_body["order_id"] = db_order.id

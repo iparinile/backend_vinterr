@@ -91,7 +91,7 @@ class RegisterPaymentsEndpoint(BaseEndpoint):
         register_payment_sberbank_url += f"returnUrl={request_model.return_url}&failUrl={request_model.fail_url}&"
         register_payment_sberbank_url += f"orderBundle={json.dumps(order_bundle)}"
 
-        sberbank_response = requests.get(register_payment_sberbank_url)
+        sberbank_response = requests.get(register_payment_sberbank_url, verify=False)
         sberbank_response_body = sberbank_response.json()
 
         if "errorCode" in sberbank_response_body.keys():
